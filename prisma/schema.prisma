@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                String             @id @default(cuid())
+  name              String?
+  email             String?            @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  channel           Channel?
+  conversations     Conversation[]
+  goals             Goal[]
+  subscription      Subscription?
+  pushSubscriptions PushSubscription[]
+  creatorProfile    CreatorProfile?
+  ideas             Idea[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Channel {
+  id              String            @id @default(cuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  youtubeId       String            @unique
+  title           String
+  description     String?           @db.Text
+  thumbnailUrl    String?
+  subscriberCount Int               @default(0)
+  videoCount      Int               @default(0)
+  viewCount       BigInt            @default(0)
+  snapshots       ChannelSnapshot[]
+  videos          Video[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model ChannelSnapshot {
+  id              String   @id @default(cuid())
+  channelId       String
+  channel         Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  subscriberCount Int
+  videoCount      Int
+  viewCount       BigInt
+  date            DateTime @default(now())
+
+  @@index([channelId, date])
+}
+
+model Video {
+  id                      String   @id @default(cuid())
+  channelId               String
+  channel                 Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  youtubeId               String   @unique
+  title                   String
+  description             String?  @db.Text
+  thumbnailUrl            String?
+  publishedAt             DateTime
+  duration                String?
+  viewCount               Int      @default(0)
+  likeCount               Int      @default(0)
+  commentCount            Int      @default(0)
+  // Analytics data (from YouTube Analytics API)
+  impressions             Int?
+  ctr                     Float?
+  avgViewDuration         Float?
+  avgViewPercentage       Float?
+  estimatedMinutesWatched Float?
+  // Traffic sources stored as JSON
+  trafficSources          Json?
+  // Demographics stored as JSON
+  demographics            Json?
+  ideas                   Idea[]
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@index([channelId, publishedAt])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String       // "user" | "assistant"
+  content        String       @db.Text
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model Goal {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?   @db.Text
+  targetValue  Float?
+  currentValue Float?
+  unit         String?   // "subscribers", "videos", "views"
+  deadline     DateTime?
+  completed    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?   @unique
+  stripePriceId        String?
+  status               String    @default("free") // "free" | "pro" | "cancelled"
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @db.Text
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, endpoint])
+}
+
+model CreatorProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  niche            String?  // e.g. "web development", "gaming", "fitness"
+  contentStyle     String?  // "on-camera" | "faceless" | "mixed"
+  personality      String?  @db.Text // how they describe their style
+  postingFrequency String?  // "daily" | "3x/week" | "weekly" | "irregular"
+  biggestStruggle  String?  @db.Text
+  speechCoaching   Boolean  @default(false) // opt-in for delivery feedback
+  onboardingNotes  String?  @db.Text // AI's notes from onboarding conversation
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Idea {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?  @db.Text
+  status        String   @default("idea") // "idea" | "planning" | "in_progress" | "published" | "analyzed"
+  format        String?  // "long-form" | "short" | "stream" | "tutorial" | "challenge"
+  priority      String?  @default("medium") // "low" | "medium" | "high"
+  notes         String?  @db.Text
+  linkedVideoId String? // link to Video when published
+  linkedVideo   Video?   @relation(fields: [linkedVideoId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId, status])
+}
