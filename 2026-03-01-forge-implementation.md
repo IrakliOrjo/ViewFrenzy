@@ -4,9 +4,9 @@
 
 **Goal:** Build the MVP of Forge — an AI YouTube growth coach web app that connects to YouTube Analytics, provides strategic advice via AI chat, and proactively nudges creators with push notifications.
 
-**Architecture:** Next.js App Router with server components and API routes. Google OAuth for auth (with YouTube scopes). Prisma ORM with Neon Postgres. Claude API for the coaching brain. Web Push for proactive notifications. Vercel cron for scheduled tasks. Stripe for subscriptions.
+**Architecture:** Next.js App Router with server components and API routes. Google OAuth for auth (with YouTube scopes). Prisma ORM with Supabase PostgreSQL. Claude API for the coaching brain. Web Push for proactive notifications. Vercel cron for scheduled tasks. Stripe for subscriptions.
 
-**Tech Stack:** Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Prisma, Neon (Postgres), NextAuth.js (Auth.js v5), Anthropic Claude API, YouTube Data API v3, YouTube Analytics API, web-push, Stripe, Vercel
+**Tech Stack:** Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Prisma, Supabase (PostgreSQL), NextAuth.js (Auth.js v5), Anthropic Claude API, YouTube Data API v3, YouTube Analytics API, web-push, Stripe, Vercel
 
 ---
 
@@ -48,8 +48,9 @@ npx shadcn@latest add button card input textarea avatar badge dialog dropdown-me
 **Step 4: Create .env.local**
 
 ```env
-# Database
+# Database (Supabase)
 DATABASE_URL="postgresql://..."
+DIRECT_URL="postgresql://..."
 
 # Auth
 GOOGLE_CLIENT_ID=""
@@ -97,20 +98,20 @@ git commit -m "feat: initialize Forge Next.js project with dependencies"
 
 > **IMPORTANT:** This schema includes the `Idea` and `CreatorProfile` models needed for the Ideas Bucket (Task 9b) and Creator Progress Tracking (Task 11b). They are defined here so the database is set up correctly from day one.
 
-**Step 1: Set up Neon database**
+**Step 1: Set up Supabase database**
 
-Go to https://neon.tech, create a new project called "forge". Copy the connection string to `.env.local` as `DATABASE_URL`.
+Go to https://supabase.com/dashboard, create a new project. Go to Connect → ORMs to get the connection strings. Copy the transaction mode URL (port 6543) to `.env.local` as `DATABASE_URL` and the session mode URL (port 5432) as `DIRECT_URL`.
 
 **Step 2: Write the Prisma schema**
 
 ```prisma
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -256,6 +257,7 @@ model Goal {
   unit        String?  // "subscribers", "videos", "views"
   deadline    DateTime?
   completed   Boolean  @default(false)
+  calendarEventId String?   // Google Calendar event ID
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -291,10 +293,8 @@ model CreatorProfile {
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   niche             String?  // e.g. "web development", "gaming", "fitness"
   contentStyle      String?  // "on-camera" | "faceless" | "mixed"
-  personality       String?  @db.Text // how they describe their style
   postingFrequency  String?  // "daily" | "3x/week" | "weekly" | "irregular"
-  biggestStruggle   String?  @db.Text
-  speechCoaching    Boolean  @default(false) // opt-in for delivery feedback
+  onboardingAnswers Json?    // all Q&A from onboarding questionnaire
   onboardingNotes   String?  @db.Text // AI's notes from onboarding conversation
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -310,6 +310,9 @@ model Idea {
   format      String?  // "long-form" | "short" | "stream" | "tutorial" | "challenge"
   priority    String?  @default("medium") // "low" | "medium" | "high"
   notes       String?  @db.Text
+  scheduledDate   DateTime? // when to work on it
+  publishDate     DateTime? // target publish date
+  calendarEventId String?   // Google Calendar event ID
   linkedVideoId String? // link to Video when published
   linkedVideo Video?   @relation(fields: [linkedVideoId], references: [id])
   createdAt   DateTime @default(now())
@@ -331,13 +334,19 @@ npx prisma db push
 
 Create `forge/src/lib/prisma.ts`:
 ```typescript
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+function createPrismaClient() {
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+  return new PrismaClient({ adapter });
+}
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 ```
@@ -386,6 +395,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             "profile",
             "https://www.googleapis.com/auth/youtube.readonly",
             "https://www.googleapis.com/auth/yt-analytics.readonly",
+            "https://www.googleapis.com/auth/calendar.events",
           ].join(" "),
         },
       },
@@ -2143,3 +2153,102 @@ git commit -m "feat: polish UI, add error handling, loading states, and rate lim
 | **Growth stage rules** (Task 7 system prompt) | Different advice for 100 subs vs 1K vs 5K. Baked into the static coaching prompt. |
 
 Stream schedule suggestion: ~2-3 hours per stream, 4-5 streams per week = **4-5 weeks of streaming content** for the full MVP.
+
+---
+
+## Task 18: Google Calendar Integration
+
+**Files:**
+- Create: `src/lib/calendar.ts`
+
+**Step 1: Create Calendar service**
+
+Create `src/lib/calendar.ts`:
+```typescript
+import { google } from "googleapis";
+import { prisma } from "@/lib/prisma";
+import { getAccessToken } from "@/lib/youtube";
+
+function getCalendarClient(accessToken: string) {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET
+  );
+  oauth2Client.setCredentials({ access_token: accessToken });
+  return google.calendar({ version: "v3", auth: oauth2Client });
+}
+
+export async function createCalendarEvent(
+  userId: string,
+  title: string,
+  date: Date,
+  description?: string
+): Promise<string | null> {
+  const accessToken = await getAccessToken(userId);
+  if (!accessToken) return null;
+
+  const calendar = getCalendarClient(accessToken);
+  const event = await calendar.events.insert({
+    calendarId: "primary",
+    requestBody: {
+      summary: title,
+      description,
+      start: { dateTime: date.toISOString() },
+      end: { dateTime: new Date(date.getTime() + 60 * 60 * 1000).toISOString() },
+    },
+  });
+
+  return event.data.id ?? null;
+}
+
+export async function updateCalendarEvent(
+  userId: string,
+  calendarEventId: string,
+  updates: { title?: string; date?: Date; description?: string }
+): Promise<void> {
+  const accessToken = await getAccessToken(userId);
+  if (!accessToken) return;
+
+  const calendar = getCalendarClient(accessToken);
+  await calendar.events.patch({
+    calendarId: "primary",
+    eventId: calendarEventId,
+    requestBody: {
+      ...(updates.title && { summary: updates.title }),
+      ...(updates.description && { description: updates.description }),
+      ...(updates.date && {
+        start: { dateTime: updates.date.toISOString() },
+        end: { dateTime: new Date(updates.date.getTime() + 60 * 60 * 1000).toISOString() },
+      }),
+    },
+  });
+}
+
+export async function deleteCalendarEvent(
+  userId: string,
+  calendarEventId: string
+): Promise<void> {
+  const accessToken = await getAccessToken(userId);
+  if (!accessToken) return;
+
+  const calendar = getCalendarClient(accessToken);
+  await calendar.events.delete({
+    calendarId: "primary",
+    eventId: calendarEventId,
+  });
+}
+```
+
+**Step 2: Integrate with Ideas and Goals**
+
+When a user sets a `scheduledDate` or `publishDate` on an Idea, or a `deadline` on a Goal, and opts to sync to Google Calendar:
+1. Call `createCalendarEvent()` and store the returned event ID in `calendarEventId`.
+2. When the date is changed, call `updateCalendarEvent()`.
+3. When the date is removed or the item is deleted, call `deleteCalendarEvent()`.
+
+**Step 3: Commit**
+
+```bash
+git add src/lib/calendar.ts
+git commit -m "feat: add Google Calendar integration service"
+```

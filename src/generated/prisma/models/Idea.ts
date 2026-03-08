@@ -33,6 +33,9 @@ export type IdeaMinAggregateOutputType = {
   format: string | null
   priority: string | null
   notes: string | null
+  scheduledDate: Date | null
+  publishDate: Date | null
+  calendarEventId: string | null
   linkedVideoId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -47,6 +50,9 @@ export type IdeaMaxAggregateOutputType = {
   format: string | null
   priority: string | null
   notes: string | null
+  scheduledDate: Date | null
+  publishDate: Date | null
+  calendarEventId: string | null
   linkedVideoId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -61,6 +67,9 @@ export type IdeaCountAggregateOutputType = {
   format: number
   priority: number
   notes: number
+  scheduledDate: number
+  publishDate: number
+  calendarEventId: number
   linkedVideoId: number
   createdAt: number
   updatedAt: number
@@ -77,6 +86,9 @@ export type IdeaMinAggregateInputType = {
   format?: true
   priority?: true
   notes?: true
+  scheduledDate?: true
+  publishDate?: true
+  calendarEventId?: true
   linkedVideoId?: true
   createdAt?: true
   updatedAt?: true
@@ -91,6 +103,9 @@ export type IdeaMaxAggregateInputType = {
   format?: true
   priority?: true
   notes?: true
+  scheduledDate?: true
+  publishDate?: true
+  calendarEventId?: true
   linkedVideoId?: true
   createdAt?: true
   updatedAt?: true
@@ -105,6 +120,9 @@ export type IdeaCountAggregateInputType = {
   format?: true
   priority?: true
   notes?: true
+  scheduledDate?: true
+  publishDate?: true
+  calendarEventId?: true
   linkedVideoId?: true
   createdAt?: true
   updatedAt?: true
@@ -192,6 +210,9 @@ export type IdeaGroupByOutputType = {
   format: string | null
   priority: string | null
   notes: string | null
+  scheduledDate: Date | null
+  publishDate: Date | null
+  calendarEventId: string | null
   linkedVideoId: string | null
   createdAt: Date
   updatedAt: Date
@@ -227,6 +248,9 @@ export type IdeaWhereInput = {
   format?: Prisma.StringNullableFilter<"Idea"> | string | null
   priority?: Prisma.StringNullableFilter<"Idea"> | string | null
   notes?: Prisma.StringNullableFilter<"Idea"> | string | null
+  scheduledDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  publishDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  calendarEventId?: Prisma.StringNullableFilter<"Idea"> | string | null
   linkedVideoId?: Prisma.StringNullableFilter<"Idea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
@@ -243,6 +267,9 @@ export type IdeaOrderByWithRelationInput = {
   format?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  publishDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedVideoId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -262,6 +289,9 @@ export type IdeaWhereUniqueInput = Prisma.AtLeast<{
   format?: Prisma.StringNullableFilter<"Idea"> | string | null
   priority?: Prisma.StringNullableFilter<"Idea"> | string | null
   notes?: Prisma.StringNullableFilter<"Idea"> | string | null
+  scheduledDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  publishDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  calendarEventId?: Prisma.StringNullableFilter<"Idea"> | string | null
   linkedVideoId?: Prisma.StringNullableFilter<"Idea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
@@ -278,6 +308,9 @@ export type IdeaOrderByWithAggregationInput = {
   format?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  scheduledDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  publishDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedVideoId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -298,6 +331,9 @@ export type IdeaScalarWhereWithAggregatesInput = {
   format?: Prisma.StringNullableWithAggregatesFilter<"Idea"> | string | null
   priority?: Prisma.StringNullableWithAggregatesFilter<"Idea"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Idea"> | string | null
+  scheduledDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Idea"> | Date | string | null
+  publishDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Idea"> | Date | string | null
+  calendarEventId?: Prisma.StringNullableWithAggregatesFilter<"Idea"> | string | null
   linkedVideoId?: Prisma.StringNullableWithAggregatesFilter<"Idea"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Idea"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Idea"> | Date | string
@@ -311,6 +347,9 @@ export type IdeaCreateInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutIdeasInput
@@ -326,6 +365,9 @@ export type IdeaUncheckedCreateInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   linkedVideoId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -339,6 +381,9 @@ export type IdeaUpdateInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutIdeasNestedInput
@@ -354,6 +399,9 @@ export type IdeaUncheckedUpdateInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,6 +416,9 @@ export type IdeaCreateManyInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   linkedVideoId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -381,6 +432,9 @@ export type IdeaUpdateManyMutationInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -394,6 +448,9 @@ export type IdeaUncheckedUpdateManyInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +475,9 @@ export type IdeaCountOrderByAggregateInput = {
   format?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  scheduledDate?: Prisma.SortOrder
+  publishDate?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   linkedVideoId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -432,6 +492,9 @@ export type IdeaMaxOrderByAggregateInput = {
   format?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  scheduledDate?: Prisma.SortOrder
+  publishDate?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   linkedVideoId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -446,6 +509,9 @@ export type IdeaMinOrderByAggregateInput = {
   format?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  scheduledDate?: Prisma.SortOrder
+  publishDate?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   linkedVideoId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -543,6 +609,9 @@ export type IdeaCreateWithoutUserInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   linkedVideo?: Prisma.VideoCreateNestedOneWithoutIdeasInput
@@ -556,6 +625,9 @@ export type IdeaUncheckedCreateWithoutUserInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   linkedVideoId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -599,6 +671,9 @@ export type IdeaScalarWhereInput = {
   format?: Prisma.StringNullableFilter<"Idea"> | string | null
   priority?: Prisma.StringNullableFilter<"Idea"> | string | null
   notes?: Prisma.StringNullableFilter<"Idea"> | string | null
+  scheduledDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  publishDate?: Prisma.DateTimeNullableFilter<"Idea"> | Date | string | null
+  calendarEventId?: Prisma.StringNullableFilter<"Idea"> | string | null
   linkedVideoId?: Prisma.StringNullableFilter<"Idea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Idea"> | Date | string
@@ -612,6 +687,9 @@ export type IdeaCreateWithoutLinkedVideoInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutIdeasInput
@@ -626,6 +704,9 @@ export type IdeaUncheckedCreateWithoutLinkedVideoInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -664,6 +745,9 @@ export type IdeaCreateManyUserInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   linkedVideoId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -677,6 +761,9 @@ export type IdeaUpdateWithoutUserInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   linkedVideo?: Prisma.VideoUpdateOneWithoutIdeasNestedInput
@@ -690,6 +777,9 @@ export type IdeaUncheckedUpdateWithoutUserInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,6 +793,9 @@ export type IdeaUncheckedUpdateManyWithoutUserInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedVideoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -717,6 +810,9 @@ export type IdeaCreateManyLinkedVideoInput = {
   format?: string | null
   priority?: string | null
   notes?: string | null
+  scheduledDate?: Date | string | null
+  publishDate?: Date | string | null
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -729,6 +825,9 @@ export type IdeaUpdateWithoutLinkedVideoInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutIdeasNestedInput
@@ -743,6 +842,9 @@ export type IdeaUncheckedUpdateWithoutLinkedVideoInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -756,6 +858,9 @@ export type IdeaUncheckedUpdateManyWithoutLinkedVideoInput = {
   format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  publishDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -771,6 +876,9 @@ export type IdeaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   format?: boolean
   priority?: boolean
   notes?: boolean
+  scheduledDate?: boolean
+  publishDate?: boolean
+  calendarEventId?: boolean
   linkedVideoId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -787,6 +895,9 @@ export type IdeaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   format?: boolean
   priority?: boolean
   notes?: boolean
+  scheduledDate?: boolean
+  publishDate?: boolean
+  calendarEventId?: boolean
   linkedVideoId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -803,6 +914,9 @@ export type IdeaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   format?: boolean
   priority?: boolean
   notes?: boolean
+  scheduledDate?: boolean
+  publishDate?: boolean
+  calendarEventId?: boolean
   linkedVideoId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -819,12 +933,15 @@ export type IdeaSelectScalar = {
   format?: boolean
   priority?: boolean
   notes?: boolean
+  scheduledDate?: boolean
+  publishDate?: boolean
+  calendarEventId?: boolean
   linkedVideoId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type IdeaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "status" | "format" | "priority" | "notes" | "linkedVideoId" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
+export type IdeaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "status" | "format" | "priority" | "notes" | "scheduledDate" | "publishDate" | "calendarEventId" | "linkedVideoId" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
 export type IdeaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   linkedVideo?: boolean | Prisma.Idea$linkedVideoArgs<ExtArgs>
@@ -853,6 +970,9 @@ export type $IdeaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     format: string | null
     priority: string | null
     notes: string | null
+    scheduledDate: Date | null
+    publishDate: Date | null
+    calendarEventId: string | null
     linkedVideoId: string | null
     createdAt: Date
     updatedAt: Date
@@ -1289,6 +1409,9 @@ export interface IdeaFieldRefs {
   readonly format: Prisma.FieldRef<"Idea", 'String'>
   readonly priority: Prisma.FieldRef<"Idea", 'String'>
   readonly notes: Prisma.FieldRef<"Idea", 'String'>
+  readonly scheduledDate: Prisma.FieldRef<"Idea", 'DateTime'>
+  readonly publishDate: Prisma.FieldRef<"Idea", 'DateTime'>
+  readonly calendarEventId: Prisma.FieldRef<"Idea", 'String'>
   readonly linkedVideoId: Prisma.FieldRef<"Idea", 'String'>
   readonly createdAt: Prisma.FieldRef<"Idea", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Idea", 'DateTime'>

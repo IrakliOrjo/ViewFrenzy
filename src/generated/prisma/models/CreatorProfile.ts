@@ -29,10 +29,7 @@ export type CreatorProfileMinAggregateOutputType = {
   userId: string | null
   niche: string | null
   contentStyle: string | null
-  personality: string | null
   postingFrequency: string | null
-  biggestStruggle: string | null
-  speechCoaching: boolean | null
   onboardingNotes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -43,10 +40,7 @@ export type CreatorProfileMaxAggregateOutputType = {
   userId: string | null
   niche: string | null
   contentStyle: string | null
-  personality: string | null
   postingFrequency: string | null
-  biggestStruggle: string | null
-  speechCoaching: boolean | null
   onboardingNotes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -57,10 +51,8 @@ export type CreatorProfileCountAggregateOutputType = {
   userId: number
   niche: number
   contentStyle: number
-  personality: number
   postingFrequency: number
-  biggestStruggle: number
-  speechCoaching: number
+  onboardingAnswers: number
   onboardingNotes: number
   createdAt: number
   updatedAt: number
@@ -73,10 +65,7 @@ export type CreatorProfileMinAggregateInputType = {
   userId?: true
   niche?: true
   contentStyle?: true
-  personality?: true
   postingFrequency?: true
-  biggestStruggle?: true
-  speechCoaching?: true
   onboardingNotes?: true
   createdAt?: true
   updatedAt?: true
@@ -87,10 +76,7 @@ export type CreatorProfileMaxAggregateInputType = {
   userId?: true
   niche?: true
   contentStyle?: true
-  personality?: true
   postingFrequency?: true
-  biggestStruggle?: true
-  speechCoaching?: true
   onboardingNotes?: true
   createdAt?: true
   updatedAt?: true
@@ -101,10 +87,8 @@ export type CreatorProfileCountAggregateInputType = {
   userId?: true
   niche?: true
   contentStyle?: true
-  personality?: true
   postingFrequency?: true
-  biggestStruggle?: true
-  speechCoaching?: true
+  onboardingAnswers?: true
   onboardingNotes?: true
   createdAt?: true
   updatedAt?: true
@@ -188,10 +172,8 @@ export type CreatorProfileGroupByOutputType = {
   userId: string
   niche: string | null
   contentStyle: string | null
-  personality: string | null
   postingFrequency: string | null
-  biggestStruggle: string | null
-  speechCoaching: boolean
+  onboardingAnswers: runtime.JsonValue | null
   onboardingNotes: string | null
   createdAt: Date
   updatedAt: Date
@@ -223,10 +205,8 @@ export type CreatorProfileWhereInput = {
   userId?: Prisma.StringFilter<"CreatorProfile"> | string
   niche?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   contentStyle?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  personality?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   postingFrequency?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  biggestStruggle?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  speechCoaching?: Prisma.BoolFilter<"CreatorProfile"> | boolean
+  onboardingAnswers?: Prisma.JsonNullableFilter<"CreatorProfile">
   onboardingNotes?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
@@ -238,10 +218,8 @@ export type CreatorProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   niche?: Prisma.SortOrderInput | Prisma.SortOrder
   contentStyle?: Prisma.SortOrderInput | Prisma.SortOrder
-  personality?: Prisma.SortOrderInput | Prisma.SortOrder
   postingFrequency?: Prisma.SortOrderInput | Prisma.SortOrder
-  biggestStruggle?: Prisma.SortOrderInput | Prisma.SortOrder
-  speechCoaching?: Prisma.SortOrder
+  onboardingAnswers?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -256,10 +234,8 @@ export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CreatorProfileWhereInput | Prisma.CreatorProfileWhereInput[]
   niche?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   contentStyle?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  personality?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   postingFrequency?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  biggestStruggle?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  speechCoaching?: Prisma.BoolFilter<"CreatorProfile"> | boolean
+  onboardingAnswers?: Prisma.JsonNullableFilter<"CreatorProfile">
   onboardingNotes?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
@@ -271,10 +247,8 @@ export type CreatorProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   niche?: Prisma.SortOrderInput | Prisma.SortOrder
   contentStyle?: Prisma.SortOrderInput | Prisma.SortOrder
-  personality?: Prisma.SortOrderInput | Prisma.SortOrder
   postingFrequency?: Prisma.SortOrderInput | Prisma.SortOrder
-  biggestStruggle?: Prisma.SortOrderInput | Prisma.SortOrder
-  speechCoaching?: Prisma.SortOrder
+  onboardingAnswers?: Prisma.SortOrderInput | Prisma.SortOrder
   onboardingNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -291,10 +265,8 @@ export type CreatorProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
   niche?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
   contentStyle?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
-  personality?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
   postingFrequency?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
-  biggestStruggle?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
-  speechCoaching?: Prisma.BoolWithAggregatesFilter<"CreatorProfile"> | boolean
+  onboardingAnswers?: Prisma.JsonNullableWithAggregatesFilter<"CreatorProfile">
   onboardingNotes?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CreatorProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CreatorProfile"> | Date | string
@@ -304,10 +276,8 @@ export type CreatorProfileCreateInput = {
   id?: string
   niche?: string | null
   contentStyle?: string | null
-  personality?: string | null
   postingFrequency?: string | null
-  biggestStruggle?: string | null
-  speechCoaching?: boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -319,10 +289,8 @@ export type CreatorProfileUncheckedCreateInput = {
   userId: string
   niche?: string | null
   contentStyle?: string | null
-  personality?: string | null
   postingFrequency?: string | null
-  biggestStruggle?: string | null
-  speechCoaching?: boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -332,10 +300,8 @@ export type CreatorProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,10 +313,8 @@ export type CreatorProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,10 +325,8 @@ export type CreatorProfileCreateManyInput = {
   userId: string
   niche?: string | null
   contentStyle?: string | null
-  personality?: string | null
   postingFrequency?: string | null
-  biggestStruggle?: string | null
-  speechCoaching?: boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -374,10 +336,8 @@ export type CreatorProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,10 +348,8 @@ export type CreatorProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,10 +365,8 @@ export type CreatorProfileCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   niche?: Prisma.SortOrder
   contentStyle?: Prisma.SortOrder
-  personality?: Prisma.SortOrder
   postingFrequency?: Prisma.SortOrder
-  biggestStruggle?: Prisma.SortOrder
-  speechCoaching?: Prisma.SortOrder
+  onboardingAnswers?: Prisma.SortOrder
   onboardingNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -421,10 +377,7 @@ export type CreatorProfileMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   niche?: Prisma.SortOrder
   contentStyle?: Prisma.SortOrder
-  personality?: Prisma.SortOrder
   postingFrequency?: Prisma.SortOrder
-  biggestStruggle?: Prisma.SortOrder
-  speechCoaching?: Prisma.SortOrder
   onboardingNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -435,10 +388,7 @@ export type CreatorProfileMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   niche?: Prisma.SortOrder
   contentStyle?: Prisma.SortOrder
-  personality?: Prisma.SortOrder
   postingFrequency?: Prisma.SortOrder
-  biggestStruggle?: Prisma.SortOrder
-  speechCoaching?: Prisma.SortOrder
   onboardingNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -480,10 +430,8 @@ export type CreatorProfileCreateWithoutUserInput = {
   id?: string
   niche?: string | null
   contentStyle?: string | null
-  personality?: string | null
   postingFrequency?: string | null
-  biggestStruggle?: string | null
-  speechCoaching?: boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -493,10 +441,8 @@ export type CreatorProfileUncheckedCreateWithoutUserInput = {
   id?: string
   niche?: string | null
   contentStyle?: string | null
-  personality?: string | null
   postingFrequency?: string | null
-  biggestStruggle?: string | null
-  speechCoaching?: boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -522,10 +468,8 @@ export type CreatorProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -535,10 +479,8 @@ export type CreatorProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   niche?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  personality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postingFrequency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  biggestStruggle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  speechCoaching?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingAnswers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   onboardingNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -551,10 +493,8 @@ export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   userId?: boolean
   niche?: boolean
   contentStyle?: boolean
-  personality?: boolean
   postingFrequency?: boolean
-  biggestStruggle?: boolean
-  speechCoaching?: boolean
+  onboardingAnswers?: boolean
   onboardingNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -566,10 +506,8 @@ export type CreatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   userId?: boolean
   niche?: boolean
   contentStyle?: boolean
-  personality?: boolean
   postingFrequency?: boolean
-  biggestStruggle?: boolean
-  speechCoaching?: boolean
+  onboardingAnswers?: boolean
   onboardingNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -581,10 +519,8 @@ export type CreatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   userId?: boolean
   niche?: boolean
   contentStyle?: boolean
-  personality?: boolean
   postingFrequency?: boolean
-  biggestStruggle?: boolean
-  speechCoaching?: boolean
+  onboardingAnswers?: boolean
   onboardingNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -596,16 +532,14 @@ export type CreatorProfileSelectScalar = {
   userId?: boolean
   niche?: boolean
   contentStyle?: boolean
-  personality?: boolean
   postingFrequency?: boolean
-  biggestStruggle?: boolean
-  speechCoaching?: boolean
+  onboardingAnswers?: boolean
   onboardingNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "niche" | "contentStyle" | "personality" | "postingFrequency" | "biggestStruggle" | "speechCoaching" | "onboardingNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
+export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "niche" | "contentStyle" | "postingFrequency" | "onboardingAnswers" | "onboardingNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
 export type CreatorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -626,10 +560,8 @@ export type $CreatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     userId: string
     niche: string | null
     contentStyle: string | null
-    personality: string | null
     postingFrequency: string | null
-    biggestStruggle: string | null
-    speechCoaching: boolean
+    onboardingAnswers: runtime.JsonValue | null
     onboardingNotes: string | null
     createdAt: Date
     updatedAt: Date
@@ -1061,10 +993,8 @@ export interface CreatorProfileFieldRefs {
   readonly userId: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly niche: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly contentStyle: Prisma.FieldRef<"CreatorProfile", 'String'>
-  readonly personality: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly postingFrequency: Prisma.FieldRef<"CreatorProfile", 'String'>
-  readonly biggestStruggle: Prisma.FieldRef<"CreatorProfile", 'String'>
-  readonly speechCoaching: Prisma.FieldRef<"CreatorProfile", 'Boolean'>
+  readonly onboardingAnswers: Prisma.FieldRef<"CreatorProfile", 'Json'>
   readonly onboardingNotes: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly createdAt: Prisma.FieldRef<"CreatorProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CreatorProfile", 'DateTime'>

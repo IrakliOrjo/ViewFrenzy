@@ -46,6 +46,7 @@ export type GoalMinAggregateOutputType = {
   unit: string | null
   deadline: Date | null
   completed: boolean | null
+  calendarEventId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +61,7 @@ export type GoalMaxAggregateOutputType = {
   unit: string | null
   deadline: Date | null
   completed: boolean | null
+  calendarEventId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,6 +76,7 @@ export type GoalCountAggregateOutputType = {
   unit: number
   deadline: number
   completed: number
+  calendarEventId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -100,6 +103,7 @@ export type GoalMinAggregateInputType = {
   unit?: true
   deadline?: true
   completed?: true
+  calendarEventId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -114,6 +118,7 @@ export type GoalMaxAggregateInputType = {
   unit?: true
   deadline?: true
   completed?: true
+  calendarEventId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -128,6 +133,7 @@ export type GoalCountAggregateInputType = {
   unit?: true
   deadline?: true
   completed?: true
+  calendarEventId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -229,6 +235,7 @@ export type GoalGroupByOutputType = {
   unit: string | null
   deadline: Date | null
   completed: boolean
+  calendarEventId: string | null
   createdAt: Date
   updatedAt: Date
   _count: GoalCountAggregateOutputType | null
@@ -266,6 +273,7 @@ export type GoalWhereInput = {
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   deadline?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   completed?: Prisma.BoolFilter<"Goal"> | boolean
+  calendarEventId?: Prisma.StringNullableFilter<"Goal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -281,6 +289,7 @@ export type GoalOrderByWithRelationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   deadline?: Prisma.SortOrderInput | Prisma.SortOrder
   completed?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -299,6 +308,7 @@ export type GoalWhereUniqueInput = Prisma.AtLeast<{
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   deadline?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   completed?: Prisma.BoolFilter<"Goal"> | boolean
+  calendarEventId?: Prisma.StringNullableFilter<"Goal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -314,6 +324,7 @@ export type GoalOrderByWithAggregationInput = {
   unit?: Prisma.SortOrderInput | Prisma.SortOrder
   deadline?: Prisma.SortOrderInput | Prisma.SortOrder
   completed?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.GoalCountOrderByAggregateInput
@@ -336,6 +347,7 @@ export type GoalScalarWhereWithAggregatesInput = {
   unit?: Prisma.StringNullableWithAggregatesFilter<"Goal"> | string | null
   deadline?: Prisma.DateTimeNullableWithAggregatesFilter<"Goal"> | Date | string | null
   completed?: Prisma.BoolWithAggregatesFilter<"Goal"> | boolean
+  calendarEventId?: Prisma.StringNullableWithAggregatesFilter<"Goal"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Goal"> | Date | string
 }
@@ -349,6 +361,7 @@ export type GoalCreateInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutGoalsInput
@@ -364,6 +377,7 @@ export type GoalUncheckedCreateInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -377,6 +391,7 @@ export type GoalUpdateInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutGoalsNestedInput
@@ -392,6 +407,7 @@ export type GoalUncheckedUpdateInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -406,6 +422,7 @@ export type GoalCreateManyInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -419,6 +436,7 @@ export type GoalUpdateManyMutationInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -433,6 +451,7 @@ export type GoalUncheckedUpdateManyInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -457,6 +476,7 @@ export type GoalCountOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   completed?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -476,6 +496,7 @@ export type GoalMaxOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   completed?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -490,6 +511,7 @@ export type GoalMinOrderByAggregateInput = {
   unit?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
   completed?: Prisma.SortOrder
+  calendarEventId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -554,6 +576,7 @@ export type GoalCreateWithoutUserInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -567,6 +590,7 @@ export type GoalUncheckedCreateWithoutUserInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -610,6 +634,7 @@ export type GoalScalarWhereInput = {
   unit?: Prisma.StringNullableFilter<"Goal"> | string | null
   deadline?: Prisma.DateTimeNullableFilter<"Goal"> | Date | string | null
   completed?: Prisma.BoolFilter<"Goal"> | boolean
+  calendarEventId?: Prisma.StringNullableFilter<"Goal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Goal"> | Date | string
 }
@@ -623,6 +648,7 @@ export type GoalCreateManyUserInput = {
   unit?: string | null
   deadline?: Date | string | null
   completed?: boolean
+  calendarEventId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -636,6 +662,7 @@ export type GoalUpdateWithoutUserInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -649,6 +676,7 @@ export type GoalUncheckedUpdateWithoutUserInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -662,6 +690,7 @@ export type GoalUncheckedUpdateManyWithoutUserInput = {
   unit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -678,6 +707,7 @@ export type GoalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   unit?: boolean
   deadline?: boolean
   completed?: boolean
+  calendarEventId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -693,6 +723,7 @@ export type GoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   unit?: boolean
   deadline?: boolean
   completed?: boolean
+  calendarEventId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -708,6 +739,7 @@ export type GoalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   unit?: boolean
   deadline?: boolean
   completed?: boolean
+  calendarEventId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -723,11 +755,12 @@ export type GoalSelectScalar = {
   unit?: boolean
   deadline?: boolean
   completed?: boolean
+  calendarEventId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type GoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "targetValue" | "currentValue" | "unit" | "deadline" | "completed" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
+export type GoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "targetValue" | "currentValue" | "unit" | "deadline" | "completed" | "calendarEventId" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
 export type GoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -753,6 +786,7 @@ export type $GoalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     unit: string | null
     deadline: Date | null
     completed: boolean
+    calendarEventId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["goal"]>
@@ -1188,6 +1222,7 @@ export interface GoalFieldRefs {
   readonly unit: Prisma.FieldRef<"Goal", 'String'>
   readonly deadline: Prisma.FieldRef<"Goal", 'DateTime'>
   readonly completed: Prisma.FieldRef<"Goal", 'Boolean'>
+  readonly calendarEventId: Prisma.FieldRef<"Goal", 'String'>
   readonly createdAt: Prisma.FieldRef<"Goal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Goal", 'DateTime'>
 }

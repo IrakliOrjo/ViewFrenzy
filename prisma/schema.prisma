@@ -141,18 +141,19 @@ model Message {
 }
 
 model Goal {
-  id           String    @id @default(cuid())
-  userId       String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title        String
-  description  String?   @db.Text
-  targetValue  Float?
-  currentValue Float?
-  unit         String?   // "subscribers", "videos", "views"
-  deadline     DateTime?
-  completed    Boolean   @default(false)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?   @db.Text
+  targetValue     Float?
+  currentValue    Float?
+  unit            String?   // "subscribers", "videos", "views"
+  deadline        DateTime?
+  completed       Boolean   @default(false)
+  calendarEventId String?   // Google Calendar event ID
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model Subscription {
@@ -181,34 +182,35 @@ model PushSubscription {
 }
 
 model CreatorProfile {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  niche            String?  // e.g. "web development", "gaming", "fitness"
-  contentStyle     String?  // "on-camera" | "faceless" | "mixed"
-  personality      String?  @db.Text // how they describe their style
-  postingFrequency String?  // "daily" | "3x/week" | "weekly" | "irregular"
-  biggestStruggle  String?  @db.Text
-  speechCoaching   Boolean  @default(false) // opt-in for delivery feedback
-  onboardingNotes  String?  @db.Text // AI's notes from onboarding conversation
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  niche             String?  // e.g. "web development", "gaming", "fitness"
+  contentStyle      String?  // "on-camera" | "faceless" | "mixed"
+  postingFrequency  String?  // "daily" | "3x/week" | "weekly" | "irregular"
+  onboardingAnswers Json?    // all Q&A from onboarding questionnaire
+  onboardingNotes   String?  @db.Text // AI's summary of the onboarding conversation
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Idea {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title         String
-  description   String?  @db.Text
-  status        String   @default("idea") // "idea" | "planning" | "in_progress" | "published" | "analyzed"
-  format        String?  // "long-form" | "short" | "stream" | "tutorial" | "challenge"
-  priority      String?  @default("medium") // "low" | "medium" | "high"
-  notes         String?  @db.Text
-  linkedVideoId String? // link to Video when published
-  linkedVideo   Video?   @relation(fields: [linkedVideoId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?   @db.Text
+  status          String    @default("idea") // "idea" | "planning" | "in_progress" | "published" | "analyzed"
+  format          String?   // "long-form" | "short" | "stream" | "tutorial" | "challenge"
+  priority        String?   @default("medium") // "low" | "medium" | "high"
+  notes           String?   @db.Text
+  scheduledDate   DateTime? // when to work on it
+  publishDate     DateTime? // target publish date
+  calendarEventId String?   // Google Calendar event ID
+  linkedVideoId   String?   // link to Video when published
+  linkedVideo     Video?    @relation(fields: [linkedVideoId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@index([userId, status])
 }

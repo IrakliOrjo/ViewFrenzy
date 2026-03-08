@@ -1629,6 +1629,7 @@ export const GoalScalarFieldEnum = {
   unit: 'unit',
   deadline: 'deadline',
   completed: 'completed',
+  calendarEventId: 'calendarEventId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1668,10 +1669,8 @@ export const CreatorProfileScalarFieldEnum = {
   userId: 'userId',
   niche: 'niche',
   contentStyle: 'contentStyle',
-  personality: 'personality',
   postingFrequency: 'postingFrequency',
-  biggestStruggle: 'biggestStruggle',
-  speechCoaching: 'speechCoaching',
+  onboardingAnswers: 'onboardingAnswers',
   onboardingNotes: 'onboardingNotes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1689,6 +1688,9 @@ export const IdeaScalarFieldEnum = {
   format: 'format',
   priority: 'priority',
   notes: 'notes',
+  scheduledDate: 'scheduledDate',
+  publishDate: 'publishDate',
+  calendarEventId: 'calendarEventId',
   linkedVideoId: 'linkedVideoId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

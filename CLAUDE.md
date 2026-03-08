@@ -78,3 +78,138 @@ OAuth tokens stored in the Account model. The YouTube service must handle token 
 ## Implementation Plan
 
 The implementation plan (`2026-03-01-forge-implementation.md`) has 17 sequenced tasks with exact file paths and code. Follow its task ordering — earlier tasks set up foundations that later tasks depend on. Reference the plan's code snippets as the authoritative starting point for each component.
+
+## Coding Standards & Conventions
+
+### Server vs Client Components
+
+- **Default to React Server Components (RSC).** Every new component should be a server component unless it requires client-side interactivity.
+- Only add `"use client"` when the component uses: browser APIs, event handlers (`onClick`, `onChange`, etc.), React hooks (`useState`, `useEffect`, `useRef`, etc.), or third-party client-only libraries.
+- When a page needs both server data and client interactivity, keep the page/layout as a server component and push `"use client"` down to the smallest leaf component possible. Example: a dashboard page fetches data server-side and passes it as props to a small `<DashboardChart client />` component.
+- Never wrap an entire page in `"use client"` just because one button needs an `onClick`.
+
+### Styling & Class Names
+
+- Use Tailwind CSS for all styling. No inline styles, no CSS modules, no separate CSS files (except `globals.css`).
+- Use the `cn()` utility from `@/lib/utils` (which wraps `clsx` + `tailwind-merge`) for all conditional or merged class names. Never use string concatenation or template literals for conditional classes.
+
+```tsx
+// Correct
+<div className={cn("rounded-lg p-4", isActive && "bg-primary text-white", className)} />
+// Wrong — no manual string building
+<div className={`rounded-lg p-4 ${isActive ? "bg-primary text-white" : ""}`} />
+```
+
+- shadcn/ui components are the default building blocks. Check if a shadcn component exists before building a custom one. Add new shadcn components with `npx shadcn@latest add <component>`.
+
+### Project Folder Structure
+
+```
+src/
+├── app/                # Next.js App Router (pages, layouts, API routes)
+│   ├── (app)/          # Protected route group
+│   ├── api/            # API routes
+│   ├── login/          # Public auth pages
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx        # Landing page
+├── components/         # Shared/reusable components
+│   ├── ui/             # shadcn/ui primitives (managed by CLI, don't manually edit)
+│   └── [feature]/      # Feature-specific shared components (e.g., components/channel/)
+├── constants/          # App-wide constants and enums (no runtime logic)
+├── helpers/            # Pure utility functions (formatting, validation, transforms)
+├── hooks/              # Global custom React hooks (usable across multiple features)
+├── lib/                # External service integrations (prisma, auth, ai, youtube, stripe, push)
+├── providers/          # React context providers (theme, session, etc.)
+├── theme/              # Theme configuration, design tokens, color definitions
+├── types/              # Shared TypeScript types and interfaces
+└── variables/          # Environment variable schemas and runtime config
+```
+
+### Component Architecture — Separation of Concerns
+
+**Rule: Components render UI. Everything else lives somewhere else.**
+
+1. **No business logic in generic components.** A `<Card>` or `<StatDisplay>` should accept data via props and render it. It should never fetch data, transform API responses, or contain domain-specific conditionals. Feature-specific logic belongs in page components or dedicated feature components.
+
+2. **Extract `useEffect` and stateful logic into custom hooks.** If a component has more than one `useEffect`, or any `useEffect` longer than 3 lines, extract it into a custom hook.
+
+```tsx
+// Wrong — logic tangled in component
+function VideoList() {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    fetch("/api/videos")
+      .then(res => res.json())
+      .then(data => { setVideos(data); setLoading(false); })
+      .catch(err => { setError(err); setLoading(false); });
+  }, []);
+  // ... 30 more lines
+}
+
+// Correct — hook extracted
+function VideoList() {
+  const { videos, loading, error } = useVideos();
+  // pure rendering
+}
+```
+
+3. **Hook placement follows scope:**
+   - If a hook is used by **multiple features** → `src/hooks/` (e.g., `useDebounce`, `useMediaQuery`, `useLocalStorage`)
+   - If a hook is used only within **one feature/page** → colocate it next to that feature (e.g., `src/app/(app)/dashboard/hooks/useDashboardStats.ts`)
+
+4. **Extract helper functions out of components.** If a component contains pure functions (data formatting, calculations, sorting, filtering) that don't use React hooks or state, move them out:
+   - If the helper is **feature-specific** → create a `helpers/` folder next to the component (e.g., `src/app/(app)/dashboard/helpers/formatAnalytics.ts`)
+   - If the helper is **reusable across features** → `src/helpers/` (e.g., `formatNumber.ts`, `formatDate.ts`, `pluralize.ts`)
+
+### Component Decomposition
+
+**Rule: If a component file exceeds ~80-100 lines of JSX, break it down.**
+
+- When breaking down a component, create a `components/` subfolder inside the feature folder and place child components there:
+
+```
+src/app/(app)/dashboard/
+├── page.tsx                        # Main page (server component, data fetching)
+├── components/
+│   ├── dashboard-header.tsx        # Section component
+│   ├── stats-grid.tsx              # Section component
+│   ├── recent-videos-table.tsx     # Section component
+│   └── growth-chart.tsx            # Client component (interactive chart)
+├── hooks/
+│   └── use-dashboard-filters.ts    # Client hook for filter state
+└── helpers/
+    └── calculate-growth-rate.ts    # Pure function
+```
+
+- Name child components descriptively — `stats-grid.tsx`, not `Grid.tsx`. The name should convey what the component *does*, not what it *is*.
+- Each decomposed component should be independently understandable. It should not require reading 3 other files to understand what it renders.
+- Use kebab-case for all file names (`growth-chart.tsx`, not `GrowthChart.tsx`).
+
+### TypeScript
+
+- Strict TypeScript everywhere. No `any` types — use `unknown` if the type is genuinely uncertain, then narrow.
+- Define shared types in `src/types/`. Feature-local types can live in the component file or a colocated `types.ts`.
+- Prefer `interface` for object shapes that may be extended, `type` for unions, intersections, and utility types.
+- Props types are defined as `interface` and named `ComponentNameProps` (e.g., `interface StatsGridProps`).
+
+### Imports & Naming
+
+- Use the `@/` path alias for all imports (already configured as `src/`). Never use relative paths like `../../components`.
+- Use named exports for components, not default exports (except for Next.js pages/layouts which require default exports).
+- React components use PascalCase. Files use kebab-case. Hooks use `use` prefix. Constants use UPPER_SNAKE_CASE.
+
+### Error Handling & Loading States
+
+- Server components: use Next.js `error.tsx` and `loading.tsx` boundary files.
+- Client components: handle loading/error states explicitly — never render empty or broken UI.
+- API routes: always return structured JSON errors with appropriate HTTP status codes. Use try/catch with typed error responses.
+
+### Performance Defaults
+
+- Prefer server-side data fetching over client-side `useEffect` + `fetch`.
+- Use Next.js `Suspense` boundaries for streaming long-running server data.
+- Images use `next/image` with explicit `width`/`height` or `fill`.
+- Avoid importing large libraries client-side. If needed, use `next/dynamic` with `ssr: false`.

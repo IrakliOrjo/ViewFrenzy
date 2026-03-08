@@ -14,7 +14,8 @@
       "Bash(rm:*)",
       "Bash(mv:*)",
       "Bash(do mv:*)",
-      "Bash(rmdir forge:*)"
+      "Bash(rmdir forge:*)",
+      "Bash(node:*)"
     ]
   }
 }
