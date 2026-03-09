@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { todayISO, daysAgoISO } from "@/helpers/date";
 import {
   getAccessToken,
   fetchChannelInfo,
@@ -77,10 +78,8 @@ export async function POST() {
     }
 
     // Fetch analytics for last 28 days
-    const endDate = new Date().toISOString().split("T")[0];
-    const startDate = new Date(Date.now() - 28 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split("T")[0];
+    const endDate = todayISO();
+    const startDate = daysAgoISO(28);
 
     const videoAnalytics = await fetchVideoAnalytics(
       accessToken,

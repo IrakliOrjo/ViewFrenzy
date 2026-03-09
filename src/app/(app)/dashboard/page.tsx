@@ -1,39 +1,26 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { SyncChannelButton } from "@/app/(app)/dashboard/components/sync-channel-button";
+import { getDashboardData } from "@/app/(app)/dashboard/data/getDashboardData";
+import { StatCard } from "@/app/(app)/dashboard/components/StatCard";
+import { WelcomeSection } from "@/app/(app)/dashboard/components/WelcomeSection";
 
 export default async function DashboardPage() {
-  const session = await auth();
-  const channel = session?.user?.id
-    ? await prisma.channel.findUnique({ where: { userId: session.user.id } })
-    : null;
-
-  if (!channel) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle>Connect your YouTube channel</CardTitle>
-            <CardDescription>
-              ViewFrenzy needs access to your YouTube data to provide personalized coaching.
-              Your channel was authorized during sign-in — just click below to sync.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex justify-center">
-            <SyncChannelButton />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const { greeting, displayName, levelInfo, stats } =
+    await getDashboardData();
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <p className="mt-2 text-muted-foreground">
-        Welcome back, {channel.title}
-      </p>
+    <div className="space-y-8">
+      {/* Welcome + XP rank */}
+      <WelcomeSection
+        greeting={greeting}
+        displayName={displayName}
+        levelInfo={levelInfo}
+      />
+
+      {/* Stats cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <StatCard key={stat.label} stat={stat} />
+        ))}
+      </div>
     </div>
   );
 }

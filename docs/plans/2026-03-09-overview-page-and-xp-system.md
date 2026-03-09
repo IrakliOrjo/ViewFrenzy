@@ -1178,3 +1178,80 @@ git commit -m "feat: allow YouTube and Google image domains in Next.js config"
 - Real milestones — requires Task 9 (Goal setting)
 - Real action items — requires Task 7 + 9
 - Accountability tracker, upcoming deadlines, performance alerts — "nice to have" sections, added later
+
+###Explanation for TASK 6 components
+1. StatCard — A single metric card. Four of these sit in a row
+   at the top of the dashboard.
+
+  Each card shows:
+  - Label: "Subscribers", "Total Views", "Total Videos", or     
+  "Growth"
+  - Value: The big number (e.g. "487", "24.3K", "38", "+2.5%")  
+  - Change text: Context like "+12 this week" or "No change this
+   week"
+  - Trend indicator: Up arrow (green), down arrow (red), or     
+  neutral
+  - Icon: Contextual icon (Users, Eye, Video, TrendingUp)       
+
+  This is real data from the YouTube channel.
+
+  ---
+  2. CoachNote — A card with a personalized AI coaching message.
+   Think of it as the coach "talking" to the creator.
+
+  Shows:
+  - Title: "Coach's Note" with a sparkle icon
+  - Message: A paragraph of coaching advice (e.g. "Your last    
+  video got 2x your average views — that topic is
+  resonating...")
+  - Type: insight, encouragement, or action (could style        
+  differently per type)
+
+  Currently mock data. Will be wired to Claude AI later.        
+
+  ---
+  3. MilestoneProgress — Shows progress toward the creator's    
+  goals. Multiple progress bars stacked.
+
+  Each milestone shows:
+  - Title: e.g. "Reach 500 Subscribers"
+  - Progress bar: Visual fill (e.g. 487/500 = 97%)
+  - Numbers: "487 / 500" next to the title
+
+  Currently mock data. Will be wired to real Goals later.       
+
+  ---
+  4. ActionItems — A to-do list of coaching recommendations and 
+  goal reminders.
+
+  Each item shows:
+  - Priority dot: Red (high), yellow (medium), green (low)      
+  - Text: The action (e.g. "Try a shorter intro on your next    
+  video")
+  - Source badge: Where it came from — "Coach" or "Goal"        
+
+  Currently mock data. Will be AI-generated later.
+
+  ---
+  5. RecentVideos — A list of the creator's latest uploads with 
+  quick stats.
+
+  Each video shows:
+  - Thumbnail: YouTube thumbnail image (120x68)
+  - Title: Video title (truncated if long)
+  - Stats: View count + like count
+
+  This is real data from the Video table.
+
+  ---
+  6. BestVideo — Highlights the single best-performing video (by
+   views) from recent uploads.
+
+  Shows:
+  - Title: "Best Performing" with a trophy icon
+  - Large thumbnail: Full-width video thumbnail
+  - Video title
+  - Stats: Views, likes, comments
+
+  This is real data — the video with the highest view count from
+   the recent batch.

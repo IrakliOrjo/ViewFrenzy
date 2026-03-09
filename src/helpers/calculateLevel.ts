@@ -10,6 +10,7 @@ export interface ILevelInfo {
   xpNeeded: number;         // XP needed to fill current level bar
   progressPercent: number;  // 0-100
   isMaxLevel: boolean;
+  nextTitle: string | null; // title of the next level, null if max
 }
 
 /**
@@ -51,5 +52,6 @@ export function calculateLevel(totalXp: number): ILevelInfo {
     xpNeeded,
     progressPercent,
     isMaxLevel,
+    nextTitle: nextLevel?.title ?? null,
   };
 }
