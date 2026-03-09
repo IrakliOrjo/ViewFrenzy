@@ -15,7 +15,8 @@
       "Bash(mv:*)",
       "Bash(do mv:*)",
       "Bash(rmdir forge:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(openssl rand:*)"
     ]
   }
 }
