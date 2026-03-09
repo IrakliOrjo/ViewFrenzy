@@ -4,7 +4,7 @@ import { calculateLevel } from "@/helpers/calculateLevel";
 import { daysAgo } from "@/helpers/date";
 import { calculateStats } from "@/app/(app)/dashboard/helpers/calculateStats";
 import { MOCK_STATS } from "@/app/(app)/dashboard/helpers/mockData";
-import type { IStatCard } from "@/types/dashboard";
+import type { IStatCard, IRecentVideo } from "@/types/dashboard";
 import type { ILevelInfo } from "@/helpers/calculateLevel";
 
 export interface IDashboardData {
@@ -12,15 +12,18 @@ export interface IDashboardData {
   displayName: string;
   levelInfo: ILevelInfo;
   stats: IStatCard[];
+  recentVideos: IRecentVideo[];
 }
 
 export async function getDashboardData(): Promise<IDashboardData> {
   const session = await auth();
 
-  const [channel, user] = await Promise.all([
-    session?.user?.id
+  const userId = session?.user?.id;
+
+  const [channel, user, videos] = await Promise.all([
+    userId
       ? prisma.channel.findUnique({
-          where: { userId: session.user.id },
+          where: { userId },
           include: {
             snapshots: {
               orderBy: { date: "asc" },
@@ -31,12 +34,28 @@ export async function getDashboardData(): Promise<IDashboardData> {
           },
         })
       : null,
-    session?.user?.id
+    userId
       ? prisma.user.findUnique({
-          where: { id: session.user.id },
+          where: { id: userId },
           select: { totalXp: true },
         })
       : null,
+    userId
+      ? prisma.video.findMany({
+          where: { channel: { userId } },
+          orderBy: { publishedAt: "desc" },
+          take: 3,
+          select: {
+            id: true,
+            title: true,
+            thumbnailUrl: true,
+            publishedAt: true,
+            viewCount: true,
+            likeCount: true,
+            commentCount: true,
+          },
+        })
+      : [],
   ]);
 
   const stats = channel
@@ -51,5 +70,15 @@ export async function getDashboardData(): Promise<IDashboardData> {
   if (hour < 12) greeting = "Good Morning";
   else if (hour < 18) greeting = "Good Afternoon";
 
-  return { greeting, displayName, levelInfo, stats };
+  const recentVideos: IRecentVideo[] = videos.map((v) => ({
+    id: v.id,
+    title: v.title,
+    thumbnailUrl: v.thumbnailUrl,
+    publishedAt: v.publishedAt,
+    viewCount: v.viewCount,
+    likeCount: v.likeCount,
+    commentCount: v.commentCount,
+  }));
+
+  return { greeting, displayName, levelInfo, stats, recentVideos };
 }

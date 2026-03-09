@@ -27,3 +27,21 @@ export function todayISO(): string {
 export function daysAgoISO(days: number): string {
   return daysAgo(days).toISOString().split("T")[0];
 }
+
+/**
+ * Format a Date as a human-readable relative time string.
+ * E.g. "5 minutes ago", "3 hours ago", "2 days ago", "1 week ago".
+ */
+export function formatRelativeTime(date: Date): string {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
+
+  if (diffMins < 60) return `${diffMins} minutes ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+  return `${diffWeeks} week${diffWeeks > 1 ? "s" : ""} ago`;
+}

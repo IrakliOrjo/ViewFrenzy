@@ -126,15 +126,13 @@
 }
 
 /* ─── Typography ─── */
-@layer utilities {
-  .text-display    { @apply text-3xl font-black tracking-tight; }
-  .text-heading-lg { @apply text-2xl font-bold tracking-tight; }
-  .text-heading    { @apply text-xl font-bold; }
-  .text-heading-sm { @apply text-lg font-semibold; }
-  .text-body-lg    { @apply text-base leading-7; }
-  .text-body       { @apply text-sm leading-6; }
-  .text-body-sm    { @apply text-xs leading-5; }
-  .text-stat       { @apply text-2xl font-black tabular-nums; }
-  .text-label      { @apply text-xs font-bold uppercase tracking-widest; }
-  .text-caption    { @apply text-[10px] leading-4; }
-}
+@utility text-display    { @apply text-3xl font-black tracking-tight; }
+@utility text-heading-lg { @apply text-2xl font-bold tracking-tight; }
+@utility text-heading    { @apply text-xl font-bold; }
+@utility text-heading-sm { @apply text-lg font-semibold; }
+@utility text-body-lg    { @apply text-base leading-7; }
+@utility text-body       { @apply text-sm leading-6; }
+@utility text-body-sm    { @apply text-xs leading-5; }
+@utility text-stat       { @apply text-2xl font-black tabular-nums; }
+@utility text-label      { @apply text-xs font-bold uppercase tracking-widest; }
+@utility text-caption    { @apply text-[10px] leading-4; }

@@ -17,7 +17,7 @@ export function WelcomeSection({
       {/* Left: greeting + XP subtitle */}
       <div className="min-w-0">
         <h1 className="text-display text-foreground">
-          {greeting}, {displayName}
+          {greeting}, <span className="font-bold!important text-primary">{displayName}</span>
         </h1>
         <p className="text-muted-foreground mt-2 text-sm">
           {levelInfo.isMaxLevel ? (

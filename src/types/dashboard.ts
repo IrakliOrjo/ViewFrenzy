@@ -19,6 +19,7 @@ export interface IRecentVideo {
 export interface IMockCoachNote {
   message: string;
   type: "insight" | "encouragement" | "action";
+  analyzedAt: string;
 }
 
 export interface IMockMilestone {
@@ -26,6 +27,7 @@ export interface IMockMilestone {
   current: number;
   target: number;
   unit: string;
+  icon: string; // Lucide icon name — resolved in the component
 }
 
 export interface IMockActionItem {
@@ -33,4 +35,13 @@ export interface IMockActionItem {
   text: string;
   priority: "high" | "medium" | "low";
   source: string; // e.g. "Coach", "Goal"
+}
+
+export interface IGrowthArticle {
+  title: string;
+  url: string;
+  source: string;
+  description: string | null;
+  imageUrl: string | null;
+  publishedAt: string; // ISO string — unstable_cache serializes via JSON
 }

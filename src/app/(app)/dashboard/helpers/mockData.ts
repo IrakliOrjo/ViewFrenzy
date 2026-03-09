@@ -38,8 +38,9 @@ export const MOCK_STATS: IStatCard[] = [
 
 export const MOCK_COACH_NOTE: IMockCoachNote = {
   message:
-    "Your last video got 2x your average views — that topic is resonating. Consider making a follow-up or a deeper dive on the same theme. Doubling down on what works is the fastest way to grow at your stage.",
+    "Your last video got 2x your average views! The high retention in the first 30 seconds suggests your new intro style is working perfectly. Keep experimenting with these high-energy hooks to maintain this momentum.",
   type: "insight",
+  analyzedAt: "2 hours ago",
 };
 
 export const MOCK_MILESTONES: IMockMilestone[] = [
@@ -48,18 +49,21 @@ export const MOCK_MILESTONES: IMockMilestone[] = [
     current: 487,
     target: 500,
     unit: "subscribers",
+    icon: "Users",
   },
   {
     title: "Upload 50 Videos",
     current: 38,
     target: 50,
     unit: "videos",
+    icon: "Video",
   },
   {
     title: "Hit 25K Total Views",
     current: 24300,
     target: 25000,
     unit: "views",
+    icon: "Eye",
   },
 ];
 
