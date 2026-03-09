@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Film, Search, Bell, Settings, Menu, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -76,6 +78,8 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function Header({ user }: HeaderProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="flex items-center justify-between border-b border-primary/10 bg-white/50 dark:bg-background/50 backdrop-blur-md px-8 py-4 z-10">
       {/* Left: Logo + Search */}
@@ -129,18 +133,15 @@ export function Header({ user }: HeaderProps) {
           {/* User avatar dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-2 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary/20 overflow-hidden cursor-pointer">
-                {user.image ? (
-                  <img
-                    src={user.image}
-                    alt={user.name ?? "User"}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="flex items-center justify-center w-full h-full text-sm font-medium text-primary">
+              <button className="ml-2 cursor-pointer">
+                <Avatar className="h-10 w-10 border-2 border-primary/20">
+                  {user.image && (
+                    <AvatarImage src={user.image} alt={user.name ?? "User"} />
+                  )}
+                  <AvatarFallback className="bg-primary/20 text-sm font-medium text-primary">
                     {getUserInitials(user.name)}
-                  </span>
-                )}
+                  </AvatarFallback>
+                </Avatar>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -162,7 +163,7 @@ export function Header({ user }: HeaderProps) {
         </div>
 
         {/* Mobile hamburger */}
-        <Sheet>
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
@@ -185,7 +186,7 @@ export function Header({ user }: HeaderProps) {
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-6 flex flex-col gap-4">
-              <NavLinks />
+              <NavLinks onNavigate={() => setMobileOpen(false)} />
             </nav>
           </SheetContent>
         </Sheet>
