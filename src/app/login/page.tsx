@@ -15,7 +15,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Forge</CardTitle>
+          <CardTitle className="text-2xl font-bold">ViewFrenzy</CardTitle>
           <CardDescription>
             Your AI YouTube growth coach. Sign in to connect your channel and
             start growing.
@@ -30,7 +30,7 @@ export default function LoginPage() {
             Sign in with Google
           </Button>
           <p className="mt-4 text-center text-xs text-muted-foreground">
-            We&apos;ll request access to your YouTube Analytics so Forge can
+            We&apos;ll request access to your YouTube Analytics so ViewFrenzy can
             coach you with real data.
           </p>
         </CardContent>

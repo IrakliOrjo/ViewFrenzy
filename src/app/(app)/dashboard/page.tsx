@@ -16,7 +16,7 @@ export default async function DashboardPage() {
           <CardHeader className="text-center">
             <CardTitle>Connect your YouTube channel</CardTitle>
             <CardDescription>
-              Forge needs access to your YouTube data to provide personalized coaching.
+              ViewFrenzy needs access to your YouTube data to provide personalized coaching.
               Your channel was authorized during sign-in — just click below to sync.
             </CardDescription>
           </CardHeader>

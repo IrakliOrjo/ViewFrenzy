@@ -14,7 +14,7 @@ export default async function Home() {
       <main className="flex w-full max-w-md flex-col items-center gap-8 px-6 py-32 text-center">
         <div className="flex flex-col items-center gap-3">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Forge
+            ViewFrenzy
           </h1>
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
             Your AI-powered YouTube growth coach
@@ -38,7 +38,7 @@ export default async function Home() {
         </form>
 
         <p className="text-xs text-zinc-400 dark:text-zinc-500">
-          We&apos;ll request access to your YouTube Analytics so Forge can coach
+          We&apos;ll request access to your YouTube Analytics so ViewFrenzy can coach
           you with real data.
         </p>
       </main>

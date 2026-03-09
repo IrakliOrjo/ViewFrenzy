@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Providers } from "@/components/providers";
+import { Providers } from "@/providers/providers";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Forge — AI YouTube Growth Coach",
+  title: "ViewFrenzy — AI YouTube Growth Coach",
   description:
     "Your AI-powered YouTube growth coach. Get strategic advice, analytics insights, and proactive coaching to grow your channel.",
 };
