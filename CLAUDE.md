@@ -113,9 +113,9 @@ src/
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx        # Landing page
-├── components/         # Shared/reusable components
+├── components/         # Shared/reusable components (PascalCase folders & files)
 │   ├── ui/             # shadcn/ui primitives (managed by CLI, don't manually edit)
-│   └── [feature]/      # Feature-specific shared components (e.g., components/channel/)
+│   └── [Feature]/      # Each component in its own PascalCase folder (e.g., components/Header/Header.tsx)
 ├── constants/          # App-wide constants and enums (no runtime logic)
 ├── helpers/            # Pure utility functions (formatting, validation, transforms)
 ├── hooks/              # Global custom React hooks (usable across multiple features)
@@ -162,7 +162,11 @@ function VideoList() {
 
 4. **Extract helper functions out of components.** If a component contains pure functions (data formatting, calculations, sorting, filtering) that don't use React hooks or state, move them out:
    - If the helper is **feature-specific** → create a `helpers/` folder next to the component (e.g., `src/app/(app)/dashboard/helpers/formatAnalytics.ts`)
-   - If the helper is **reusable across features** → `src/helpers/` (e.g., `formatNumber.ts`, `formatDate.ts`, `pluralize.ts`)
+   - If the helper is **reusable across features** → `src/helpers/` (e.g., `getUserInitials.ts`, `formatNumber.ts`, `formatDate.ts`)
+
+5. **Extract data/config arrays out of components.** Route definitions, nav items, option lists, dropdown choices, and similar static data must not be defined inside component files. Place them in `src/constants/` (e.g., `src/constants/navigation.ts`).
+
+6. **Extract sub-components into a `components/` subfolder.** If a component file contains helper components (e.g., a `NavLinks` rendered inside `Header`), extract them into `ComponentFolder/components/SubComponent.tsx`. The parent component should only compose — not define — its children.
 
 ### Component Decomposition
 
@@ -174,32 +178,33 @@ function VideoList() {
 src/app/(app)/dashboard/
 ├── page.tsx                        # Main page (server component, data fetching)
 ├── components/
-│   ├── dashboard-header.tsx        # Section component
-│   ├── stats-grid.tsx              # Section component
-│   ├── recent-videos-table.tsx     # Section component
-│   └── growth-chart.tsx            # Client component (interactive chart)
+│   ├── DashboardHeader.tsx         # Section component
+│   ├── StatsGrid.tsx               # Section component
+│   ├── RecentVideosTable.tsx       # Section component
+│   └── GrowthChart.tsx             # Client component (interactive chart)
 ├── hooks/
-│   └── use-dashboard-filters.ts    # Client hook for filter state
+│   └── useDashboardFilters.ts      # Client hook for filter state
 └── helpers/
-    └── calculate-growth-rate.ts    # Pure function
+    └── calculateGrowthRate.ts      # Pure function
 ```
 
-- Name child components descriptively — `stats-grid.tsx`, not `Grid.tsx`. The name should convey what the component *does*, not what it *is*.
+- Name child components descriptively — `StatsGrid.tsx`, not `Grid.tsx`. The name should convey what the component *does*, not what it *is*.
 - Each decomposed component should be independently understandable. It should not require reading 3 other files to understand what it renders.
-- Use kebab-case for all file names (`growth-chart.tsx`, not `GrowthChart.tsx`).
+- Use PascalCase for component files and folders (`GrowthChart.tsx`, `Header/Header.tsx`).
 
 ### TypeScript
 
 - Strict TypeScript everywhere. No `any` types — use `unknown` if the type is genuinely uncertain, then narrow.
 - Define shared types in `src/types/`. Feature-local types can live in the component file or a colocated `types.ts`.
 - Prefer `interface` for object shapes that may be extended, `type` for unions, intersections, and utility types.
-- Props types are defined as `interface` and named `ComponentNameProps` (e.g., `interface StatsGridProps`).
+- **Exported interfaces** that are shared/reused across files must be prefixed with `I` (e.g., `export interface IChannelInfo`, `export interface INavItem`). Local-only interfaces (used only within the same file) do not require the `I` prefix.
+- Props types are defined as `interface` and named `ComponentNameProps` (e.g., `interface HeaderProps`). Props interfaces are local by convention and do not need the `I` prefix.
 
 ### Imports & Naming
 
 - Use the `@/` path alias for all imports (already configured as `src/`). Never use relative paths like `../../components`.
 - Use named exports for components, not default exports (except for Next.js pages/layouts which require default exports).
-- React components use PascalCase. Files use kebab-case. Hooks use `use` prefix. Constants use UPPER_SNAKE_CASE.
+- React component files and folders use PascalCase (`Header.tsx`, `StatsGrid.tsx`). Hooks use `use` prefix with camelCase (`useDashboardFilters.ts`). Helpers use camelCase (`calculateGrowthRate.ts`). Constants use UPPER_SNAKE_CASE.
 
 ### Error Handling & Loading States
 

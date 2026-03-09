@@ -1,4 +1,4 @@
-export interface ChannelInfo {
+export interface IChannelInfo {
   youtubeId: string;
   title: string;
   description: string;
@@ -8,7 +8,7 @@ export interface ChannelInfo {
   viewCount: bigint;
 }
 
-export interface VideoInfo {
+export interface IVideoInfo {
   youtubeId: string;
   title: string;
   description: string;
@@ -20,7 +20,7 @@ export interface VideoInfo {
   commentCount: number;
 }
 
-export interface VideoAnalytics {
+export interface IVideoAnalytics {
   videoId: string;
   views: number;
   estimatedMinutesWatched: number;
@@ -35,7 +35,7 @@ export interface VideoAnalytics {
   ctr: number;
 }
 
-export interface ChannelAnalyticsSummary {
+export interface IChannelAnalyticsSummary {
   views: number;
   estimatedMinutesWatched: number;
   avgViewDuration: number;
@@ -47,7 +47,7 @@ export interface ChannelAnalyticsSummary {
   ctr: number;
 }
 
-export interface TrafficSource {
+export interface ITrafficSource {
   source: string;
   views: number;
   minutesWatched: number;

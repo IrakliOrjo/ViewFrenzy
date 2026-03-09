@@ -1,6 +1,29 @@
+# Header Redesign Implementation Plan
+
+> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+
+**Goal:** Replace sidebar navigation with a horizontal header navigation matching the HTML design reference, branded as "ViewFrenzy".
+
+**Architecture:** The current layout uses `AppShell` → `Sidebar` + `Header` + `main`. We replace this with `AppShell` → `Header` (containing logo, search, nav, actions, avatar) + `main`. Mobile nav moves into a Sheet triggered from a hamburger in the header. The `Sidebar` component is deleted entirely.
+
+**Tech Stack:** Next.js 15 App Router, Tailwind CSS 4, shadcn/ui (Avatar, Button, DropdownMenu, Input, Sheet), Lucide icons.
+
+**Design Reference:** `c:/Users/PC/Downloads/stitch (10)/code.html` lines 32-64.
+
+---
+
+### Task 1: Rewrite `header.tsx` with new design
+
+**Files:**
+- Modify: `src/components/header.tsx` (full rewrite)
+
+**Step 1: Rewrite the header component**
+
+Replace the entire contents of `src/components/header.tsx` with:
+
+```tsx
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Film, Search, Bell, Settings, Menu, LogOut } from "lucide-react";
@@ -78,8 +101,6 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function Header({ user }: HeaderProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return (
     <header className="flex items-center justify-between border-b border-primary/10 bg-white/50 dark:bg-background/50 backdrop-blur-md px-8 py-4 z-10">
       {/* Left: Logo + Search */}
@@ -133,15 +154,18 @@ export function Header({ user }: HeaderProps) {
           {/* User avatar dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-2 cursor-pointer">
-                <Avatar className="h-10 w-10 border-2 border-primary/20">
-                  {user.image && (
-                    <AvatarImage src={user.image} alt={user.name ?? "User"} />
-                  )}
-                  <AvatarFallback className="bg-primary/20 text-sm font-medium text-primary">
+              <button className="ml-2 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary/20 overflow-hidden cursor-pointer">
+                {user.image ? (
+                  <img
+                    src={user.image}
+                    alt={user.name ?? "User"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="flex items-center justify-center w-full h-full text-sm font-medium text-primary">
                     {getUserInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
+                  </span>
+                )}
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -163,7 +187,7 @@ export function Header({ user }: HeaderProps) {
         </div>
 
         {/* Mobile hamburger */}
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+        <Sheet>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
@@ -186,7 +210,7 @@ export function Header({ user }: HeaderProps) {
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-6 flex flex-col gap-4">
-              <NavLinks onNavigate={() => setMobileOpen(false)} />
+              <NavLinks />
             </nav>
           </SheetContent>
         </Sheet>
@@ -194,3 +218,160 @@ export function Header({ user }: HeaderProps) {
     </header>
   );
 }
+```
+
+**Step 2: Verify no TypeScript errors**
+
+Run: `npx tsc --noEmit`
+Expected: No errors related to `header.tsx`
+
+**Step 3: Commit**
+
+```bash
+git add src/components/header.tsx
+git commit -m "feat: rewrite header with horizontal nav, logo, search, and actions"
+```
+
+---
+
+### Task 2: Simplify `app-shell.tsx` — remove sidebar
+
+**Files:**
+- Modify: `src/components/app-shell.tsx` (rewrite)
+
+**Step 1: Rewrite app-shell to remove sidebar**
+
+Replace the entire contents of `src/components/app-shell.tsx` with:
+
+```tsx
+import { Header } from "@/components/header";
+
+interface AppShellProps {
+  user: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  children: React.ReactNode;
+}
+
+export function AppShell({ user, children }: AppShellProps) {
+  return (
+    <div className="relative flex h-screen w-full flex-col overflow-hidden">
+      <Header user={user} />
+      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+    </div>
+  );
+}
+```
+
+Note: `"use client"` is removed — AppShell is now a server component since it has no state. The `channel` prop is removed since the header no longer shows channel info.
+
+**Step 2: Update `(app)/layout.tsx` to remove channel query and match new props**
+
+Modify `src/app/(app)/layout.tsx` — remove the prisma channel query and `channel` prop:
+
+```tsx
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { AppShell } from "@/components/app-shell";
+
+export default async function AppLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  return (
+    <AppShell user={session.user}>
+      {children}
+    </AppShell>
+  );
+}
+```
+
+**Step 3: Verify no TypeScript errors**
+
+Run: `npx tsc --noEmit`
+Expected: No errors
+
+**Step 4: Commit**
+
+```bash
+git add src/components/app-shell.tsx src/app/\(app\)/layout.tsx
+git commit -m "feat: simplify app-shell, remove sidebar and channel prop"
+```
+
+---
+
+### Task 3: Delete `sidebar.tsx`
+
+**Files:**
+- Delete: `src/components/sidebar.tsx`
+
+**Step 1: Verify no other files import sidebar**
+
+Run: `grep -r "sidebar" src/components/ src/app/ --include="*.tsx" --include="*.ts" -l`
+
+Expected: Only `sidebar.tsx` itself (if app-shell was already updated in Task 2).
+
+**Step 2: Delete the file**
+
+```bash
+rm src/components/sidebar.tsx
+```
+
+**Step 3: Verify the dev server runs without errors**
+
+Run: `npm run dev` and open `http://localhost:3000/dashboard` in the browser.
+Expected: Page loads with new header, no sidebar visible, no console errors.
+
+**Step 4: Commit**
+
+```bash
+git add -u src/components/sidebar.tsx
+git commit -m "chore: remove unused sidebar component"
+```
+
+---
+
+### Task 4: Update branding — rename "Forge" to "ViewFrenzy" elsewhere
+
+**Files:**
+- Modify: `src/components/sidebar.tsx` (already deleted, but check for any remaining "Forge" references)
+
+**Step 1: Search for remaining "Forge" references in source code**
+
+Run: `grep -ri "forge" src/ --include="*.tsx" --include="*.ts" -l`
+
+For each file found, replace "Forge" with "ViewFrenzy" where it refers to the product name (skip import paths, npm packages, etc.).
+
+**Step 2: Commit if changes were made**
+
+```bash
+git add -A
+git commit -m "chore: rename Forge to ViewFrenzy in source code"
+```
+
+---
+
+### Task 5: Visual QA
+
+**Step 1: Run dev server and verify**
+
+Run: `npm run dev`
+
+Check these manually:
+- [ ] Header displays logo icon + "ViewFrenzy" text
+- [ ] Search bar visible on desktop, hidden on mobile
+- [ ] Nav links show: Dashboard, Analytics, Chat, Goals, Ideas
+- [ ] Active nav link is bold + primary color
+- [ ] Bell and Settings icon buttons render with subtle background
+- [ ] User avatar shows with dropdown (name, email, sign out)
+- [ ] Mobile: hamburger button shows, opens Sheet with nav links
+- [ ] Dark mode: header has translucent backdrop blur
+- [ ] Clicking nav links navigates to correct routes

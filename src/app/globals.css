@@ -124,3 +124,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ─── Typography ─── */
+@layer utilities {
+  .text-display    { @apply text-3xl font-black tracking-tight; }
+  .text-heading-lg { @apply text-2xl font-bold tracking-tight; }
+  .text-heading    { @apply text-xl font-bold; }
+  .text-heading-sm { @apply text-lg font-semibold; }
+  .text-body-lg    { @apply text-base leading-7; }
+  .text-body       { @apply text-sm leading-6; }
+  .text-body-sm    { @apply text-xs leading-5; }
+  .text-stat       { @apply text-2xl font-black tabular-nums; }
+  .text-label      { @apply text-xs font-bold uppercase tracking-widest; }
+  .text-caption    { @apply text-[10px] leading-4; }
+}

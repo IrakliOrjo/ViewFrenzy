@@ -1,11 +1,11 @@
 import { google } from "googleapis";
 import { prisma } from "@/lib/prisma";
 import type {
-  ChannelInfo,
-  VideoInfo,
-  VideoAnalytics,
-  ChannelAnalyticsSummary,
-  TrafficSource,
+  IChannelInfo,
+  IVideoInfo,
+  IVideoAnalytics,
+  IChannelAnalyticsSummary,
+  ITrafficSource,
 } from "@/types/youtube";
 
 // ---------- BigInt JSON helper ----------
@@ -75,7 +75,7 @@ export async function getAccessToken(
  */
 export async function fetchChannelInfo(
   accessToken: string
-): Promise<ChannelInfo | null> {
+): Promise<IChannelInfo | null> {
   const auth = getOAuthClient(accessToken);
   const youtube = google.youtube({ version: "v3", auth });
 
@@ -108,7 +108,7 @@ export async function fetchRecentVideos(
   accessToken: string,
   channelId: string,
   maxResults = 20
-): Promise<VideoInfo[]> {
+): Promise<IVideoInfo[]> {
   const auth = getOAuthClient(accessToken);
   const youtube = google.youtube({ version: "v3", auth });
 
@@ -155,7 +155,7 @@ export async function fetchVideoAnalytics(
   channelId: string,
   startDate: string,
   endDate: string
-): Promise<VideoAnalytics[]> {
+): Promise<IVideoAnalytics[]> {
   const auth = getOAuthClient(accessToken);
   const youtubeAnalytics = google.youtubeAnalytics({ version: "v2", auth });
 
@@ -197,7 +197,7 @@ export async function fetchChannelAnalyticsSummary(
   channelId: string,
   startDate: string,
   endDate: string
-): Promise<ChannelAnalyticsSummary | null> {
+): Promise<IChannelAnalyticsSummary | null> {
   const auth = getOAuthClient(accessToken);
   const youtubeAnalytics = google.youtubeAnalytics({ version: "v2", auth });
 
@@ -234,7 +234,7 @@ export async function fetchTrafficSources(
   channelId: string,
   startDate: string,
   endDate: string
-): Promise<TrafficSource[]> {
+): Promise<ITrafficSource[]> {
   const auth = getOAuthClient(accessToken);
   const youtubeAnalytics = google.youtubeAnalytics({ version: "v2", auth });
 

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { AppShell } from "@/components/app-shell";
+import { AppShell } from "@/components/AppShell/AppShell";
 
 export default async function AppLayout({
   children,
