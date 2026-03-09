@@ -356,8 +356,8 @@ export type VideoWhereInput = {
   demographics?: Prisma.JsonNullableFilter<"Video">
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  channel?: Prisma.XOR<Prisma.ChannelScalarRelationFilter, Prisma.ChannelWhereInput>
   ideas?: Prisma.IdeaListRelationFilter
+  channel?: Prisma.XOR<Prisma.ChannelScalarRelationFilter, Prisma.ChannelWhereInput>
 }
 
 export type VideoOrderByWithRelationInput = {
@@ -381,8 +381,8 @@ export type VideoOrderByWithRelationInput = {
   demographics?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  channel?: Prisma.ChannelOrderByWithRelationInput
   ideas?: Prisma.IdeaOrderByRelationAggregateInput
+  channel?: Prisma.ChannelOrderByWithRelationInput
 }
 
 export type VideoWhereUniqueInput = Prisma.AtLeast<{
@@ -409,8 +409,8 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   demographics?: Prisma.JsonNullableFilter<"Video">
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
-  channel?: Prisma.XOR<Prisma.ChannelScalarRelationFilter, Prisma.ChannelWhereInput>
   ideas?: Prisma.IdeaListRelationFilter
+  channel?: Prisma.XOR<Prisma.ChannelScalarRelationFilter, Prisma.ChannelWhereInput>
 }, "id" | "youtubeId">
 
 export type VideoOrderByWithAggregationInput = {
@@ -487,8 +487,8 @@ export type VideoCreateInput = {
   demographics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  channel: Prisma.ChannelCreateNestedOneWithoutVideosInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutLinkedVideoInput
+  channel: Prisma.ChannelCreateNestedOneWithoutVideosInput
 }
 
 export type VideoUncheckedCreateInput = {
@@ -535,8 +535,8 @@ export type VideoUpdateInput = {
   demographics?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  channel?: Prisma.ChannelUpdateOneRequiredWithoutVideosNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutLinkedVideoNestedInput
+  channel?: Prisma.ChannelUpdateOneRequiredWithoutVideosNestedInput
 }
 
 export type VideoUncheckedUpdateInput = {
@@ -1147,8 +1147,8 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   demographics?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  channel?: boolean | Prisma.ChannelDefaultArgs<ExtArgs>
   ideas?: boolean | Prisma.Video$ideasArgs<ExtArgs>
+  channel?: boolean | Prisma.ChannelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["video"]>
 
@@ -1225,8 +1225,8 @@ export type VideoSelectScalar = {
 
 export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "channelId" | "youtubeId" | "title" | "description" | "thumbnailUrl" | "publishedAt" | "duration" | "viewCount" | "likeCount" | "commentCount" | "impressions" | "ctr" | "avgViewDuration" | "avgViewPercentage" | "estimatedMinutesWatched" | "trafficSources" | "demographics" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
 export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  channel?: boolean | Prisma.ChannelDefaultArgs<ExtArgs>
   ideas?: boolean | Prisma.Video$ideasArgs<ExtArgs>
+  channel?: boolean | Prisma.ChannelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VideoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1239,8 +1239,8 @@ export type VideoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Video"
   objects: {
-    channel: Prisma.$ChannelPayload<ExtArgs>
     ideas: Prisma.$IdeaPayload<ExtArgs>[]
+    channel: Prisma.$ChannelPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1657,8 +1657,8 @@ readonly fields: VideoFieldRefs;
  */
 export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  channel<T extends Prisma.ChannelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChannelDefaultArgs<ExtArgs>>): Prisma.Prisma__ChannelClient<runtime.Types.Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ideas<T extends Prisma.Video$ideasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$ideasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IdeaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  channel<T extends Prisma.ChannelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChannelDefaultArgs<ExtArgs>>): Prisma.Prisma__ChannelClient<runtime.Types.Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

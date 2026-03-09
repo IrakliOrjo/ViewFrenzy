@@ -17,6 +17,8 @@ import {
 import { cn } from "@/lib/utils";
 import { getUserInitials } from "@/helpers/getUserInitials";
 import { MobileSidebar } from "@/components/Sidebar/MobileSidebar";
+import { XpLevelBar } from "@/components/Header/components/XpLevelBar";
+import type { ILevelInfo } from "@/helpers/calculateLevel";
 
 interface HeaderProps {
   user: {
@@ -24,9 +26,10 @@ interface HeaderProps {
     email?: string | null;
     image?: string | null;
   };
+  levelInfo: ILevelInfo;
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, levelInfo }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +43,7 @@ export function Header({ user }: HeaderProps) {
     <header className="flex items-center justify-between gap-4 border-b border-primary/10 bg-white/50 dark:bg-background/50 backdrop-blur-md px-4 py-4 lg:px-8 z-10">
       {/* Left: Mobile menu + Logo + Search */}
       <div className="flex items-center gap-4 flex-1 min-w-0">
-        <MobileSidebar />
+        <MobileSidebar levelInfo={levelInfo} />
 
         {/* Mobile: expanded search replaces logo */}
         {searchOpen && (
@@ -106,6 +109,8 @@ export function Header({ user }: HeaderProps) {
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2">
+        <XpLevelBar levelInfo={levelInfo} />
+
         <Button
           variant="ghost"
           size="icon"

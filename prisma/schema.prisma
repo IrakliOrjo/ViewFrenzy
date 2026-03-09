@@ -13,12 +13,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -39,17 +39,19 @@ model User {
   email             String?            @unique
   emailVerified     DateTime?
   image             String?
-  accounts          Account[]
-  sessions          Session[]
-  channel           Channel?
-  conversations     Conversation[]
-  goals             Goal[]
-  subscription      Subscription?
-  pushSubscriptions PushSubscription[]
-  creatorProfile    CreatorProfile?
-  ideas             Idea[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
+  level             Int                @default(1)
+  totalXp           Int                @default(0)
+  accounts          Account[]
+  channel           Channel?
+  conversations     Conversation[]
+  creatorProfile    CreatorProfile?
+  goals             Goal[]
+  ideas             Idea[]
+  pushSubscriptions PushSubscription[]
+  sessions          Session[]
+  subscription      Subscription?
 }
 
 model VerificationToken {
@@ -63,28 +65,28 @@ model VerificationToken {
 model Channel {
   id              String            @id @default(cuid())
   userId          String            @unique
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   youtubeId       String            @unique
   title           String
-  description     String?           @db.Text
+  description     String?
   thumbnailUrl    String?
   subscriberCount Int               @default(0)
   videoCount      Int               @default(0)
   viewCount       BigInt            @default(0)
-  snapshots       ChannelSnapshot[]
-  videos          Video[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snapshots       ChannelSnapshot[]
+  videos          Video[]
 }
 
 model ChannelSnapshot {
   id              String   @id @default(cuid())
   channelId       String
-  channel         Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
   subscriberCount Int
   videoCount      Int
   viewCount       BigInt
   date            DateTime @default(now())
+  channel         Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
   @@index([channelId, date])
 }
@@ -92,29 +94,26 @@ model ChannelSnapshot {
 model Video {
   id                      String   @id @default(cuid())
   channelId               String
-  channel                 Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
   youtubeId               String   @unique
   title                   String
-  description             String?  @db.Text
+  description             String?
   thumbnailUrl            String?
   publishedAt             DateTime
   duration                String?
   viewCount               Int      @default(0)
   likeCount               Int      @default(0)
   commentCount            Int      @default(0)
-  // Analytics data (from YouTube Analytics API)
   impressions             Int?
   ctr                     Float?
   avgViewDuration         Float?
   avgViewPercentage       Float?
   estimatedMinutesWatched Float?
-  // Traffic sources stored as JSON
   trafficSources          Json?
-  // Demographics stored as JSON
   demographics            Json?
-  ideas                   Idea[]
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
+  ideas                   Idea[]
+  channel                 Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
   @@index([channelId, publishedAt])
 }
@@ -122,20 +121,20 @@ model Video {
 model Conversation {
   id        String    @id @default(cuid())
   userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title     String?
-  messages  Message[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Message[]
 }
 
 model Message {
   id             String       @id @default(cuid())
   conversationId String
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           String       // "user" | "assistant"
-  content        String       @db.Text
+  role           String
+  content        String
   createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@index([conversationId, createdAt])
 }
@@ -143,40 +142,40 @@ model Message {
 model Goal {
   id              String    @id @default(cuid())
   userId          String
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String
-  description     String?   @db.Text
+  description     String?
   targetValue     Float?
   currentValue    Float?
-  unit            String?   // "subscribers", "videos", "views"
+  unit            String?
   deadline        DateTime?
   completed       Boolean   @default(false)
-  calendarEventId String?   // Google Calendar event ID
+  calendarEventId String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Subscription {
   id                   String    @id @default(cuid())
   userId               String    @unique
-  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   stripeCustomerId     String?   @unique
   stripeSubscriptionId String?   @unique
   stripePriceId        String?
-  status               String    @default("free") // "free" | "pro" | "cancelled"
+  status               String    @default("free")
   currentPeriodEnd     DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PushSubscription {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  endpoint  String   @db.Text
+  endpoint  String
   p256dh    String
   auth      String
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, endpoint])
 }
@@ -184,33 +183,33 @@ model PushSubscription {
 model CreatorProfile {
   id                String   @id @default(cuid())
   userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  niche             String?  // e.g. "web development", "gaming", "fitness"
-  contentStyle      String?  // "on-camera" | "faceless" | "mixed"
-  postingFrequency  String?  // "daily" | "3x/week" | "weekly" | "irregular"
-  onboardingAnswers Json?    // all Q&A from onboarding questionnaire
-  onboardingNotes   String?  @db.Text // AI's summary of the onboarding conversation
+  niche             String?
+  contentStyle      String?
+  postingFrequency  String?
+  onboardingAnswers Json?
+  onboardingNotes   String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Idea {
   id              String    @id @default(cuid())
   userId          String
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String
-  description     String?   @db.Text
-  status          String    @default("idea") // "idea" | "planning" | "in_progress" | "published" | "analyzed"
-  format          String?   // "long-form" | "short" | "stream" | "tutorial" | "challenge"
-  priority        String?   @default("medium") // "low" | "medium" | "high"
-  notes           String?   @db.Text
-  scheduledDate   DateTime? // when to work on it
-  publishDate     DateTime? // target publish date
-  calendarEventId String?   // Google Calendar event ID
-  linkedVideoId   String?   // link to Video when published
-  linkedVideo     Video?    @relation(fields: [linkedVideoId], references: [id])
+  description     String?
+  status          String    @default("idea")
+  format          String?
+  priority        String?   @default("medium")
+  notes           String?
+  scheduledDate   DateTime?
+  publishDate     DateTime?
+  calendarEventId String?
+  linkedVideoId   String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  linkedVideo     Video?    @relation(fields: [linkedVideoId], references: [id])
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, status])
 }
