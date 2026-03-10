@@ -1,10 +1,17 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useChat } from "@/hooks/useChat";
+
 export default function ChatPage() {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold">Chat</h1>
-      <p className="mt-2 text-muted-foreground">
-        Your AI coaching conversations will appear here.
-      </p>
-    </div>
-  );
+  const { openChat } = useChat();
+  const router = useRouter();
+
+  useEffect(() => {
+    openChat();
+    router.replace("/dashboard");
+  }, [openChat, router]);
+
+  return null;
 }
