@@ -1603,6 +1603,7 @@ export const ConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
+  summary: 'summary',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

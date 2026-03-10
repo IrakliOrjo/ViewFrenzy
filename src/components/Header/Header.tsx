@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Film, Search, Bell, Settings, LogOut, X } from "lucide-react";
+import { Film, Search, Bell, Settings, LogOut, X, MessageSquare } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { getUserInitials } from "@/helpers/getUserInitials";
 import { MobileSidebar } from "@/components/Sidebar/MobileSidebar";
 import { XpLevelBar } from "@/components/Header/components/XpLevelBar";
+import { useChat } from "@/hooks/useChat";
 import type { ILevelInfo } from "@/helpers/calculateLevel";
 
 interface HeaderProps {
@@ -32,6 +33,7 @@ interface HeaderProps {
 export function Header({ user, levelInfo }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const { toggleChat, isOpen: chatOpen } = useChat();
 
   useEffect(() => {
     if (searchOpen) {
@@ -117,6 +119,17 @@ export function Header({ user, levelInfo }: HeaderProps) {
           className="rounded-xl bg-primary/5 text-primary hover:bg-primary/10"
         >
           <Bell className="size-5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "rounded-xl bg-primary/5 text-primary hover:bg-primary/10",
+            chatOpen && "ring-2 ring-primary/30"
+          )}
+          onClick={toggleChat}
+        >
+          <MessageSquare className="size-5" />
         </Button>
         <Button
           variant="ghost"

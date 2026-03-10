@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header/Header";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
+import { ChatPanel } from "@/components/ChatPanel/ChatPanel";
 import type { ILevelInfo } from "@/helpers/calculateLevel";
 
 interface AppShellProps {
@@ -20,6 +21,7 @@ export function AppShell({ user, levelInfo, children }: AppShellProps) {
         <Header user={user} levelInfo={levelInfo} />
         <main className="flex-1 overflow-y-auto p-8">{children}</main>
       </div>
+      <ChatPanel />
     </div>
   );
 }

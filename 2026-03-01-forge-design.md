@@ -160,6 +160,7 @@ The minimum product that delivers unique value and is worth paying for.
 | **Mobile app** | Native iOS/Android for push notifications and quick check-ins. |
 | **Multilingual support** | Georgian, Armenian, and other languages for non-English creators. |
 | **Webhook integrations** | Connect to Discord, Slack, Telegram for notifications. |
+| **Success Blueprint Generator** | When a creator's video significantly outperforms their average, Forge deep-analyzes WHY it worked — pulling the transcript, description, title structure, hook, topic angle, pacing, and content format. It then distills the findings into a reusable **Success Blueprint**: a structured schema capturing the winning patterns (e.g., "Hook with a bold claim in first 10 seconds → personal story → 3-step framework → strong CTA"). Creators can apply these blueprints when planning new videos. Over time, Forge builds a library of the creator's own proven formulas, recommends which blueprint fits a new idea, and tracks whether blueprint-following videos continue to outperform. This turns one-off successes into a repeatable system. |
 
 ---
 

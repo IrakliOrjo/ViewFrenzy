@@ -18,7 +18,11 @@
       "Bash(node:*)",
       "Bash(openssl rand:*)",
       "Bash(npx tsc:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(npx dotenv:*)"
     ]
   }
 }

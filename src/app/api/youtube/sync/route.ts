@@ -1,12 +1,5 @@
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { todayISO, daysAgoISO } from "@/helpers/date";
-import {
-  getAccessToken,
-  fetchChannelInfo,
-  fetchRecentVideos,
-  fetchVideoAnalytics,
-} from "@/lib/youtube";
+import { syncYouTubeData } from "@/lib/domains/channel/channel.service";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -16,97 +9,20 @@ export async function POST() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const accessToken = await getAccessToken(session.user.id);
-    if (!accessToken) {
-      return NextResponse.json({ error: "No YouTube access" }, { status: 403 });
+    const result = await syncYouTubeData(session.user.id);
+
+    if ("error" in result) {
+      const status = result.error === "No YouTube access" ? 403 : 404;
+      return NextResponse.json({ error: result.error }, { status });
     }
 
-    const channelInfo = await fetchChannelInfo(accessToken);
-    if (!channelInfo) {
-      return NextResponse.json({ error: "No channel found" }, { status: 404 });
-    }
-
-    // Upsert channel
-    const channel = await prisma.channel.upsert({
-      where: { userId: session.user.id },
-      update: {
-        title: channelInfo.title,
-        description: channelInfo.description,
-        thumbnailUrl: channelInfo.thumbnailUrl,
-        subscriberCount: channelInfo.subscriberCount,
-        videoCount: channelInfo.videoCount,
-        viewCount: channelInfo.viewCount,
-      },
-      create: {
-        userId: session.user.id,
-        youtubeId: channelInfo.youtubeId,
-        title: channelInfo.title,
-        description: channelInfo.description,
-        thumbnailUrl: channelInfo.thumbnailUrl,
-        subscriberCount: channelInfo.subscriberCount,
-        videoCount: channelInfo.videoCount,
-        viewCount: channelInfo.viewCount,
-      },
-    });
-
-    // Save channel snapshot
-    await prisma.channelSnapshot.create({
-      data: {
-        channelId: channel.id,
-        subscriberCount: channelInfo.subscriberCount,
-        videoCount: channelInfo.videoCount,
-        viewCount: channelInfo.viewCount,
-      },
-    });
-
-    // Fetch and upsert recent videos
-    const videos = await fetchRecentVideos(accessToken, channelInfo.youtubeId);
-    for (const video of videos) {
-      await prisma.video.upsert({
-        where: { youtubeId: video.youtubeId },
-        update: {
-          title: video.title,
-          viewCount: video.viewCount,
-          likeCount: video.likeCount,
-          commentCount: video.commentCount,
-        },
-        create: {
-          channelId: channel.id,
-          ...video,
-        },
-      });
-    }
-
-    // Fetch analytics for last 28 days
-    const endDate = todayISO();
-    const startDate = daysAgoISO(28);
-
-    const videoAnalytics = await fetchVideoAnalytics(
-      accessToken,
-      channelInfo.youtubeId,
-      startDate,
-      endDate
-    );
-
-    // Update video analytics
-    for (const analytics of videoAnalytics) {
-      await prisma.video.updateMany({
-        where: { youtubeId: analytics.videoId },
-        data: {
-          impressions: analytics.impressions,
-          ctr: analytics.ctr,
-          avgViewDuration: analytics.avgViewDuration,
-          avgViewPercentage: analytics.avgViewPercentage,
-          estimatedMinutesWatched: analytics.estimatedMinutesWatched,
-        },
-      });
-    }
-
-    // Convert BigInt to Number for JSON serialization
     return NextResponse.json({
       success: true,
-      channel: { ...channel, viewCount: Number(channel.viewCount) },
-      videoCount: videos.length,
+      channel: {
+        ...result.channel,
+        viewCount: Number(result.channel.viewCount),
+      },
+      videoCount: result.videoCount,
     });
   } catch (error) {
     console.error("YouTube sync error:", error);
