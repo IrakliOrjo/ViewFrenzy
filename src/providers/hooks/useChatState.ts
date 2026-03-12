@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState } from "react";
-import type { IChatMessage } from "@/types/chat";
+import type { IChatMessage, IToolResult } from "@/types/chat";
 
 const CHAT_MESSAGES_ENDPOINT = "/api/chat/messages";
 const CHAT_SEND_ENDPOINT = "/api/chat";
@@ -16,6 +16,8 @@ interface IChatMessagesResponse {
 interface IChatStreamChunk {
   text?: string;
   error?: string;
+  toolResult?: IToolResult;
+  newConversationId?: string;
 }
 
 export interface IChatContextValue {
@@ -58,6 +60,18 @@ function replaceMessageContent(
 ): IChatMessage[] {
   return messages.map((message) =>
     message.id === messageId ? { ...message, content } : message
+  );
+}
+
+function appendToolResult(
+  messages: IChatMessage[],
+  messageId: string,
+  toolResult: IToolResult
+): IChatMessage[] {
+  return messages.map((message) =>
+    message.id === messageId
+      ? { ...message, toolResults: [...(message.toolResults ?? []), toolResult] }
+      : message
   );
 }
 
@@ -225,11 +239,24 @@ export function useChatState(): IChatContextValue {
         }
 
         await streamAssistantResponse(reader, (chunk) => {
-          const { error, text: streamText } = chunk;
+          const { error, text: streamText, toolResult, newConversationId } = chunk;
 
           if (streamText) {
             setMessages((previousMessages) =>
               appendMessageContent(previousMessages, assistantMessage.id, streamText)
+            );
+          }
+
+          if (toolResult) {
+            setMessages((previousMessages) =>
+              appendToolResult(previousMessages, assistantMessage.id, toolResult)
+            );
+          }
+
+          if (newConversationId) {
+            setConversationId(newConversationId);
+            setMessages((previousMessages) =>
+              previousMessages.filter((m) => m.id === assistantMessage.id)
             );
           }
 

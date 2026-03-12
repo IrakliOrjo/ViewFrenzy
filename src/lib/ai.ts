@@ -1,6 +1,8 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, createPartFromFunctionResponse } from "@google/genai";
 import { prisma } from "@/lib/prisma";
 import { buildCreatorContext, getConversationMessages } from "@/lib/ai-context";
+import { toolDeclarations } from "@/lib/ai-tools";
+import { executeToolCall } from "@/lib/ai-tool-handlers";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY! });
 
@@ -46,7 +48,25 @@ Adapt your advice based on the creator's subscriber count:
 - Always end with a clear next step or question to keep the conversation productive.
 - If the creator asks about something outside YouTube growth, gently redirect.
 - Never make up data. If you don't have data on something, say so.
-- Use markdown formatting for readability (bold, lists, headers for longer responses).`;
+- Use markdown formatting for readability (bold, lists, headers for longer responses).
+
+## Your Capabilities
+You can manage the creator's workspace directly through tools:
+- **Ideas**: Create, update, delete, and query video ideas
+- **Goals**: Create, update progress, complete, delete, and query goals
+- **Creator Profile**: Update niche, content style, posting frequency
+- **Conversations**: Start new conversations, list past ones, summarize current
+
+## When to Use Tools
+- When the creator explicitly asks to create, modify, or delete something
+- When coaching naturally leads to an actionable suggestion and the creator agrees
+- When the creator asks "what are my goals/ideas?" — use the query tools for the most up-to-date data
+- Do NOT use tools speculatively — only when the creator's intent is clear
+
+## After Using a Tool
+- Briefly confirm what you did
+- Continue the coaching conversation naturally
+- If creating an idea or goal from a coaching discussion, explain WHY you suggested it`;
 
 async function buildSystemPrompt(userId: string): Promise<string> {
   const creatorContext = await buildCreatorContext(userId);
@@ -63,13 +83,6 @@ export async function chat(
     getConversationMessages(conversationId),
   ]);
 
-  // DEBUG: Log full context sent to AI
-  console.log("\n========== AI CONTEXT DEBUG ==========");
-  console.log("SYSTEM PROMPT:\n", systemPrompt);
-  console.log("\nCONVERSATION HISTORY:", JSON.stringify(history, null, 2));
-  console.log("\nNEW USER MESSAGE:", userMessage);
-  console.log("========== END AI CONTEXT ==========\n");
-
   // Save user message to DB
   await prisma.message.create({
     data: {
@@ -79,37 +92,135 @@ export async function chat(
     },
   });
 
-  // Build Gemini request
   const contents = [
     ...history,
     { role: "user" as const, parts: [{ text: userMessage }] },
   ];
 
-  const response = await ai.models.generateContentStream({
-    model: "gemini-2.5-flash-lite",
-    contents,
-    config: {
-      systemInstruction: systemPrompt,
-    },
-  });
+  const geminiConfig = {
+    systemInstruction: systemPrompt,
+    tools: [{ functionDeclarations: toolDeclarations }],
+  };
 
   let fullResponse = "";
 
   return new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
+
+      function send(payload: Record<string, unknown>): void {
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)
+        );
+      }
+
       try {
-        for await (const chunk of response) {
-          const text = chunk.text ?? "";
-          if (text) {
-            fullResponse += text;
-            controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
-            );
+        // Step 1: Non-streaming call so we can reliably inspect function calls
+        const initialResponse = await ai.models.generateContent({
+          model: "gemini-2.5-flash-lite",
+          contents,
+          config: geminiConfig,
+        });
+
+        const candidate = initialResponse.candidates?.[0];
+        const parts = candidate?.content?.parts ?? [];
+
+        const functionCallParts = parts.filter((p) => p.functionCall != null);
+        const textParts = parts.filter((p) => p.text != null);
+
+        // Stream any text that accompanied the tool invocations (rare, but possible)
+        for (const part of textParts) {
+          if (part.text) {
+            fullResponse += part.text;
+            send({ text: part.text });
           }
         }
 
-        // Save assistant message to DB
+        if (functionCallParts.length > 0) {
+          // Execute each tool call and collect function responses
+          const functionResponseParts = [];
+
+          for (const part of functionCallParts) {
+            const fc = part.functionCall!;
+            const toolName = fc.name!;
+            const toolArgs = (fc.args ?? {}) as Record<string, unknown>;
+
+            const result = await executeToolCall(
+              toolName,
+              userId,
+              conversationId,
+              toolArgs
+            );
+
+            // Inform the client so it can update UI optimistically
+            send({ toolResult: result });
+
+            // If a new conversation was created, tell the client its ID
+            if (
+              result.tool === "new_conversation" &&
+              result.success &&
+              result.data?.newConversationId
+            ) {
+              send({ newConversationId: result.data.newConversationId });
+            }
+
+            // Build the Part Gemini needs back — id may be undefined for older models
+            functionResponseParts.push(
+              createPartFromFunctionResponse(
+                fc.id ?? toolName,
+                toolName,
+                result as unknown as Record<string, unknown>
+              )
+            );
+          }
+
+          // Step 2: Stream the follow-up response with function results attached
+          const followUpContents = [
+            ...contents,
+            // Re-attach the model turn that contained the function calls
+            {
+              role: "model" as const,
+              parts,
+            },
+            // User turn carrying all function responses
+            {
+              role: "user" as const,
+              parts: functionResponseParts,
+            },
+          ];
+
+          const followUpStream = await ai.models.generateContentStream({
+            model: "gemini-2.5-flash-lite",
+            contents: followUpContents,
+            config: geminiConfig,
+          });
+
+          for await (const chunk of followUpStream) {
+            const text = chunk.text ?? "";
+            if (text) {
+              fullResponse += text;
+              send({ text });
+            }
+          }
+        } else if (textParts.length === 0) {
+          // Fallback: response had neither text nor function calls — stream a
+          // fresh request so the model always produces some output
+          const fallbackStream = await ai.models.generateContentStream({
+            model: "gemini-2.5-flash-lite",
+            contents,
+            config: geminiConfig,
+          });
+
+          for await (const chunk of fallbackStream) {
+            const text = chunk.text ?? "";
+            if (text) {
+              fullResponse += text;
+              send({ text });
+            }
+          }
+        }
+
+        // Persist the complete assistant turn
         if (fullResponse) {
           await prisma.message.create({
             data: {
@@ -120,15 +231,14 @@ export async function chat(
           });
         }
 
+        send({ text: "" }); // flush any buffered SSE clients
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
       } catch (error) {
         console.error("AI streaming error:", error);
-        controller.enqueue(
-          encoder.encode(
-            `data: ${JSON.stringify({ error: "An error occurred while generating the response." })}\n\n`
-          )
-        );
+        send({
+          error: "An error occurred while generating the response.",
+        });
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
       }

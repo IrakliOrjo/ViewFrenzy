@@ -22,7 +22,9 @@
       "Bash(cat:*)",
       "Bash(head:*)",
       "Bash(find:*)",
-      "Bash(npx dotenv:*)"
+      "Bash(npx dotenv:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh api:*)"
     ]
   }
 }
