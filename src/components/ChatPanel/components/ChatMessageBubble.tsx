@@ -3,6 +3,7 @@
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import type { IChatMessage } from "@/types/chat";
+import { ActionCard } from "./ActionCard";
 
 interface ChatMessageBubbleProps {
   message: IChatMessage;
@@ -24,9 +25,14 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
         {isUser ? (
           <p className="whitespace-pre-wrap">{message.content}</p>
         ) : (
-          <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-            <ReactMarkdown>{message.content}</ReactMarkdown>
-          </div>
+          <>
+            <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+              <ReactMarkdown>{message.content}</ReactMarkdown>
+            </div>
+            {message.toolResults?.map((result, index) => (
+              <ActionCard key={index} result={result} />
+            ))}
+          </>
         )}
       </div>
     </div>
