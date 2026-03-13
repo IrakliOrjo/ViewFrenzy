@@ -30,7 +30,7 @@ export function SyncChannelButton() {
   return (
     <Button onClick={handleSync} disabled={loading}>
       {loading && <Loader2 className="size-4 animate-spin" />}
-      {loading ? "Syncing..." : "Connect Channel"}
+      {loading ? "Syncing..." : "Sync Channel"}
     </Button>
   );
 }
