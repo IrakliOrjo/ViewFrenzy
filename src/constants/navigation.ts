@@ -1,8 +1,10 @@
 import {
   LayoutDashboard,
-  BarChart3,
+  Columns3,
+  PenSquare,
   Target,
-  Lightbulb,
+  MessageSquare,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -13,8 +15,13 @@ export interface INavItem {
 }
 
 export const NAV_ITEMS: INavItem[] = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Analytics", href: "/analytics", icon: BarChart3 },
-  { label: "Goals", href: "/goals", icon: Target },
-  { label: "Ideas", href: "/ideas", icon: Lightbulb },
+  { label: "Overview", href: "/dashboard/overview", icon: LayoutDashboard },
+  { label: "Board", href: "/dashboard/board", icon: Columns3 },
+  { label: "Content", href: "/dashboard/content", icon: PenSquare },
+  { label: "Goals", href: "/dashboard/goals", icon: Target },
+  { label: "Chat", href: "/dashboard/chat", icon: MessageSquare },
+];
+
+export const NAV_UTILITY_ITEMS: INavItem[] = [
+  { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

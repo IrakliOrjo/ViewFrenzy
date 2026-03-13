@@ -136,3 +136,9 @@
 @utility text-stat       { @apply text-2xl font-black tabular-nums; }
 @utility text-label      { @apply text-xs font-bold uppercase tracking-widest; }
 @utility text-caption    { @apply text-[10px] leading-4; }
+
+/* ─── Sidebar animations ─── */
+@keyframes sidebar-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}

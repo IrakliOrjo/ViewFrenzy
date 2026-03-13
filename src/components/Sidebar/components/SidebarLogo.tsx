@@ -10,37 +10,47 @@ interface SidebarLogoProps {
 
 export function SidebarLogo({ isExpanded, onToggle }: SidebarLogoProps) {
   return (
-    <div
-      className={cn(
-        "flex items-center",
-        isExpanded ? "gap-3 p-6" : "flex-col gap-3 p-3 pt-6"
-      )}
-    >
-      <Link href="/dashboard" className="flex items-center gap-3 shrink-0">
-        <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
-          <Film className="size-5" />
-        </div>
-        {isExpanded && (
-          <h2 className="text-heading tracking-tight text-foreground">
-            ViewFrenzy
-          </h2>
-        )}
-      </Link>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onToggle}
+    <div className="relative z-10">
+      <div
         className={cn(
-          "shrink-0 text-muted-foreground hover:text-foreground size-8",
-          isExpanded && "ml-auto"
+          "flex items-center",
+          isExpanded ? "gap-3 px-6 py-5" : "flex-col gap-3 p-3 pt-5"
         )}
       >
-        {isExpanded ? (
-          <PanelLeftClose className="size-4" />
-        ) : (
-          <PanelLeft className="size-4" />
+        <Link href="/dashboard" className="flex items-center gap-3 shrink-0 group">
+          <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/25 transition-shadow duration-300 group-hover:shadow-primary/40">
+            <Film className="size-5" />
+          </div>
+          {isExpanded && (
+            <h2 className="text-heading tracking-tight text-foreground animate-in fade-in slide-in-from-left-1 duration-200">
+              ViewFrenzy
+            </h2>
+          )}
+        </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onToggle}
+          className={cn(
+            "shrink-0 text-muted-foreground hover:text-foreground size-8 rounded-lg transition-colors",
+            isExpanded && "ml-auto"
+          )}
+        >
+          {isExpanded ? (
+            <PanelLeftClose className="size-4" />
+          ) : (
+            <PanelLeft className="size-4" />
+          )}
+        </Button>
+      </div>
+
+      {/* Gradient separator — fades at edges for elegance */}
+      <div
+        className={cn(
+          "h-px bg-gradient-to-r from-transparent via-sidebar-border to-transparent",
+          isExpanded ? "mx-6" : "mx-3"
         )}
-      </Button>
+      />
     </div>
   );
 }
