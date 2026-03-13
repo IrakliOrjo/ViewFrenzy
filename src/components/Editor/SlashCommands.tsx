@@ -20,7 +20,7 @@ import {
   Code,
 } from "lucide-react";
 
-const suggestionItems = createSuggestionItems([
+export const suggestionItems = createSuggestionItems([
   {
     title: "Text",
     description: "Plain text paragraph.",

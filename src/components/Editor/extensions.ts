@@ -7,7 +7,10 @@ import {
   TaskList,
   TaskItem,
   CustomKeymap,
+  Command,
+  renderItems,
 } from "novel";
+import { suggestionItems } from "@/components/Editor/SlashCommands";
 
 export const defaultExtensions = [
   StarterKit.configure({
@@ -60,4 +63,10 @@ export const defaultExtensions = [
     placeholder: "Start writing, or type / for commands...",
   }),
   CustomKeymap,
+  Command.configure({
+    suggestion: {
+      items: () => suggestionItems,
+      render: renderItems,
+    },
+  }),
 ];

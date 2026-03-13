@@ -29,7 +29,7 @@ export function Editor({ initialContent, onSave, className }: EditorProps) {
         clearTimeout(debounceTimer.current);
       }
       debounceTimer.current = setTimeout(() => {
-        const json = editor.getJSON();
+        const json = JSON.parse(JSON.stringify(editor.getJSON()));
         onSave(json);
       }, 2000);
     },
@@ -44,7 +44,7 @@ export function Editor({ initialContent, onSave, className }: EditorProps) {
         clearTimeout(debounceTimer.current);
         debounceTimer.current = null;
       }
-      const json = editor.getJSON();
+      const json = JSON.parse(JSON.stringify(editor.getJSON()));
       onSave(json);
     },
     [onSave]
@@ -58,7 +58,7 @@ export function Editor({ initialContent, onSave, className }: EditorProps) {
         onUpdate={({ editor }) => debouncedSave(editor)}
         onBlur={({ editor }) => handleBlur(editor)}
         className={cn(
-          "prose prose-sm dark:prose-invert max-w-none",
+          "editor-content max-w-none",
           "[&_.ProseMirror]:min-h-[200px] [&_.ProseMirror]:outline-none [&_.ProseMirror]:px-1",
           "[&_.ProseMirror_p.is-editor-empty:first-child::before]:text-muted-foreground [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0",
           className
