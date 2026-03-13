@@ -27,7 +27,10 @@
       "Bash(gh api:*)",
       "Bash(find \"C:/Users/PC/Documents/Projects/ViewFrenzy/.worktrees/content-board/src/app/\\(app\\)\" -type f | head -50)",
       "Bash(find \"C:/Users/PC/Documents/Projects/ViewFrenzy/.worktrees/content-board/src/app/\\(app\\)\" -type f \\\\\\( -name \"page.tsx\" -o -name \"layout.tsx\" -o -name \"loading.tsx\" -o -name \"error.tsx\" \\\\\\) | sort)",
-      "Bash(cd C:/Users/PC/Documents/Projects/ViewFrenzy/.worktrees/content-board && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/overview && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/board && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/content/ideas && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/content/plans && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/goals && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/chat && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/settings)"
+      "Bash(cd C:/Users/PC/Documents/Projects/ViewFrenzy/.worktrees/content-board && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/overview && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/board && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/content/ideas && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/content/plans && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/goals && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/chat && \\\\\nmkdir -p src/app/\\\\\\(app\\\\\\)/dashboard/settings)",
+      "Bash(ls src/app/\\\\\\(app\\\\\\)/dashboard/content/ideas/)",
+      "Bash(node -e \"require\\('date-fns'\\)\" 2>&1 | head -1)",
+      "Bash(cd \"C:/Users/PC/Documents/Projects/ViewFrenzy\" && node -e \"\nconst fs = require\\('fs'\\);\nconst src = fs.readFileSync\\('node_modules/novel/dist/index.js', 'utf8'\\);\n// Find EditorContent rendering to understand DOM structure\nconst idx = src.indexOf\\('EditorContent'\\);\nconst snippet = src.substring\\(Math.max\\(0, idx-200\\), idx+500\\);\nconsole.log\\(snippet.substring\\(0, 700\\)\\);\n\" 2>&1 | head -30)"
     ]
   }
 }

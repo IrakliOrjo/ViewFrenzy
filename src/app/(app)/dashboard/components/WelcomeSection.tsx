@@ -17,12 +17,14 @@ export function WelcomeSection({
       {/* Left: greeting + XP subtitle */}
       <div className="min-w-0">
         <h1 className="text-display text-foreground">
-          {greeting}, <span className="font-bold!important text-primary">{displayName}</span>
+          {greeting},{" "}
+          <span className="font-bold!important text-primary">{displayName}</span>
         </h1>
         <p className="text-muted-foreground mt-2 text-sm">
           {levelInfo.isMaxLevel ? (
             <>
-              You&apos;ve reached <span className="font-bold text-primary">Max Level</span> —
+              You&apos;ve reached{" "}
+              <span className="font-bold text-primary">Max Level</span> —
               legendary status achieved.
             </>
           ) : (
@@ -42,7 +44,7 @@ export function WelcomeSection({
       </div>
 
       {/* Right: level rank card */}
-      <div className="shrink-0 w-full sm:w-64 p-4 rounded-2xl bg-gradient-to-br from-white to-amber-50 dark:from-card dark:to-amber-950/20 border border-amber-200/60 dark:border-amber-800/30 shadow-sm">
+      <div className="shrink-0 w-full sm:w-64 p-4 rounded-2xl bg-gradient-to-br from-white to-amber-50 dark:from-card dark:to-amber-950/20 border border-amber-200/60 dark:border-amber-800/30 shadow-sm transition-all duration-300 hover:shadow-md hover:border-amber-300/70 dark:hover:border-amber-700/40">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Trophy className="size-5 text-amber-500" />
@@ -61,7 +63,7 @@ export function WelcomeSection({
         {/* Progress bar */}
         <div className="w-full h-2.5 rounded-full bg-amber-100 dark:bg-amber-900/30 overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-400 to-primary transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-amber-400 to-primary transition-all duration-700 ease-out progress-shine"
             style={{ width: `${levelInfo.progressPercent}%` }}
           />
         </div>

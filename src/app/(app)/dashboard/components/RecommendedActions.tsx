@@ -3,9 +3,9 @@ import { cn } from "@/lib/utils";
 import type { IMockActionItem } from "@/types/dashboard";
 
 const PRIORITY_DOT: Record<string, string> = {
-  high: "bg-red-500",
-  medium: "bg-yellow-500",
-  low: "bg-green-500",
+  high: "bg-red-500 shadow-red-500/40",
+  medium: "bg-yellow-500 shadow-yellow-500/40",
+  low: "bg-green-500 shadow-green-500/40",
 };
 
 const SOURCE_BADGE: Record<string, string> = {
@@ -19,7 +19,7 @@ interface RecommendedActionsProps {
 
 export function RecommendedActions({ actions }: RecommendedActionsProps) {
   return (
-    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5">
+    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5 transition-all duration-300 hover:shadow-md">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -38,12 +38,12 @@ export function RecommendedActions({ actions }: RecommendedActionsProps) {
         {actions.map((action) => (
           <div
             key={action.id}
-            className="flex items-center justify-between p-3 rounded-lg border border-border hover:border-primary/20 transition-all cursor-pointer"
+            className="flex items-center justify-between p-3 rounded-lg border border-border hover:border-primary/20 transition-all duration-200 cursor-pointer hover:translate-x-0.5 hover:bg-primary/[0.02]"
           >
             <div className="flex items-center gap-3 min-w-0">
               <div
                 className={cn(
-                  "size-2 rounded-full shrink-0",
+                  "size-2 rounded-full shrink-0 shadow-sm",
                   PRIORITY_DOT[action.priority] ?? PRIORITY_DOT.medium
                 )}
               />

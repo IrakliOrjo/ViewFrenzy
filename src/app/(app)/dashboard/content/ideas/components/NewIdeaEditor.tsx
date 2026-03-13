@@ -6,13 +6,8 @@ import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
 import { type JSONContent } from "novel";
 import { toast } from "sonner";
-import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-
-const Editor = dynamic(() => import("@/components/Editor/Editor").then((m) => m.Editor), {
-  ssr: false,
-  loading: () => <div className="min-h-[200px] animate-pulse rounded-lg bg-muted" />,
-});
+import { LazyEditor as Editor } from "@/components/Editor/LazyEditor";
 import { createIdeaAction } from "@/app/(app)/dashboard/content/ideas/actions";
 
 export function NewIdeaEditor() {

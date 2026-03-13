@@ -11,7 +11,7 @@ interface RecentVideosProps {
 
 export function RecentVideos({ videos }: RecentVideosProps) {
   return (
-    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5">
+    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5 transition-all duration-300 hover:shadow-md">
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold">Recent Uploads</h3>
         <MoreHorizontal className="size-5 text-muted-foreground" />
@@ -33,7 +33,7 @@ export function RecentVideos({ videos }: RecentVideosProps) {
                       src={video.thumbnailUrl}
                       alt={video.title}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       sizes="128px"
                     />
                   ) : (

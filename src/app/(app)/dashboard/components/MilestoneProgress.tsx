@@ -56,12 +56,17 @@ export function MilestoneProgress({ milestones }: MilestoneProgressProps) {
           return (
             <div
               key={milestone.title}
-              className="bg-card p-5 rounded-xl shadow-sm border border-primary/5"
+              className="bg-card p-5 rounded-xl shadow-sm border border-primary/5 transition-all duration-300 hover:shadow-md hover:border-primary/10 group"
             >
               {/* Top row: icon + info + percentage */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className={cn("size-10 rounded-full flex items-center justify-center shrink-0", colors.bg)}>
+                  <div
+                    className={cn(
+                      "size-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110",
+                      colors.bg
+                    )}
+                  >
                     <Icon className={cn("size-5", colors.text)} />
                   </div>
                   <div>
@@ -87,7 +92,7 @@ export function MilestoneProgress({ milestones }: MilestoneProgressProps) {
               <div className="w-full h-2 rounded-full bg-primary/10 overflow-hidden">
                 <div
                   className={cn(
-                    "h-full rounded-full bg-primary transition-all duration-700 ease-out",
+                    "h-full rounded-full bg-primary transition-all duration-700 ease-out progress-shine",
                     percent >= 90 && "bg-gradient-to-r from-primary to-amber-400"
                   )}
                   style={{ width: `${percent}%` }}
