@@ -42,10 +42,6 @@ const handlers: Record<ToolName, ToolHandler> = {
   create_idea: async (userId, _conversationId, args) => {
     const idea = await createIdeaForUser(userId, {
       title: args.title as string,
-      description: args.description as string | undefined,
-      format: args.format as string | undefined,
-      priority: args.priority as string | undefined,
-      status: args.status as string | undefined,
     });
     return {
       tool: "create_idea",
@@ -57,11 +53,6 @@ const handlers: Record<ToolName, ToolHandler> = {
   update_idea: async (userId, _conversationId, args) => {
     const idea = await updateIdeaForUser(userId, args.ideaId as string, {
       title: args.title as string | undefined,
-      description: args.description as string | undefined,
-      format: args.format as string | undefined,
-      priority: args.priority as string | undefined,
-      status: args.status as string | undefined,
-      notes: args.notes as string | undefined,
     });
     return {
       tool: "update_idea",
@@ -79,18 +70,12 @@ const handlers: Record<ToolName, ToolHandler> = {
     };
   },
 
-  list_ideas: async (userId, _conversationId, args) => {
-    const allIdeas = await getIdeasByUser(userId);
-    const filtered = allIdeas.filter((idea) => {
-      if (args.status && idea.status !== args.status) return false;
-      if (args.priority && idea.priority !== args.priority) return false;
-      if (args.format && idea.format !== args.format) return false;
-      return true;
-    });
+  list_ideas: async (userId, _conversationId, _args) => {
+    const ideas = await getIdeasByUser(userId);
     return {
       tool: "list_ideas",
       success: true,
-      data: { ideas: filtered.map(serialize) },
+      data: { ideas: ideas.map(serialize) },
     };
   },
 

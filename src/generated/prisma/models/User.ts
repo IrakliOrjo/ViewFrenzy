@@ -258,6 +258,7 @@ export type UserWhereInput = {
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   goals?: Prisma.GoalListRelationFilter
   ideas?: Prisma.IdeaListRelationFilter
+  plans?: Prisma.PlanListRelationFilter
   pushSubscriptions?: Prisma.PushSubscriptionListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
@@ -279,6 +280,7 @@ export type UserOrderByWithRelationInput = {
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
   goals?: Prisma.GoalOrderByRelationAggregateInput
   ideas?: Prisma.IdeaOrderByRelationAggregateInput
+  plans?: Prisma.PlanOrderByRelationAggregateInput
   pushSubscriptions?: Prisma.PushSubscriptionOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
@@ -303,6 +305,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   goals?: Prisma.GoalListRelationFilter
   ideas?: Prisma.IdeaListRelationFilter
+  plans?: Prisma.PlanListRelationFilter
   pushSubscriptions?: Prisma.PushSubscriptionListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
@@ -356,6 +359,7 @@ export type UserCreateInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -377,6 +381,7 @@ export type UserUncheckedCreateInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -398,6 +403,7 @@ export type UserUpdateInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -419,6 +425,7 @@ export type UserUncheckedUpdateInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -649,6 +656,20 @@ export type UserUpdateOneRequiredWithoutIdeasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutIdeasInput, Prisma.UserUpdateWithoutIdeasInput>, Prisma.UserUncheckedUpdateWithoutIdeasInput>
 }
 
+export type UserCreateNestedOneWithoutPlansInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlansInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPlansNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlansInput
+  upsert?: Prisma.UserUpsertWithoutPlansInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPlansInput, Prisma.UserUpdateWithoutPlansInput>, Prisma.UserUncheckedUpdateWithoutPlansInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -664,6 +685,7 @@ export type UserCreateWithoutAccountsInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -684,6 +706,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -720,6 +743,7 @@ export type UserUpdateWithoutAccountsInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -740,6 +764,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -761,6 +786,7 @@ export type UserCreateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
 }
@@ -781,6 +807,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
@@ -817,6 +844,7 @@ export type UserUpdateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
 }
@@ -837,6 +865,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -856,6 +885,7 @@ export type UserCreateWithoutChannelInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -876,6 +906,7 @@ export type UserUncheckedCreateWithoutChannelInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -912,6 +943,7 @@ export type UserUpdateWithoutChannelInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -932,6 +964,7 @@ export type UserUncheckedUpdateWithoutChannelInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -952,6 +985,7 @@ export type UserCreateWithoutConversationsInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -972,6 +1006,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -1008,6 +1043,7 @@ export type UserUpdateWithoutConversationsInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -1028,6 +1064,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -1048,6 +1085,7 @@ export type UserCreateWithoutGoalsInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -1068,6 +1106,7 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -1104,6 +1143,7 @@ export type UserUpdateWithoutGoalsInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -1124,6 +1164,7 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -1145,6 +1186,7 @@ export type UserCreateWithoutSubscriptionInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
@@ -1165,6 +1207,7 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -1201,6 +1244,7 @@ export type UserUpdateWithoutSubscriptionInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
@@ -1221,6 +1265,7 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -1241,6 +1286,7 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
 }
@@ -1261,6 +1307,7 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1297,6 +1344,7 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
 }
@@ -1317,6 +1365,7 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1336,6 +1385,7 @@ export type UserCreateWithoutCreatorProfileInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -1356,6 +1406,7 @@ export type UserUncheckedCreateWithoutCreatorProfileInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -1392,6 +1443,7 @@ export type UserUpdateWithoutCreatorProfileInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -1412,6 +1464,7 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -1432,6 +1485,7 @@ export type UserCreateWithoutIdeasInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
@@ -1452,6 +1506,7 @@ export type UserUncheckedCreateWithoutIdeasInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
@@ -1488,6 +1543,7 @@ export type UserUpdateWithoutIdeasInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
@@ -1508,6 +1564,107 @@ export type UserUncheckedUpdateWithoutIdeasInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPlansInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPlansInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPlansInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
+}
+
+export type UserUpsertWithoutPlansInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPlansInput, Prisma.UserUncheckedUpdateWithoutPlansInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPlansInput, Prisma.UserUncheckedCreateWithoutPlansInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPlansInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPlansInput, Prisma.UserUncheckedUpdateWithoutPlansInput>
+}
+
+export type UserUpdateWithoutPlansInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPlansInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
@@ -1523,6 +1680,7 @@ export type UserCountOutputType = {
   conversations: number
   goals: number
   ideas: number
+  plans: number
   pushSubscriptions: number
   sessions: number
 }
@@ -1532,6 +1690,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   conversations?: boolean | UserCountOutputTypeCountConversationsArgs
   goals?: boolean | UserCountOutputTypeCountGoalsArgs
   ideas?: boolean | UserCountOutputTypeCountIdeasArgs
+  plans?: boolean | UserCountOutputTypeCountPlansArgs
   pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
 }
@@ -1577,6 +1736,13 @@ export type UserCountOutputTypeCountIdeasArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountPushSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PushSubscriptionWhereInput
 }
@@ -1605,6 +1771,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   ideas?: boolean | Prisma.User$ideasArgs<ExtArgs>
+  plans?: boolean | Prisma.User$plansArgs<ExtArgs>
   pushSubscriptions?: boolean | Prisma.User$pushSubscriptionsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
@@ -1655,6 +1822,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   ideas?: boolean | Prisma.User$ideasArgs<ExtArgs>
+  plans?: boolean | Prisma.User$plansArgs<ExtArgs>
   pushSubscriptions?: boolean | Prisma.User$pushSubscriptionsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   subscription?: boolean | Prisma.User$subscriptionArgs<ExtArgs>
@@ -1672,6 +1840,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs> | null
     goals: Prisma.$GoalPayload<ExtArgs>[]
     ideas: Prisma.$IdeaPayload<ExtArgs>[]
+    plans: Prisma.$PlanPayload<ExtArgs>[]
     pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
@@ -2086,6 +2255,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   creatorProfile<T extends Prisma.User$creatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creatorProfileArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ideas<T extends Prisma.User$ideasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ideasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IdeaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  plans<T extends Prisma.User$plansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$plansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pushSubscriptions<T extends Prisma.User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.User$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2646,6 +2816,30 @@ export type User$ideasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.IdeaScalarFieldEnum | Prisma.IdeaScalarFieldEnum[]
+}
+
+/**
+ * User.plans
+ */
+export type User$plansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Plan
+   */
+  select?: Prisma.PlanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Plan
+   */
+  omit?: Prisma.PlanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlanInclude<ExtArgs> | null
+  where?: Prisma.PlanWhereInput
+  orderBy?: Prisma.PlanOrderByWithRelationInput | Prisma.PlanOrderByWithRelationInput[]
+  cursor?: Prisma.PlanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlanScalarFieldEnum | Prisma.PlanScalarFieldEnum[]
 }
 
 /**

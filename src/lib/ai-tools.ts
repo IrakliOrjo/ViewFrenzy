@@ -34,37 +34,13 @@ export const toolDeclarations: FunctionDeclaration[] = [
   {
     name: "create_idea",
     description:
-      "Create a new video idea and add it to the creator's content pipeline. Use this when the creator asks to save, record, or add a video idea, topic, or concept they want to make.",
+      "Create a new video idea. Use this when the creator asks to save, record, or add a video idea, topic, or concept they want to explore.",
     parameters: {
       type: Type.OBJECT,
       properties: {
         title: {
           type: Type.STRING,
           description: "The title or name of the video idea.",
-        },
-        description: {
-          type: Type.STRING,
-          description:
-            "Optional longer description, angle, or notes about the idea.",
-        },
-        format: {
-          type: Type.STRING,
-          description: "The video format.",
-          format: "enum",
-          enum: ["short", "long", "shorts", "live", "podcast"],
-        },
-        priority: {
-          type: Type.STRING,
-          description: "How urgently the creator wants to make this video.",
-          format: "enum",
-          enum: ["low", "medium", "high"],
-        },
-        status: {
-          type: Type.STRING,
-          description:
-            "The current status of the idea in the pipeline. Defaults to 'idea'.",
-          format: "enum",
-          enum: ["idea", "planned", "filming", "editing", "published"],
         },
       },
       required: ["title"],
@@ -74,7 +50,7 @@ export const toolDeclarations: FunctionDeclaration[] = [
   {
     name: "update_idea",
     description:
-      "Update an existing video idea in the creator's content pipeline. Use this when the creator wants to edit, modify, change the status of, or add notes to an existing idea.",
+      "Update an existing video idea. Use this when the creator wants to rename an idea.",
     parameters: {
       type: Type.OBJECT,
       properties: {
@@ -85,32 +61,6 @@ export const toolDeclarations: FunctionDeclaration[] = [
         title: {
           type: Type.STRING,
           description: "Updated title for the idea.",
-        },
-        description: {
-          type: Type.STRING,
-          description: "Updated description or angle for the idea.",
-        },
-        format: {
-          type: Type.STRING,
-          description: "Updated video format.",
-          format: "enum",
-          enum: ["short", "long", "shorts", "live", "podcast"],
-        },
-        priority: {
-          type: Type.STRING,
-          description: "Updated priority level.",
-          format: "enum",
-          enum: ["low", "medium", "high"],
-        },
-        status: {
-          type: Type.STRING,
-          description: "Updated pipeline status of the idea.",
-          format: "enum",
-          enum: ["idea", "planned", "filming", "editing", "published"],
-        },
-        notes: {
-          type: Type.STRING,
-          description: "Additional notes or research to attach to the idea.",
         },
       },
       required: ["ideaId"],
@@ -136,29 +86,10 @@ export const toolDeclarations: FunctionDeclaration[] = [
   {
     name: "list_ideas",
     description:
-      "Retrieve a list of the creator's video ideas from their content pipeline. Use this when the creator asks to see, browse, or review their ideas, or when you need to reference existing ideas during coaching.",
+      "Retrieve a list of the creator's video ideas. Use this when the creator asks to see, browse, or review their ideas, or when you need to reference existing ideas during coaching.",
     parameters: {
       type: Type.OBJECT,
-      properties: {
-        status: {
-          type: Type.STRING,
-          description: "Filter ideas by pipeline status.",
-          format: "enum",
-          enum: ["idea", "planned", "filming", "editing", "published"],
-        },
-        priority: {
-          type: Type.STRING,
-          description: "Filter ideas by priority level.",
-          format: "enum",
-          enum: ["low", "medium", "high"],
-        },
-        format: {
-          type: Type.STRING,
-          description: "Filter ideas by video format.",
-          format: "enum",
-          enum: ["short", "long", "shorts", "live", "podcast"],
-        },
-      },
+      properties: {},
       required: [],
     },
   },

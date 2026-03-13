@@ -111,3 +111,8 @@ export type CreatorProfile = Prisma.CreatorProfileModel
  * 
  */
 export type Idea = Prisma.IdeaModel
+/**
+ * Model Plan
+ * 
+ */
+export type Plan = Prisma.PlanModel

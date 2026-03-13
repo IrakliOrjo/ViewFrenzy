@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Channel, ChannelSnapshot, CreatorProfile, Goal, Idea, Video } from "@/generated/prisma";
+import type { Channel, ChannelSnapshot, CreatorProfile, Goal, Idea, Video } from "@/generated/prisma/client";
 
 // --- Types ---
 
@@ -118,17 +118,8 @@ function formatGoals(goals: Goal[]): string {
 }
 
 function formatIdeas(ideas: Idea[]): string {
-  const grouped: Record<string, string[]> = {};
-  for (const idea of ideas) {
-    const status = idea.status;
-    if (!grouped[status]) grouped[status] = [];
-    grouped[status].push(`  - ${idea.title}${idea.description ? `: ${idea.description}` : ""}`);
-  }
-  const ideaLines = Object.entries(grouped)
-    .map(([status, items]) => `### ${status}\n${items.join("\n")}`)
-    .join("\n");
-
-  return `## Ideas Bucket\n${ideaLines}`;
+  const ideaLines = ideas.map((idea) => `  - ${idea.title}`);
+  return `## Ideas Bucket\n${ideaLines.join("\n")}`;
 }
 
 function formatCreatorContext(data: ICreatorData): string {
