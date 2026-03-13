@@ -9,7 +9,9 @@ import {
   togglePlanOnBoard as togglePlanOnBoardData,
   deletePlan as deletePlanData,
   getPlanById,
+  countBoardPlans,
 } from "@/lib/domains/plan/plan.data";
+import { BOARD_LIMIT } from "@/constants/plan";
 import type { Prisma } from "@/generated/prisma/client";
 
 async function getUserId() {
@@ -95,6 +97,14 @@ export async function togglePlanOnBoardAction(id: string, onBoard: boolean) {
     if (!plan || plan.userId !== userId) {
       return { success: false, error: "Plan not found" };
     }
+
+    if (onBoard) {
+      const count = await countBoardPlans(userId);
+      if (count >= BOARD_LIMIT) {
+        return { success: false, error: `Board is full (max ${BOARD_LIMIT} plans)` };
+      }
+    }
+
     await togglePlanOnBoardData(id, onBoard);
     revalidatePlanPaths();
     return { success: true };

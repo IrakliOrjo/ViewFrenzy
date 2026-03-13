@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface DashboardEntranceProps {
@@ -13,16 +13,23 @@ export function DashboardEntrance({
   className,
 }: DashboardEntranceProps) {
   const [ready, setReady] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Double rAF ensures browser has painted the initial invisible state
-    // before triggering transitions, preventing animation skip
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setReady(true));
-    });
+    // Force the browser to compute the initial invisible styles
+    // before adding the class that triggers transitions
+    if (ref.current) {
+      // Read a layout property to force style recalculation
+      void ref.current.offsetHeight;
+    }
+    // Small delay ensures the invisible state is painted first
+    const id = setTimeout(() => setReady(true), 50);
+    return () => clearTimeout(id);
   }, []);
 
   return (
-    <div className={cn(className, ready && "dash-ready")}>{children}</div>
+    <div ref={ref} className={cn(className, ready && "dash-ready")}>
+      {children}
+    </div>
   );
 }

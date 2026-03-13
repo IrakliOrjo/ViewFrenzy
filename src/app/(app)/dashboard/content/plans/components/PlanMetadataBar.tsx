@@ -10,27 +10,11 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-
-const STATUS_OPTIONS = [
-  { value: "idea", label: "Idea" },
-  { value: "planning", label: "Planning" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "published", label: "Published" },
-];
-
-const PRIORITY_OPTIONS = [
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
-];
-
-const FORMAT_OPTIONS = [
-  { value: "long-form", label: "Long-form" },
-  { value: "short", label: "Short" },
-  { value: "tutorial", label: "Tutorial" },
-  { value: "stream", label: "Stream" },
-  { value: "challenge", label: "Challenge" },
-];
+import {
+  PLAN_STATUS_OPTIONS,
+  PLAN_PRIORITY_OPTIONS,
+  PLAN_FORMAT_OPTIONS,
+} from "@/constants/plan";
 
 interface PlanMetadataBarProps {
   status: string;
@@ -71,7 +55,7 @@ export function PlanMetadataBar({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {STATUS_OPTIONS.map((opt) => (
+            {PLAN_STATUS_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value} className="text-xs">
                 {opt.label}
               </SelectItem>
@@ -92,7 +76,7 @@ export function PlanMetadataBar({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {PRIORITY_OPTIONS.map((opt) => (
+            {PLAN_PRIORITY_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value} className="text-xs">
                 {opt.label}
               </SelectItem>
@@ -116,7 +100,7 @@ export function PlanMetadataBar({
             <SelectItem value="none" className="text-xs">
               None
             </SelectItem>
-            {FORMAT_OPTIONS.map((opt) => (
+            {PLAN_FORMAT_OPTIONS.map((opt) => (
               <SelectItem key={opt.value} value={opt.value} className="text-xs">
                 {opt.label}
               </SelectItem>

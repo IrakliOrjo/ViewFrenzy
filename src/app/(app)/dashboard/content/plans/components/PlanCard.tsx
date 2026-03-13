@@ -10,21 +10,14 @@ import { formatDistanceToNow } from "date-fns";
 import { togglePlanOnBoardAction } from "@/app/(app)/dashboard/content/plans/actions";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import type { Plan } from "@/generated/prisma/client";
+import { PLAN_FORMAT_LABELS } from "@/constants/plan";
 
 const PRIORITY_STYLES: Record<string, string> = {
   low: "bg-muted text-muted-foreground",
   medium: "bg-primary/10 text-primary",
   high: "bg-destructive/10 text-destructive",
 };
-
-const FORMAT_LABELS: Record<string, string> = {
-  "long-form": "Long-form",
-  short: "Short",
-  tutorial: "Tutorial",
-  stream: "Stream",
-  challenge: "Challenge",
-};
+import type { Plan } from "@/generated/prisma/client";
 
 interface PlanCardProps {
   plan: Plan;
@@ -90,7 +83,7 @@ export function PlanCard({ plan }: PlanCardProps) {
             )}
             {plan.format && (
               <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-accent text-accent-foreground">
-                {FORMAT_LABELS[plan.format] ?? plan.format}
+                {PLAN_FORMAT_LABELS[plan.format] ?? plan.format}
               </span>
             )}
           </div>
@@ -99,7 +92,7 @@ export function PlanCard({ plan }: PlanCardProps) {
               {preview}
             </p>
           )}
-          <p className="text-xs text-muted-foreground/60">
+          <p className="text-xs text-muted-foreground/60" suppressHydrationWarning>
             {formatDistanceToNow(plan.updatedAt, { addSuffix: true })}
           </p>
         </CardContent>

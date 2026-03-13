@@ -56,3 +56,7 @@ export async function getBoardPlans(userId: string) {
     orderBy: { updatedAt: "desc" },
   });
 }
+
+export async function countBoardPlans(userId: string) {
+  return prisma.plan.count({ where: { userId, onBoard: true } });
+}
