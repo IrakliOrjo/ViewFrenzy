@@ -72,7 +72,7 @@ export function Header({ user, levelInfo }: HeaderProps) {
 
         {/* Logo — only visible on mobile (desktop logo is in sidebar) */}
         <Link
-          href="/dashboard"
+          href="/dashboard/overview"
           className={cn(
             "flex items-center gap-3 shrink-0 md:hidden",
             searchOpen && "hidden"
@@ -137,7 +137,7 @@ export function Header({ user, levelInfo }: HeaderProps) {
           className="rounded-xl bg-primary/5 text-primary hover:bg-primary/10"
           asChild
         >
-          <Link href="/settings">
+          <Link href="/dashboard/settings">
             <Settings className="size-5" />
           </Link>
         </Button>

@@ -10,7 +10,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     openChat();
-    router.replace("/dashboard");
+    router.replace("/dashboard/overview");
   }, [openChat, router]);
 
   return null;

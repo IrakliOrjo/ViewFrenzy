@@ -16,7 +16,7 @@ export function SidebarLogo({ isExpanded, onToggle }: SidebarLogoProps) {
         isExpanded ? "gap-3 p-6" : "flex-col gap-3 p-3 pt-6"
       )}
     >
-      <Link href="/dashboard" className="flex items-center gap-3 shrink-0">
+      <Link href="/dashboard/overview" className="flex items-center gap-3 shrink-0">
         <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
           <Film className="size-5" />
         </div>

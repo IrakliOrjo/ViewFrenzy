@@ -38,7 +38,7 @@ export function MobileSidebar({ levelInfo }: MobileSidebarProps) {
         <SheetHeader className="p-6 pb-0">
           <SheetTitle>
             <Link
-              href="/dashboard"
+              href="/dashboard/overview"
               className="flex items-center gap-3"
               onClick={() => setOpen(false)}
             >
