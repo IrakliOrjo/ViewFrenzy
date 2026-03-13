@@ -12,10 +12,13 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col border-r border-sidebar-border bg-sidebar/50 backdrop-blur-md transition-all duration-300",
+        "relative hidden md:flex flex-col border-r border-sidebar-border bg-sidebar backdrop-blur-xl transition-all duration-300 overflow-hidden",
         isExpanded ? "w-64" : "w-[72px]"
       )}
     >
+      {/* Warm ambient glow at top */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/[0.04] to-transparent" />
+
       <SidebarLogo
         isExpanded={isExpanded}
         onToggle={() => setIsExpanded((prev) => !prev)}

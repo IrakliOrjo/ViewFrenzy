@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { syncYouTubeData } from "@/lib/domains/channel/channel.service";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -15,6 +16,8 @@ export async function POST() {
       const status = result.error === "No YouTube access" ? 403 : 404;
       return NextResponse.json({ error: result.error }, { status });
     }
+
+    revalidatePath("/dashboard");
 
     return NextResponse.json({
       success: true,

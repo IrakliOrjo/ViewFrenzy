@@ -202,6 +202,14 @@ CoachPersonality
 
 The default personality (`isDefault: true`) is always available regardless of unlocks. Non-default personalities require a corresponding `Unlockable` entry with `type: "personality"` and `referenceId` pointing to the `CoachPersonality.id`.
 
+**Personalities differ in expertise, not just tone.** Each personality carries domain-specific knowledge baked into its `systemPrompt`. Examples:
+- A video editing expert who can advise on cuts, pacing, transitions, and tooling (DaVinci Resolve, Premiere, CapCut, etc.)
+- A psychology-focused coach who helps with procrastination, creative blocks, consistency habits, and motivation
+- A SEO/discoverability specialist who focuses on titles, tags, thumbnails, and algorithm strategy
+- A storytelling coach who helps with scripting, hooks, and narrative structure
+
+The `tone` field captures communication style (strict/friendly/analytical/motivational), while the `systemPrompt` encodes both tone AND domain expertise. This means two personalities can share a similar tone but offer completely different advice based on their knowledge area.
+
 ### User model additions
 
 ```
