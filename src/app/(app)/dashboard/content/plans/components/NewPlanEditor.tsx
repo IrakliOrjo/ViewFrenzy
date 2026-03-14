@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useTransition } from "react";
+import { useState, useCallback, useRef, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
@@ -14,6 +14,7 @@ export function NewPlanEditor() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState<JSONContent | undefined>();
+  const contentRef = useRef<JSONContent | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
 
   const handleSave = useCallback(() => {
@@ -23,7 +24,7 @@ export function NewPlanEditor() {
     }
 
     startTransition(async () => {
-      const result = await createPlanAction(title.trim(), content);
+      const result = await createPlanAction(title.trim(), contentRef.current ?? content);
       if (result.success && result.data) {
         toast.success("Plan created");
         router.replace(`/dashboard/content/plans/${result.data.id}`);
@@ -35,6 +36,7 @@ export function NewPlanEditor() {
 
   const handleEditorSave = useCallback((json: JSONContent) => {
     setContent(json);
+    contentRef.current = json;
   }, []);
 
   return (
