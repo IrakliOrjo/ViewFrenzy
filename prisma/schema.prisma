@@ -49,6 +49,7 @@ model User {
   creatorProfile    CreatorProfile?
   goals             Goal[]
   ideas             Idea[]
+  plans             Plan[]
   pushSubscriptions PushSubscription[]
   sessions          Session[]
   subscription      Subscription?
@@ -112,7 +113,6 @@ model Video {
   demographics            Json?
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
-  ideas                   Idea[]
   channel                 Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
   @@index([channelId, publishedAt])
@@ -195,22 +195,33 @@ model CreatorProfile {
 }
 
 model Idea {
-  id              String    @id @default(cuid())
-  userId          String
-  title           String
-  description     String?
-  status          String    @default("idea")
-  format          String?
-  priority        String?   @default("medium")
-  notes           String?
-  scheduledDate   DateTime?
-  publishDate     DateTime?
-  calendarEventId String?
-  linkedVideoId   String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  linkedVideo     Video?    @relation(fields: [linkedVideoId], references: [id])
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  content   Json?
+  status    String   @default("idea")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+}
+
+model Plan {
+  id           String    @id @default(cuid())
+  userId       String
+  title        String
+  content      Json?
+  status       String    @default("idea")
+  format       String?
+  priority     String?   @default("medium")
+  onBoard      Boolean   @default(false)
+  template     String?
+  sourceIdeaId String?
+  publishDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, status])
 }

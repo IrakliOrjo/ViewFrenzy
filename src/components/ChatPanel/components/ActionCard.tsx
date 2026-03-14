@@ -34,35 +34,35 @@ function getCardConfig(result: IToolResult): CardConfig {
       return {
         icon: <Lightbulb className="size-3.5" />,
         label: "Idea Created",
-        href: "/ideas",
+        href: "/dashboard/content/ideas",
         viewLabel: "View Ideas",
       };
     case "create_goal":
       return {
         icon: <Target className="size-3.5" />,
         label: "Goal Created",
-        href: "/goals",
+        href: "/dashboard/goals",
         viewLabel: "View Goals",
       };
     case "update_idea":
       return {
         icon: <Pencil className="size-3.5" />,
         label: "Idea Updated",
-        href: "/ideas",
+        href: "/dashboard/content/ideas",
         viewLabel: "View Ideas",
       };
     case "update_goal":
       return {
         icon: <Pencil className="size-3.5" />,
         label: "Goal Updated",
-        href: "/goals",
+        href: "/dashboard/goals",
         viewLabel: "View Goals",
       };
     case "update_profile":
       return {
         icon: <User className="size-3.5" />,
         label: "Profile Updated",
-        href: "/settings",
+        href: "/dashboard/settings",
         viewLabel: "View Settings",
       };
     case "delete_idea":

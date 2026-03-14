@@ -1,26 +1,15 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@/generated/prisma/client";
 
 export interface ICreateIdeaInput {
   title: string;
-  description?: string;
-  status?: string;
-  format?: string;
-  priority?: string;
-  notes?: string;
-  scheduledDate?: Date;
-  linkedVideoId?: string;
+  content?: Prisma.InputJsonValue;
 }
 
 export interface IUpdateIdeaInput {
   title?: string;
-  description?: string;
+  content?: Prisma.InputJsonValue;
   status?: string;
-  format?: string;
-  priority?: string;
-  notes?: string;
-  scheduledDate?: Date;
-  publishDate?: Date;
-  linkedVideoId?: string;
 }
 
 export async function createIdea(userId: string, data: ICreateIdeaInput) {
@@ -37,7 +26,7 @@ export async function deleteIdea(ideaId: string) {
 
 export async function getIdeasByUser(userId: string) {
   return prisma.idea.findMany({
-    where: { userId },
+    where: { userId, status: { not: "archived" } },
     orderBy: { createdAt: "desc" },
   });
 }

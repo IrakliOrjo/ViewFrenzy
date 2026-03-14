@@ -72,7 +72,7 @@ export function Header({ user, levelInfo }: HeaderProps) {
 
         {/* Logo — only visible on mobile (desktop logo is in sidebar) */}
         <Link
-          href="/dashboard"
+          href="/dashboard/overview"
           className={cn(
             "flex items-center gap-3 shrink-0 md:hidden",
             searchOpen && "hidden"

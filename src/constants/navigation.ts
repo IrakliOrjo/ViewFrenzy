@@ -25,3 +25,8 @@ export const NAV_ITEMS: INavItem[] = [
 export const NAV_UTILITY_ITEMS: INavItem[] = [
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
+
+export const CONTENT_TABS = [
+  { label: "Ideas", href: "/dashboard/content/ideas" },
+  { label: "Plans", href: "/dashboard/content/plans" },
+] as const;

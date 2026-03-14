@@ -64,7 +64,8 @@ export const ModelName = {
   Subscription: 'Subscription',
   PushSubscription: 'PushSubscription',
   CreatorProfile: 'CreatorProfile',
-  Idea: 'Idea'
+  Idea: 'Idea',
+  Plan: 'Plan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -277,20 +278,32 @@ export const IdeaScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
-  description: 'description',
+  content: 'content',
   status: 'status',
-  format: 'format',
-  priority: 'priority',
-  notes: 'notes',
-  scheduledDate: 'scheduledDate',
-  publishDate: 'publishDate',
-  calendarEventId: 'calendarEventId',
-  linkedVideoId: 'linkedVideoId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type IdeaScalarFieldEnum = (typeof IdeaScalarFieldEnum)[keyof typeof IdeaScalarFieldEnum]
+
+
+export const PlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  content: 'content',
+  status: 'status',
+  format: 'format',
+  priority: 'priority',
+  onBoard: 'onBoard',
+  template: 'template',
+  sourceIdeaId: 'sourceIdeaId',
+  publishDate: 'publishDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
 
 
 export const SortOrder = {

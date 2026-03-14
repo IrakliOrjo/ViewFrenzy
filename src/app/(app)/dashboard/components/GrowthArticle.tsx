@@ -8,7 +8,7 @@ interface GrowthArticleProps {
 
 export function GrowthArticle({ article }: GrowthArticleProps) {
   return (
-    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5">
+    <div className="bg-card p-6 rounded-xl shadow-sm border border-primary/5 transition-all duration-300 hover:shadow-md">
       <div className="flex items-center gap-2 mb-4">
         <BookOpen className="size-5 text-primary" />
         <h3 className="font-bold">Growth Reading</h3>
@@ -27,7 +27,7 @@ export function GrowthArticle({ article }: GrowthArticleProps) {
               <img
                 src={article.imageUrl}
                 alt={article.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             ) : (
               <Newspaper className="size-8 text-muted-foreground" />
@@ -46,9 +46,10 @@ export function GrowthArticle({ article }: GrowthArticleProps) {
 
           <div className="flex items-center justify-between mt-2">
             <span className="text-[10px] text-muted-foreground">
-              {article.source} &middot; {formatRelativeTime(new Date(article.publishedAt))}
+              {article.source} &middot;{" "}
+              {formatRelativeTime(new Date(article.publishedAt))}
             </span>
-            <span className="flex items-center gap-1 text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="flex items-center gap-1 text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               Read article
               <ExternalLink className="size-3" />
             </span>

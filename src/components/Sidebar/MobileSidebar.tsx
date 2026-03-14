@@ -41,7 +41,7 @@ export function MobileSidebar({ levelInfo }: MobileSidebarProps) {
         <SheetHeader className="relative z-10 p-6 pb-0">
           <SheetTitle>
             <Link
-              href="/dashboard"
+              href="/dashboard/overview"
               className="flex items-center gap-3 group"
               onClick={() => setOpen(false)}
             >
