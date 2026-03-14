@@ -111,17 +111,22 @@ export function KanbanBoard({ initialPlans, offBoardPlans = [], boardCount }: Ka
       if (!newStatus || !originalStatus || newStatus === originalStatus) return;
 
       setIsSaving(true);
-      const result = await updatePlanStatusAction(active.id as string, newStatus);
-      setIsSaving(false);
-
-      if (result.success) {
-        setGroups((currentGroups) => {
-          lastGoodState.current = { ...currentGroups };
-          return currentGroups;
-        });
-      } else {
-        toast.error(result.error ?? "Failed to update status");
+      try {
+        const result = await updatePlanStatusAction(active.id as string, newStatus);
+        if (result.success) {
+          setGroups((currentGroups) => {
+            lastGoodState.current = { ...currentGroups };
+            return currentGroups;
+          });
+        } else {
+          toast.error(result.error ?? "Failed to update status");
+          setGroups(lastGoodState.current);
+        }
+      } catch {
+        toast.error("Network error — reverting change");
         setGroups(lastGoodState.current);
+      } finally {
+        setIsSaving(false);
       }
     },
     [findPlanStatus]
