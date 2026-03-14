@@ -7,9 +7,9 @@ A system that brings Goals, Coach's Notes, and Coaching Tasks together as the co
 ## Scope
 
 **In scope:**
-- Goal entity finalization (existing model, no schema changes)
+- Goal entity finalization (existing model, add `@@index`)
 - CoachNote entity (new model) — daily AI-generated tip
-- CoachingTask entity (new model) — actionable items from 3 sources
+- CoachingTask entity (new model) — unified with the gamification spec's CoachingTask, actionable items from multiple sources
 - Daily coaching cron (system rules + AI generation)
 - Overview page: replace mock data with real data, add goal management dialogs
 - Coaching page: new `/dashboard/coaching` route
@@ -26,12 +26,12 @@ A system that brings Goals, Coach's Notes, and Coaching Tasks together as the co
 
 ## Entity Model
 
-### Goal (existing — no schema changes)
+### Goal (existing — minor schema addition)
 
-Uses the existing `Goal` model as-is. Displayed as milestone progress bars on the overview page.
+Uses the existing `Goal` model. Add `@@index([userId, completed])` for efficient querying by the cron and overview page. Displayed as milestone progress bars on the overview page.
 
 ```
-Goal (existing)
+Goal (existing, add index)
   - id              String    @id @default(cuid())
   - userId          String
   - title           String    ("Reach 500 Subscribers")
@@ -44,12 +44,15 @@ Goal (existing)
   - calendarEventId String?
   - createdAt       DateTime  @default(now())
   - updatedAt       DateTime  @updatedAt
+
+  @@index([userId, completed])
 ```
 
 - Created via "Add Goal" button on overview (dialog) or via AI chat tool call
 - Edited/deleted by clicking a milestone → dialog
 - No dedicated page — lives on overview, managed via dialogs
 - Typically 2-5 active goals at a time
+- **Nullable fields:** Goals with `targetValue = null` or `deadline = null` are valid but will not trigger system rules that depend on those fields (e.g., "goal almost complete" requires non-null `targetValue` and `currentValue`, "goal deadline approaching" requires non-null `deadline`)
 
 ### CoachNote (new model)
 
@@ -78,33 +81,39 @@ CoachNote
 
 **Coach can update notes:** When the user asks the AI for a tip or the AI decides to give one during chat, it creates a new CoachNote with `source: "chat"`, which becomes the new active note on the dashboard.
 
-### CoachingTask (new model)
+### CoachingTask (new model — unified with gamification spec)
 
-Actionable to-do items generated from three sources. Displayed as "Recommended Actions" on the overview (top 3) and in full on the coaching page.
+Actionable to-do items generated from multiple sources. Displayed as "Recommended Actions" on the overview (top 3) and in full on the coaching page. This model is the **single CoachingTask entity** shared with the gamification system — it includes fields from both this spec and the gamification spec so they don't conflict.
 
 ```
 CoachingTask
-  - id           String    @id @default(cuid())
-  - userId       String    (-> User)
-  - title        String    ("Try a shorter intro on your next video")
-  - description  String?   (optional longer explanation)
-  - priority     String    @default("medium")  (high/medium/low)
-  - status       String    @default("pending")  (pending/completed/dismissed)
-  - source       String    (ai/system/chat)
-  - sourceDetail String?   (what triggered it: "goal_deadline", "upload_gap", "plan_stale", etc.)
+  - id           String         @id @default(cuid())
+  - userId       String         (-> User)
+  - title        String         ("Try a shorter intro on your next video")
+  - description  String?        (optional longer explanation)
+  - xpReward     Int            @default(20)  (from gamification spec — XP awarded on completion)
+  - priority     String         @default("medium")  (high/medium/low)
+  - status       String         @default("pending")  (pending/in_progress/completed/dismissed)
+  - source       String         (ai/system/chat/user/challenge)
+  - sourceDetail String?        (what triggered it: "goal_deadline", "upload_gap", "plan_stale", etc.)
+  - challengeId  String?        (-> UserChallenge, if source is "challenge" — from gamification spec)
+  - dayNumber    Int?           (challenge day number, if source is "challenge" — from gamification spec)
   - completedAt  DateTime?
-  - expiresAt    DateTime? (auto-dismiss after this date)
-  - createdAt    DateTime  @default(now())
-  - updatedAt    DateTime  @updatedAt
+  - expiresAt    DateTime?      (auto-dismiss after this date)
+  - createdAt    DateTime       @default(now())
+  - updatedAt    DateTime       @updatedAt
 
   // Relations
-  - user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  - user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  - challenge    UserChallenge? @relation(fields: [challengeId], references: [id], onDelete: SetNull)
 
   @@index([userId, status])
   @@index([userId, status, priority])
 ```
 
-**Three sources:**
+**Compatibility note:** The `source` enum is a superset of both specs: `ai`, `system`, `chat` (from this spec) + `user`, `challenge` (from gamification spec). The `status` enum includes `in_progress` (from gamification spec) in addition to `pending`, `completed`, `dismissed`. Fields `xpReward`, `challengeId`, and `dayNumber` are carried from the gamification spec but are not used by this spec's features — they exist so the gamification system can use the same model without migration.
+
+**Sources used by this spec:**
 
 1. **System rules** (`source: "system"`) — free, no AI call. Direct factual checks:
    - Upload gap detection
@@ -119,6 +128,10 @@ CoachingTask
 
 3. **AI chat** (`source: "chat"`) — created during conversation when relevant:
    - User says "remind me to work on thumbnails" → AI creates a task
+
+**Sources reserved for gamification (not used by this spec):**
+- `user` — manually created by the user (future)
+- `challenge` — materialized from challenge steps (future)
 
 **Lifecycle:**
 - Generated daily by cron (batch of system + AI tasks)
@@ -161,7 +174,7 @@ For each active user, check these rules:
 | Stale plan | Plan in "in_progress" for 7+ days | "Your plan 'X' has been in progress for Y days" | Medium |
 | Idle ideas | 3+ ideas with no plan created in 14 days | "You have X ideas waiting — pick one to develop" | Low |
 
-**Deduplication:** Before creating a system task, check if a pending task with the same `sourceDetail` and related entity already exists. If yes, skip.
+**Deduplication:** Before creating a system task, check if a **pending** task (status = "pending") with the same `sourceDetail` already exists for this user. If yes, skip. Dismissed or completed tasks with the same `sourceDetail` do NOT block creation — only active pending tasks prevent duplicates.
 
 ### Step 2: AI generation (one API call per user)
 
@@ -179,7 +192,19 @@ Parse response, save CoachNote and CoachingTasks with `source: "ai"`.
 
 ### Step 3: Expiry cleanup
 
-Auto-dismiss any pending tasks where `expiresAt < now()` or `createdAt` is older than 5 days (for tasks without explicit `expiresAt`). Set `status: "dismissed"`.
+Auto-dismiss any pending tasks where:
+- `expiresAt` is set AND `expiresAt < now()`, OR
+- `expiresAt` is null AND `createdAt` is more than 5 full days ago (i.e., `createdAt < now() - 5 days`)
+
+Set `status: "dismissed"` on all matched tasks.
+
+### Active users definition
+
+The cron processes users who have a connected YouTube channel (`Channel` record exists). Users without a channel are skipped — there's no analytics data to generate meaningful coaching from.
+
+### Error handling
+
+Each user is processed independently inside a try/catch. If one user's AI call fails (network error, rate limit, timeout), the error is logged and the cron moves to the next user. System-rule tasks for the failed user are still created (they don't depend on AI). A summary of successes and failures is returned in the cron response.
 
 ### Cost estimate
 
@@ -214,7 +239,7 @@ Layout top to bottom:
 
 1. **Coach's Note** — same card style as overview but larger/more prominent. Shows the current active note (latest by `createdAt`).
 
-2. **Active Tasks section** — all pending coaching tasks, sorted by priority (high → medium → low), then by `createdAt` (oldest first within same priority). Each task shows:
+2. **Active Tasks section** — all pending coaching tasks, sorted by priority (high → medium → low), then by `createdAt` (oldest first within same priority). Since `priority` is stored as a string, the data layer must use application-level sorting or a SQL `CASE` expression to enforce the correct order (`high` = 1, `medium` = 2, `low` = 3). Each task shows:
    - Priority dot (red = high, yellow = medium, green = low)
    - Title text
    - Source badge ("System" / "AI" / "Chat")
@@ -294,9 +319,13 @@ Orchestrates the full daily flow:
 - `src/app/(app)/dashboard/actions/goal-actions.ts` — createGoal, updateGoal, deleteGoal (for overview dialog)
 - `src/app/(app)/dashboard/actions/coaching-task-actions.ts` — completeTask, dismissTask (for overview + coaching page)
 
-### AI context (no changes)
+**Note:** The `dashboard/actions/` directory is a new convention. Existing server actions are colocated with their feature pages (e.g., `content/ideas/actions.ts`). Here, a shared `actions/` folder is used because goal actions and task actions are consumed by multiple pages (overview + coaching), so colocation with a single page doesn't fit.
+
+### AI context (minor addition)
 
 `ai-context.ts` already fetches goals and ideas. Coaching tasks are NOT injected into the AI system prompt — the AI accesses them on-demand via tools (defined later).
+
+**CoachNote context:** The current coach note IS injected into the AI context (added to `buildCreatorContext`). This prevents the AI from generating a redundant or contradictory note during chat. Format: `## Current Coach Note\n- "{message}" (type: {type})`. If no note exists, this section is omitted.
 
 ---
 
@@ -316,21 +345,24 @@ Dedup key: sourceDetail = "upload_gap" (only one pending at a time)
 ### Goal deadline approaching
 
 ```
-Condition: Goal.deadline is within 7 days AND Goal.completed = false
+Condition: Goal.deadline is NOT null AND Goal.deadline is within 7 days AND Goal.completed = false
 sourceDetail: "goal_deadline:{goalId}"
 Priority:
   - <3 days → high
   - 3-7 days → medium
-Dedup key: sourceDetail (per goal)
+Dedup key: sourceDetail (per goal, pending only)
+Skip: Goals with deadline = null
 ```
 
 ### Goal almost complete
 
 ```
-Condition: Goal.currentValue >= 90% of Goal.targetValue AND Goal.completed = false
+Condition: Goal.targetValue is NOT null AND Goal.currentValue is NOT null
+          AND Goal.currentValue >= 90% of Goal.targetValue AND Goal.completed = false
 sourceDetail: "goal_near_complete:{goalId}"
 Priority: high
-Dedup key: sourceDetail (per goal)
+Dedup key: sourceDetail (per goal, pending only)
+Skip: Goals with targetValue = null or currentValue = null
 ```
 
 ### Stale plan
@@ -339,16 +371,21 @@ Dedup key: sourceDetail (per goal)
 Condition: Plan.status = "in_progress" AND Plan.updatedAt is 7+ days ago
 sourceDetail: "plan_stale:{planId}"
 Priority: medium
-Dedup key: sourceDetail (per plan)
+Dedup key: sourceDetail (per plan, pending only)
+Note: updatedAt resets on any edit (including column drag on kanban). This is intentional —
+if the user recently touched the plan, it's not stale. The 7-day window restarts on any interaction.
 ```
 
 ### Idle ideas
 
 ```
-Condition: 3+ Ideas exist AND no Plan created in last 14 days
+Condition: 3+ Ideas with status = "idea" exist AND no Plan with sourceIdeaId != null
+          was created in the last 14 days
 sourceDetail: "idle_ideas"
 Priority: low
 Dedup key: sourceDetail (only one pending at a time)
+Note: Checks specifically for undeveloped ideas (status = "idea") and plans derived from ideas
+(sourceIdeaId != null), not all plans in general.
 ```
 
 ---
@@ -359,8 +396,8 @@ Dedup key: sourceDetail (only one pending at a time)
 
 ```typescript
 export const TASK_PRIORITIES = ["high", "medium", "low"] as const;
-export const TASK_STATUSES = ["pending", "completed", "dismissed"] as const;
-export const TASK_SOURCES = ["ai", "system", "chat"] as const;
+export const TASK_STATUSES = ["pending", "in_progress", "completed", "dismissed"] as const;
+export const TASK_SOURCES = ["ai", "system", "chat", "user", "challenge"] as const;
 
 export const NOTE_TYPES = ["insight", "skill_tip", "encouragement", "observation"] as const;
 export const NOTE_SOURCES = ["daily_cron", "chat"] as const;
@@ -382,14 +419,14 @@ Updated app navigation:
 - **Plans** (`/dashboard/content/plans`) — already built
 - **Board** (`/dashboard/board`) — kanban, already built
 
-The `/dashboard/goals` stub page is removed — goals live on the overview as milestones.
+The `/dashboard/goals` stub page (`src/app/(app)/dashboard/goals/page.tsx`) is deleted. The "Goals" entry in `NAV_ITEMS` (`src/constants/navigation.ts`) is replaced with a "Coaching" entry pointing to `/dashboard/coaching`.
 
 ---
 
 ## Design Decisions
 
 1. **Goals = Milestones** — same entity, same model. No separate concept needed.
-2. **CoachingTask = Recommended Actions** — same entity. Aligns with the gamification system's CoachingTask model for future XP integration.
+2. **CoachingTask = Recommended Actions** — same entity. Schema is a superset of both this spec and the gamification spec, so both systems share one model without migration conflicts. Fields `xpReward`, `challengeId`, `dayNumber` exist in the schema but are unused by this spec's features.
 3. **Coach's Note is separate from Coaching Tasks** — note is an observation/tip (read-only), tasks are actionable to-dos (completable). Different user interactions.
 4. **Hybrid daily cron (Approach C)** — system rules are free and handle obvious factual checks. One AI call per user per day handles intelligent tips and pattern-based tasks. Cheapest option with best quality balance.
 5. **No replacement on completion** — when a user completes a task, the count goes down. Fresh tasks only come from the next day's cron or from chat. Prevents "infinite to-do list" fatigue.
