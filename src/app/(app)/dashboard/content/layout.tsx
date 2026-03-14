@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-const CONTENT_TABS = [
-  { label: "Ideas", href: "/dashboard/content/ideas" },
-  { label: "Plans", href: "/dashboard/content/plans" },
-] as const;
+import { CONTENT_TABS } from "@/constants/navigation";
 
 export default function ContentLayout({
   children,

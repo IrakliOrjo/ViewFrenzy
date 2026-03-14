@@ -34,6 +34,7 @@ export function AddPlansPicker({ offBoardPlans, boardCount }: AddPlansPickerProp
   );
 
   const handleAdd = (planId: string) => {
+    const planToAdd = localPlans.find((p) => p.id === planId);
     setLocalPlans((prev) => prev.filter((p) => p.id !== planId));
     startTransition(async () => {
       const result = await togglePlanOnBoardAction(planId, true);
@@ -41,7 +42,9 @@ export function AddPlansPicker({ offBoardPlans, boardCount }: AddPlansPickerProp
         toast.success("Plan added to board");
       } else {
         toast.error(result.error ?? "Failed to add plan");
-        setLocalPlans(offBoardPlans);
+        if (planToAdd) {
+          setLocalPlans((prev) => [...prev, planToAdd]);
+        }
       }
     });
   };

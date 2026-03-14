@@ -67,18 +67,24 @@ export function KanbanBoard({ initialPlans, offBoardPlans = [], boardCount }: Ka
       const { active, over } = event;
       if (!over) return;
 
-      const activeStatus = findPlanStatus(active.id as string);
-      let overStatus: string | null = null;
-
-      if (STATUSES.includes(over.id as (typeof STATUSES)[number])) {
-        overStatus = over.id as string;
-      } else {
-        overStatus = findPlanStatus(over.id as string);
-      }
-
-      if (!activeStatus || !overStatus || activeStatus === overStatus) return;
+      const overId = over.id as string;
+      const activeId_str = active.id as string;
 
       setGroups((prev) => {
+        const findStatus = (planId: string): string | null => {
+          for (const s of STATUSES) {
+            if (prev[s].some((p) => p.id === planId)) return s;
+          }
+          return null;
+        };
+
+        const activeStatus = findStatus(activeId_str);
+        const overStatus = STATUSES.includes(overId as (typeof STATUSES)[number])
+          ? overId
+          : findStatus(overId);
+
+        if (!activeStatus || !overStatus || activeStatus === overStatus) return prev;
+
         const plan = prev[activeStatus as keyof IGroupedPlans].find(
           (p) => p.id === active.id
         );
@@ -96,7 +102,7 @@ export function KanbanBoard({ initialPlans, offBoardPlans = [], boardCount }: Ka
         };
       });
     },
-    [findPlanStatus]
+    []
   );
 
   const handleDragEnd = useCallback(

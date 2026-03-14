@@ -47,9 +47,13 @@ export function usePlanEditor({
     }) => {
       Object.assign(pendingData.current, data);
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      debounceTimer.current = setTimeout(() => {
-        updatePlanAction(id, pendingData.current);
+      debounceTimer.current = setTimeout(async () => {
+        const dataToSave = pendingData.current;
         pendingData.current = {};
+        const result = await updatePlanAction(id, dataToSave);
+        if (!result.success) {
+          toast.error(result.error ?? "Auto-save failed");
+        }
       }, 2000);
     },
     [id]
