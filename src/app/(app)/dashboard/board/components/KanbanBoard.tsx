@@ -115,13 +115,16 @@ export function KanbanBoard({ initialPlans, offBoardPlans = [], boardCount }: Ka
       setIsSaving(false);
 
       if (result.success) {
-        lastGoodState.current = { ...groups };
+        setGroups((currentGroups) => {
+          lastGoodState.current = { ...currentGroups };
+          return currentGroups;
+        });
       } else {
         toast.error(result.error ?? "Failed to update status");
         setGroups(lastGoodState.current);
       }
     },
-    [findPlanStatus, groups]
+    [findPlanStatus]
   );
 
   const handleDragCancel = useCallback(() => {

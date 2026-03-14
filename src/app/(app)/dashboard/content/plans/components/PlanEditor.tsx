@@ -12,6 +12,7 @@ import { PlanMetadataBar } from "@/app/(app)/dashboard/content/plans/components/
 import {
   updatePlanAction,
   updatePlanStatusAction,
+  togglePlanOnBoardAction,
   deletePlanAction,
 } from "@/app/(app)/dashboard/content/plans/actions";
 
@@ -48,7 +49,6 @@ export function PlanEditor({
       title?: string;
       format?: string | null;
       priority?: string | null;
-      onBoard?: boolean;
     }) => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
       debounceTimer.current = setTimeout(() => {
@@ -92,25 +92,33 @@ export function PlanEditor({
   const handleOnBoardChange = useCallback(
     (newOnBoard: boolean) => {
       setOnBoard(newOnBoard);
-      autoSave({ onBoard: newOnBoard });
+      startTransition(async () => {
+        const result = await togglePlanOnBoardAction(id, newOnBoard);
+        if (!result.success) {
+          toast.error(result.error ?? "Failed to toggle board");
+          setOnBoard(!newOnBoard);
+        }
+      });
     },
-    [autoSave]
+    [id]
   );
 
   const handleStatusChange = useCallback(
     (newStatus: string) => {
-      setStatus(newStatus);
-      startTransition(async () => {
-        const result = await updatePlanStatusAction(id, newStatus);
-        if (result.success) {
-          toast.success(`Status updated to ${newStatus.replace("_", " ")}`);
-        } else {
-          toast.error(result.error ?? "Failed to update status");
-          setStatus(status);
-        }
+      setStatus((prevStatus) => {
+        startTransition(async () => {
+          const result = await updatePlanStatusAction(id, newStatus);
+          if (result.success) {
+            toast.success(`Status updated to ${newStatus.replace("_", " ")}`);
+          } else {
+            toast.error(result.error ?? "Failed to update status");
+            setStatus(prevStatus);
+          }
+        });
+        return newStatus;
       });
     },
-    [id, status]
+    [id]
   );
 
   const handleManualSave = useCallback(() => {
