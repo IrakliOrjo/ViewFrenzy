@@ -34,6 +34,7 @@ export function usePlanEditor({
   const [priority, setPriority] = useState(initialPriority);
   const [onBoard, setOnBoard] = useState(initialOnBoard);
   const [status, setStatus] = useState(initialStatus);
+  const statusRef = useRef(initialStatus);
   const [isPending, startTransition] = useTransition();
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingData = useRef<{ title?: string; format?: string | null; priority?: string | null }>({});
@@ -101,17 +102,18 @@ export function usePlanEditor({
 
   const handleStatusChange = useCallback(
     (newStatus: string) => {
-      setStatus((prevStatus) => {
-        startTransition(async () => {
-          const result = await updatePlanStatusAction(id, newStatus);
-          if (result.success) {
-            toast.success(`Status updated to ${newStatus.replace("_", " ")}`);
-          } else {
-            toast.error(result.error ?? "Failed to update status");
-            setStatus(prevStatus);
-          }
-        });
-        return newStatus;
+      const prevStatus = statusRef.current;
+      statusRef.current = newStatus;
+      setStatus(newStatus);
+      startTransition(async () => {
+        const result = await updatePlanStatusAction(id, newStatus);
+        if (result.success) {
+          toast.success(`Status updated to ${newStatus.replace("_", " ")}`);
+        } else {
+          toast.error(result.error ?? "Failed to update status");
+          statusRef.current = prevStatus;
+          setStatus(prevStatus);
+        }
       });
     },
     [id]
@@ -127,7 +129,6 @@ export function usePlanEditor({
         title: title.trim(),
         format,
         priority,
-        onBoard,
       });
       if (result.success) {
         toast.success("Plan saved");

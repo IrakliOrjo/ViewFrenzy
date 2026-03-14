@@ -51,7 +51,6 @@ export async function updatePlanAction(
     content?: Prisma.InputJsonValue;
     format?: string | null;
     priority?: string | null;
-    onBoard?: boolean;
   }
 ) {
   try {
