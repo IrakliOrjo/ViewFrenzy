@@ -63,7 +63,7 @@ export function MilestoneProgress({ goals, onAddGoal, onEditGoal }: MilestonePro
           activeGoals.map((goal) => {
             const current = goal.currentValue ?? 0;
             const target = goal.targetValue!;
-            const percent = Math.min(Math.round((current / target) * 100), 100);
+            const percent = target > 0 ? Math.min(Math.round((current / target) * 100), 100) : 0;
             const remaining = target - current;
             const unitConfig = UNIT_ICON_MAP[goal.unit ?? ""] ?? {
               icon: Target,

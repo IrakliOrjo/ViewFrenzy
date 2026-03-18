@@ -31,7 +31,7 @@ export function OverviewMilestones({ goals }: OverviewMilestonesProps) {
         onEditGoal={handleEditGoal}
       />
       <GoalDialog
-        key={editingGoal?.id ?? "new"}
+        key={editingGoal?.id ?? `new-${dialogOpen}`}
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         goal={editingGoal}
