@@ -2,7 +2,7 @@ import {
   LayoutDashboard,
   Columns3,
   PenSquare,
-  Target,
+  Lightbulb,
   MessageSquare,
   Settings,
   type LucideIcon,
@@ -18,7 +18,7 @@ export const NAV_ITEMS: INavItem[] = [
   { label: "Overview", href: "/dashboard/overview", icon: LayoutDashboard },
   { label: "Board", href: "/dashboard/board", icon: Columns3 },
   { label: "Content", href: "/dashboard/content", icon: PenSquare },
-  { label: "Goals", href: "/dashboard/goals", icon: Target },
+  { label: "Coaching", href: "/dashboard/coaching", icon: Lightbulb },
   { label: "Chat", href: "/dashboard/chat", icon: MessageSquare },
 ];
 

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Channel, ChannelSnapshot, CreatorProfile, Goal, Idea, Video } from "@/generated/prisma/client";
+import type { Channel, ChannelSnapshot, CoachNote, CreatorProfile, Goal, Idea, Video } from "@/generated/prisma/client";
 
 // --- Types ---
 
@@ -13,6 +13,7 @@ interface ICreatorData {
   goals: Goal[];
   ideas: Idea[];
   creatorProfile: CreatorProfile | null;
+  coachNote: CoachNote | null;
 }
 
 // --- Cache ---
@@ -35,7 +36,7 @@ async function fetchCreatorData(userId: string): Promise<ICreatorData> {
   if (cached && Date.now() - cached.fetchedAt < CACHE_TTL_MS) {
     return cached.data;
   }
-  const [channel, goals, ideas, creatorProfile] = await Promise.all([
+  const [channel, goals, ideas, creatorProfile, coachNote] = await Promise.all([
     prisma.channel.findUnique({
       where: { userId },
       include: {
@@ -61,9 +62,13 @@ async function fetchCreatorData(userId: string): Promise<ICreatorData> {
     prisma.creatorProfile.findUnique({
       where: { userId },
     }),
+    prisma.coachNote.findFirst({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
-  const data: ICreatorData = { channel, goals, ideas, creatorProfile };
+  const data: ICreatorData = { channel, goals, ideas, creatorProfile, coachNote };
   creatorDataCache.set(userId, { data, fetchedAt: Date.now() });
   return data;
 }
@@ -122,6 +127,10 @@ function formatIdeas(ideas: Idea[]): string {
   return `## Ideas Bucket\n${ideaLines.join("\n")}`;
 }
 
+function formatCoachNote(note: CoachNote): string {
+  return `## Current Coach Note\n- "${note.message}" (type: ${note.type})`;
+}
+
 function formatCreatorContext(data: ICreatorData): string {
   const sections: string[] = [];
 
@@ -145,6 +154,10 @@ function formatCreatorContext(data: ICreatorData): string {
 
   if (data.ideas.length > 0) {
     sections.push(formatIdeas(data.ideas));
+  }
+
+  if (data.coachNote) {
+    sections.push(formatCoachNote(data.coachNote));
   }
 
   if (sections.length === 0) {

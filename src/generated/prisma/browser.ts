@@ -68,6 +68,16 @@ export type Message = Prisma.MessageModel
  */
 export type Goal = Prisma.GoalModel
 /**
+ * Model CoachNote
+ * 
+ */
+export type CoachNote = Prisma.CoachNoteModel
+/**
+ * Model CoachingTask
+ * 
+ */
+export type CoachingTask = Prisma.CoachingTaskModel
+/**
  * Model Subscription
  * 
  */

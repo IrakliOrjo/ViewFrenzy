@@ -254,6 +254,8 @@ export type UserWhereInput = {
   totalXp?: Prisma.IntFilter<"User"> | number
   accounts?: Prisma.AccountListRelationFilter
   channel?: Prisma.XOR<Prisma.ChannelNullableScalarRelationFilter, Prisma.ChannelWhereInput> | null
+  coachNotes?: Prisma.CoachNoteListRelationFilter
+  coachingTasks?: Prisma.CoachingTaskListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   goals?: Prisma.GoalListRelationFilter
@@ -276,6 +278,8 @@ export type UserOrderByWithRelationInput = {
   totalXp?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   channel?: Prisma.ChannelOrderByWithRelationInput
+  coachNotes?: Prisma.CoachNoteOrderByRelationAggregateInput
+  coachingTasks?: Prisma.CoachingTaskOrderByRelationAggregateInput
   conversations?: Prisma.ConversationOrderByRelationAggregateInput
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
   goals?: Prisma.GoalOrderByRelationAggregateInput
@@ -301,6 +305,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   totalXp?: Prisma.IntFilter<"User"> | number
   accounts?: Prisma.AccountListRelationFilter
   channel?: Prisma.XOR<Prisma.ChannelNullableScalarRelationFilter, Prisma.ChannelWhereInput> | null
+  coachNotes?: Prisma.CoachNoteListRelationFilter
+  coachingTasks?: Prisma.CoachingTaskListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   goals?: Prisma.GoalListRelationFilter
@@ -355,6 +361,8 @@ export type UserCreateInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -377,6 +385,8 @@ export type UserUncheckedCreateInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -399,6 +409,8 @@ export type UserUpdateInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -421,6 +433,8 @@ export type UserUncheckedUpdateInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -600,6 +614,34 @@ export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGoalsInput, Prisma.UserUpdateWithoutGoalsInput>, Prisma.UserUncheckedUpdateWithoutGoalsInput>
 }
 
+export type UserCreateNestedOneWithoutCoachNotesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoachNotesInput, Prisma.UserUncheckedCreateWithoutCoachNotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoachNotesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCoachNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoachNotesInput, Prisma.UserUncheckedCreateWithoutCoachNotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoachNotesInput
+  upsert?: Prisma.UserUpsertWithoutCoachNotesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoachNotesInput, Prisma.UserUpdateWithoutCoachNotesInput>, Prisma.UserUncheckedUpdateWithoutCoachNotesInput>
+}
+
+export type UserCreateNestedOneWithoutCoachingTasksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoachingTasksInput, Prisma.UserUncheckedCreateWithoutCoachingTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoachingTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCoachingTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoachingTasksInput, Prisma.UserUncheckedCreateWithoutCoachingTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoachingTasksInput
+  upsert?: Prisma.UserUpsertWithoutCoachingTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoachingTasksInput, Prisma.UserUpdateWithoutCoachingTasksInput>, Prisma.UserUncheckedUpdateWithoutCoachingTasksInput>
+}
+
 export type UserCreateNestedOneWithoutSubscriptionInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionInput, Prisma.UserUncheckedCreateWithoutSubscriptionInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionInput
@@ -681,6 +723,8 @@ export type UserCreateWithoutAccountsInput = {
   level?: number
   totalXp?: number
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -702,6 +746,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   level?: number
   totalXp?: number
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -739,6 +785,8 @@ export type UserUpdateWithoutAccountsInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -760,6 +808,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -782,6 +832,8 @@ export type UserCreateWithoutSessionsInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -803,6 +855,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -840,6 +894,8 @@ export type UserUpdateWithoutSessionsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -861,6 +917,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -881,6 +939,8 @@ export type UserCreateWithoutChannelInput = {
   level?: number
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -902,6 +962,8 @@ export type UserUncheckedCreateWithoutChannelInput = {
   level?: number
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -939,6 +1001,8 @@ export type UserUpdateWithoutChannelInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -960,6 +1024,8 @@ export type UserUncheckedUpdateWithoutChannelInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -982,6 +1048,8 @@ export type UserCreateWithoutConversationsInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
@@ -1003,6 +1071,8 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
@@ -1040,6 +1110,8 @@ export type UserUpdateWithoutConversationsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
@@ -1061,6 +1133,8 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
@@ -1082,6 +1156,8 @@ export type UserCreateWithoutGoalsInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
@@ -1103,6 +1179,8 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
@@ -1140,6 +1218,8 @@ export type UserUpdateWithoutGoalsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
@@ -1161,8 +1241,226 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCoachNotesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCoachNotesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCoachNotesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoachNotesInput, Prisma.UserUncheckedCreateWithoutCoachNotesInput>
+}
+
+export type UserUpsertWithoutCoachNotesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCoachNotesInput, Prisma.UserUncheckedUpdateWithoutCoachNotesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoachNotesInput, Prisma.UserUncheckedCreateWithoutCoachNotesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCoachNotesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCoachNotesInput, Prisma.UserUncheckedUpdateWithoutCoachNotesInput>
+}
+
+export type UserUpdateWithoutCoachNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCoachNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCoachingTasksInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCoachingTasksInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  level?: number
+  totalXp?: number
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
+  plans?: Prisma.PlanUncheckedCreateNestedManyWithoutUserInput
+  pushSubscriptions?: Prisma.PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCoachingTasksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoachingTasksInput, Prisma.UserUncheckedCreateWithoutCoachingTasksInput>
+}
+
+export type UserUpsertWithoutCoachingTasksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCoachingTasksInput, Prisma.UserUncheckedUpdateWithoutCoachingTasksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoachingTasksInput, Prisma.UserUncheckedCreateWithoutCoachingTasksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCoachingTasksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCoachingTasksInput, Prisma.UserUncheckedUpdateWithoutCoachingTasksInput>
+}
+
+export type UserUpdateWithoutCoachingTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
+  plans?: Prisma.PlanUpdateManyWithoutUserNestedInput
+  pushSubscriptions?: Prisma.PushSubscriptionUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCoachingTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  totalXp?: Prisma.IntFieldUpdateOperationsInput | number
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
   plans?: Prisma.PlanUncheckedUpdateManyWithoutUserNestedInput
   pushSubscriptions?: Prisma.PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -1182,6 +1480,8 @@ export type UserCreateWithoutSubscriptionInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -1203,6 +1503,8 @@ export type UserUncheckedCreateWithoutSubscriptionInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -1240,6 +1542,8 @@ export type UserUpdateWithoutSubscriptionInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -1261,6 +1565,8 @@ export type UserUncheckedUpdateWithoutSubscriptionInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -1282,6 +1588,8 @@ export type UserCreateWithoutPushSubscriptionsInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -1303,6 +1611,8 @@ export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -1340,6 +1650,8 @@ export type UserUpdateWithoutPushSubscriptionsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -1361,6 +1673,8 @@ export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -1382,6 +1696,8 @@ export type UserCreateWithoutCreatorProfileInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaCreateNestedManyWithoutUserInput
@@ -1403,6 +1719,8 @@ export type UserUncheckedCreateWithoutCreatorProfileInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   ideas?: Prisma.IdeaUncheckedCreateNestedManyWithoutUserInput
@@ -1440,6 +1758,8 @@ export type UserUpdateWithoutCreatorProfileInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUpdateManyWithoutUserNestedInput
@@ -1461,6 +1781,8 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   ideas?: Prisma.IdeaUncheckedUpdateManyWithoutUserNestedInput
@@ -1482,6 +1804,8 @@ export type UserCreateWithoutIdeasInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -1503,6 +1827,8 @@ export type UserUncheckedCreateWithoutIdeasInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -1540,6 +1866,8 @@ export type UserUpdateWithoutIdeasInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -1561,6 +1889,8 @@ export type UserUncheckedUpdateWithoutIdeasInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -1582,6 +1912,8 @@ export type UserCreateWithoutPlansInput = {
   totalXp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
@@ -1603,6 +1935,8 @@ export type UserUncheckedCreateWithoutPlansInput = {
   totalXp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   channel?: Prisma.ChannelUncheckedCreateNestedOneWithoutUserInput
+  coachNotes?: Prisma.CoachNoteUncheckedCreateNestedManyWithoutUserInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
@@ -1640,6 +1974,8 @@ export type UserUpdateWithoutPlansInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
@@ -1661,6 +1997,8 @@ export type UserUncheckedUpdateWithoutPlansInput = {
   totalXp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   channel?: Prisma.ChannelUncheckedUpdateOneWithoutUserNestedInput
+  coachNotes?: Prisma.CoachNoteUncheckedUpdateManyWithoutUserNestedInput
+  coachingTasks?: Prisma.CoachingTaskUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
@@ -1677,6 +2015,8 @@ export type UserUncheckedUpdateWithoutPlansInput = {
 
 export type UserCountOutputType = {
   accounts: number
+  coachNotes: number
+  coachingTasks: number
   conversations: number
   goals: number
   ideas: number
@@ -1687,6 +2027,8 @@ export type UserCountOutputType = {
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
+  coachNotes?: boolean | UserCountOutputTypeCountCoachNotesArgs
+  coachingTasks?: boolean | UserCountOutputTypeCountCoachingTasksArgs
   conversations?: boolean | UserCountOutputTypeCountConversationsArgs
   goals?: boolean | UserCountOutputTypeCountGoalsArgs
   ideas?: boolean | UserCountOutputTypeCountIdeasArgs
@@ -1710,6 +2052,20 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AccountWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCoachNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CoachNoteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCoachingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CoachingTaskWhereInput
 }
 
 /**
@@ -1767,6 +2123,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   totalXp?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   channel?: boolean | Prisma.User$channelArgs<ExtArgs>
+  coachNotes?: boolean | Prisma.User$coachNotesArgs<ExtArgs>
+  coachingTasks?: boolean | Prisma.User$coachingTasksArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
@@ -1818,6 +2176,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   channel?: boolean | Prisma.User$channelArgs<ExtArgs>
+  coachNotes?: boolean | Prisma.User$coachNotesArgs<ExtArgs>
+  coachingTasks?: boolean | Prisma.User$coachingTasksArgs<ExtArgs>
   conversations?: boolean | Prisma.User$conversationsArgs<ExtArgs>
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
@@ -1836,6 +2196,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     channel: Prisma.$ChannelPayload<ExtArgs> | null
+    coachNotes: Prisma.$CoachNotePayload<ExtArgs>[]
+    coachingTasks: Prisma.$CoachingTaskPayload<ExtArgs>[]
     conversations: Prisma.$ConversationPayload<ExtArgs>[]
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs> | null
     goals: Prisma.$GoalPayload<ExtArgs>[]
@@ -2251,6 +2613,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   channel<T extends Prisma.User$channelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$channelArgs<ExtArgs>>): Prisma.Prisma__ChannelClient<runtime.Types.Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  coachNotes<T extends Prisma.User$coachNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coachNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoachNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  coachingTasks<T extends Prisma.User$coachingTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coachingTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoachingTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.User$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creatorProfile<T extends Prisma.User$creatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creatorProfileArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2725,6 +3089,54 @@ export type User$channelArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.ChannelInclude<ExtArgs> | null
   where?: Prisma.ChannelWhereInput
+}
+
+/**
+ * User.coachNotes
+ */
+export type User$coachNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CoachNote
+   */
+  select?: Prisma.CoachNoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CoachNote
+   */
+  omit?: Prisma.CoachNoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CoachNoteInclude<ExtArgs> | null
+  where?: Prisma.CoachNoteWhereInput
+  orderBy?: Prisma.CoachNoteOrderByWithRelationInput | Prisma.CoachNoteOrderByWithRelationInput[]
+  cursor?: Prisma.CoachNoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CoachNoteScalarFieldEnum | Prisma.CoachNoteScalarFieldEnum[]
+}
+
+/**
+ * User.coachingTasks
+ */
+export type User$coachingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CoachingTask
+   */
+  select?: Prisma.CoachingTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CoachingTask
+   */
+  omit?: Prisma.CoachingTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CoachingTaskInclude<ExtArgs> | null
+  where?: Prisma.CoachingTaskWhereInput
+  orderBy?: Prisma.CoachingTaskOrderByWithRelationInput | Prisma.CoachingTaskOrderByWithRelationInput[]
+  cursor?: Prisma.CoachingTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CoachingTaskScalarFieldEnum | Prisma.CoachingTaskScalarFieldEnum[]
 }
 
 /**

@@ -394,6 +394,8 @@ export const ModelName = {
   Conversation: 'Conversation',
   Message: 'Message',
   Goal: 'Goal',
+  CoachNote: 'CoachNote',
+  CoachingTask: 'CoachingTask',
   Subscription: 'Subscription',
   PushSubscription: 'PushSubscription',
   CreatorProfile: 'CreatorProfile',
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "session" | "user" | "verificationToken" | "channel" | "channelSnapshot" | "video" | "conversation" | "message" | "goal" | "subscription" | "pushSubscription" | "creatorProfile" | "idea" | "plan"
+    modelProps: "account" | "session" | "user" | "verificationToken" | "channel" | "channelSnapshot" | "video" | "conversation" | "message" | "goal" | "coachNote" | "coachingTask" | "subscription" | "pushSubscription" | "creatorProfile" | "idea" | "plan"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1158,6 +1160,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CoachNote: {
+      payload: Prisma.$CoachNotePayload<ExtArgs>
+      fields: Prisma.CoachNoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CoachNoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CoachNoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        findFirst: {
+          args: Prisma.CoachNoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CoachNoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        findMany: {
+          args: Prisma.CoachNoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>[]
+        }
+        create: {
+          args: Prisma.CoachNoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        createMany: {
+          args: Prisma.CoachNoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CoachNoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>[]
+        }
+        delete: {
+          args: Prisma.CoachNoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        update: {
+          args: Prisma.CoachNoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        deleteMany: {
+          args: Prisma.CoachNoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CoachNoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CoachNoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>[]
+        }
+        upsert: {
+          args: Prisma.CoachNoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachNotePayload>
+        }
+        aggregate: {
+          args: Prisma.CoachNoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCoachNote>
+        }
+        groupBy: {
+          args: Prisma.CoachNoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CoachNoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CoachNoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CoachNoteCountAggregateOutputType> | number
+        }
+      }
+    }
+    CoachingTask: {
+      payload: Prisma.$CoachingTaskPayload<ExtArgs>
+      fields: Prisma.CoachingTaskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CoachingTaskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CoachingTaskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        findFirst: {
+          args: Prisma.CoachingTaskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CoachingTaskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        findMany: {
+          args: Prisma.CoachingTaskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>[]
+        }
+        create: {
+          args: Prisma.CoachingTaskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        createMany: {
+          args: Prisma.CoachingTaskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CoachingTaskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>[]
+        }
+        delete: {
+          args: Prisma.CoachingTaskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        update: {
+          args: Prisma.CoachingTaskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        deleteMany: {
+          args: Prisma.CoachingTaskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CoachingTaskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CoachingTaskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>[]
+        }
+        upsert: {
+          args: Prisma.CoachingTaskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoachingTaskPayload>
+        }
+        aggregate: {
+          args: Prisma.CoachingTaskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCoachingTask>
+        }
+        groupBy: {
+          args: Prisma.CoachingTaskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CoachingTaskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CoachingTaskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CoachingTaskCountAggregateOutputType> | number
+        }
+      }
+    }
     Subscription: {
       payload: Prisma.$SubscriptionPayload<ExtArgs>
       fields: Prisma.SubscriptionFieldRefs
@@ -1715,6 +1865,39 @@ export const GoalScalarFieldEnum = {
 export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
+export const CoachNoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  message: 'message',
+  type: 'type',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type CoachNoteScalarFieldEnum = (typeof CoachNoteScalarFieldEnum)[keyof typeof CoachNoteScalarFieldEnum]
+
+
+export const CoachingTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  xpReward: 'xpReward',
+  priority: 'priority',
+  status: 'status',
+  source: 'source',
+  sourceDetail: 'sourceDetail',
+  challengeId: 'challengeId',
+  dayNumber: 'dayNumber',
+  completedAt: 'completedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CoachingTaskScalarFieldEnum = (typeof CoachingTaskScalarFieldEnum)[keyof typeof CoachingTaskScalarFieldEnum]
+
+
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2031,6 +2214,8 @@ export type GlobalOmitConfig = {
   conversation?: Prisma.ConversationOmit
   message?: Prisma.MessageOmit
   goal?: Prisma.GoalOmit
+  coachNote?: Prisma.CoachNoteOmit
+  coachingTask?: Prisma.CoachingTaskOmit
   subscription?: Prisma.SubscriptionOmit
   pushSubscription?: Prisma.PushSubscriptionOmit
   creatorProfile?: Prisma.CreatorProfileOmit
