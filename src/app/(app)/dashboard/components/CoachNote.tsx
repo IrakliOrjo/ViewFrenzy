@@ -1,9 +1,18 @@
+import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { ActionButton } from "@/components/Common/ActionButton";
-import type { IMockCoachNote } from "@/types/dashboard";
+import type { CoachNote as CoachNoteType } from "@/generated/prisma/client";
 
 interface CoachNoteProps {
-  note: IMockCoachNote;
+  note: CoachNoteType | null;
+}
+
+function formatTimeAgo(date: Date): string {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return "just now";
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+  return `${Math.floor(seconds / 86400)}d ago`;
 }
 
 export function CoachNote({ note }: CoachNoteProps) {
@@ -25,15 +34,19 @@ export function CoachNote({ note }: CoachNoteProps) {
 
       {/* Message */}
       <p className="text-muted-foreground leading-relaxed mb-6">
-        {note.message}
+        {note?.message ?? "No coaching insight yet. Your first note will appear after the daily coaching run."}
       </p>
 
       {/* Footer */}
       <div className="flex items-center gap-4">
-        <ActionButton>View Full Insight</ActionButton>
-        <span className="text-xs text-muted-foreground">
-          Analyzed {note.analyzedAt}
-        </span>
+        <Link href="/dashboard/coaching">
+          <ActionButton>View Full Insight</ActionButton>
+        </Link>
+        {note && (
+          <span className="text-xs text-muted-foreground">
+            {formatTimeAgo(note.createdAt)}
+          </span>
+        )}
       </div>
     </div>
   );

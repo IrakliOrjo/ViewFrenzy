@@ -4,6 +4,11 @@ import { calculateLevel } from "@/helpers/calculateLevel";
 import { daysAgo } from "@/helpers/date";
 import { calculateStats } from "@/app/(app)/dashboard/helpers/calculateStats";
 import { MOCK_STATS } from "@/app/(app)/dashboard/helpers/mockData";
+import { getGoalsByUser } from "@/lib/domains/goal/goal.service";
+import { getCurrentNoteForUser } from "@/lib/domains/coach-note/coach-note.service";
+import { getTopTasksForUser } from "@/lib/domains/coaching-task/coaching-task.service";
+import { TASK_DASHBOARD_LIMIT } from "@/constants/coaching";
+import type { Goal, CoachNote, CoachingTask } from "@/generated/prisma/client";
 import type { IStatCard, IRecentVideo } from "@/types/dashboard";
 import type { ILevelInfo } from "@/helpers/calculateLevel";
 
@@ -13,6 +18,9 @@ export interface IDashboardData {
   levelInfo: ILevelInfo;
   stats: IStatCard[];
   recentVideos: IRecentVideo[];
+  goals: Goal[];
+  coachNote: CoachNote | null;
+  topTasks: CoachingTask[];
 }
 
 export async function getDashboardData(): Promise<IDashboardData> {
@@ -20,9 +28,9 @@ export async function getDashboardData(): Promise<IDashboardData> {
 
   const userId = session?.user?.id;
 
-  const [channel, user, videos] = await Promise.all([
-    userId
-      ? prisma.channel.findUnique({
+  const [channel, user, videos, goals, coachNote, topTasks] = userId
+    ? await Promise.all([
+        prisma.channel.findUnique({
           where: { userId },
           include: {
             snapshots: {
@@ -32,16 +40,12 @@ export async function getDashboardData(): Promise<IDashboardData> {
               },
             },
           },
-        })
-      : null,
-    userId
-      ? prisma.user.findUnique({
+        }),
+        prisma.user.findUnique({
           where: { id: userId },
           select: { totalXp: true },
-        })
-      : null,
-    userId
-      ? prisma.video.findMany({
+        }),
+        prisma.video.findMany({
           where: { channel: { userId } },
           orderBy: { publishedAt: "desc" },
           take: 3,
@@ -54,9 +58,12 @@ export async function getDashboardData(): Promise<IDashboardData> {
             likeCount: true,
             commentCount: true,
           },
-        })
-      : [],
-  ]);
+        }),
+        getGoalsByUser(userId),
+        getCurrentNoteForUser(userId),
+        getTopTasksForUser(userId, TASK_DASHBOARD_LIMIT),
+      ])
+    : [null, null, [], [], null, []];
 
   const stats = channel
     ? calculateStats(channel, channel.snapshots)
@@ -80,5 +87,5 @@ export async function getDashboardData(): Promise<IDashboardData> {
     commentCount: v.commentCount,
   }));
 
-  return { greeting, displayName, levelInfo, stats, recentVideos };
+  return { greeting, displayName, levelInfo, stats, recentVideos, goals, coachNote, topTasks };
 }

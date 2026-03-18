@@ -15,7 +15,7 @@ export interface IUpdateGoalInput {
   targetValue?: number;
   currentValue?: number;
   unit?: string;
-  deadline?: Date;
+  deadline?: Date | null;
   completed?: boolean;
 }
 

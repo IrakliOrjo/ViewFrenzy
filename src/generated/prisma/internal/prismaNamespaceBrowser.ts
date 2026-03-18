@@ -61,6 +61,8 @@ export const ModelName = {
   Conversation: 'Conversation',
   Message: 'Message',
   Goal: 'Goal',
+  CoachNote: 'CoachNote',
+  CoachingTask: 'CoachingTask',
   Subscription: 'Subscription',
   PushSubscription: 'PushSubscription',
   CreatorProfile: 'CreatorProfile',
@@ -230,6 +232,39 @@ export const GoalScalarFieldEnum = {
 } as const
 
 export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
+
+
+export const CoachNoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  message: 'message',
+  type: 'type',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type CoachNoteScalarFieldEnum = (typeof CoachNoteScalarFieldEnum)[keyof typeof CoachNoteScalarFieldEnum]
+
+
+export const CoachingTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  xpReward: 'xpReward',
+  priority: 'priority',
+  status: 'status',
+  source: 'source',
+  sourceDetail: 'sourceDetail',
+  challengeId: 'challengeId',
+  dayNumber: 'dayNumber',
+  completedAt: 'completedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CoachingTaskScalarFieldEnum = (typeof CoachingTaskScalarFieldEnum)[keyof typeof CoachingTaskScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {

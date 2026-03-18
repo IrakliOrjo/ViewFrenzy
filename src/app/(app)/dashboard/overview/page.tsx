@@ -4,15 +4,11 @@ import { StatCard } from "@/app/(app)/dashboard/components/StatCard";
 import { WelcomeSection } from "@/app/(app)/dashboard/components/WelcomeSection";
 import { CoachNote } from "@/app/(app)/dashboard/components/CoachNote";
 import { RecommendedActions } from "@/app/(app)/dashboard/components/RecommendedActions";
-import { MilestoneProgress } from "@/app/(app)/dashboard/components/MilestoneProgress";
 import { RecentVideos } from "@/app/(app)/dashboard/components/RecentVideos";
 import { GrowthArticle } from "@/app/(app)/dashboard/components/GrowthArticle";
 import { DashboardEntrance } from "@/app/(app)/dashboard/components/DashboardEntrance";
-import {
-  MOCK_COACH_NOTE,
-  MOCK_ACTION_ITEMS,
-  MOCK_MILESTONES,
-} from "@/app/(app)/dashboard/helpers/mockData";
+import { OverviewMilestones } from "@/app/(app)/dashboard/components/OverviewMilestones";
+import { SyncChannelButton } from "@/app/(app)/dashboard/components/sync-channel-button";
 
 export default async function DashboardPage() {
   const [dashboardData, article] = await Promise.all([
@@ -20,13 +16,14 @@ export default async function DashboardPage() {
     getGrowthArticle(),
   ]);
 
-  const { greeting, displayName, levelInfo, stats, recentVideos } = dashboardData;
+  const { greeting, displayName, levelInfo, stats, recentVideos, goals, coachNote, topTasks } =
+    dashboardData;
 
   return (
     <DashboardEntrance className="space-y-8">
       {/* Welcome + XP rank */}
       <div
-        className="dash-enter"
+        className="dash-enter flex items-start justify-between gap-4"
         style={{ "--enter-delay": "0ms" } as React.CSSProperties}
       >
         <WelcomeSection
@@ -34,6 +31,7 @@ export default async function DashboardPage() {
           displayName={displayName}
           levelInfo={levelInfo}
         />
+        <SyncChannelButton />
       </div>
 
       {/* Stats cards */}
@@ -57,22 +55,22 @@ export default async function DashboardPage() {
           className="dash-enter"
           style={{ "--enter-delay": "400ms" } as React.CSSProperties}
         >
-          <CoachNote note={MOCK_COACH_NOTE} />
+          <CoachNote note={coachNote} />
         </div>
         <div
           className="dash-enter"
           style={{ "--enter-delay": "475ms" } as React.CSSProperties}
         >
-          <RecommendedActions actions={MOCK_ACTION_ITEMS} />
+          <RecommendedActions tasks={topTasks} />
         </div>
       </div>
 
-      {/* Milestone Progress */}
+      {/* Milestone Progress with Goal Dialog */}
       <div
         className="dash-enter"
         style={{ "--enter-delay": "550ms" } as React.CSSProperties}
       >
-        <MilestoneProgress milestones={MOCK_MILESTONES} />
+        <OverviewMilestones goals={goals} />
       </div>
 
       {/* Recent Videos + Growth Article */}

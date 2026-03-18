@@ -1,9 +1,4 @@
-import type {
-  IStatCard,
-  IMockCoachNote,
-  IMockMilestone,
-  IMockActionItem,
-} from "@/types/dashboard";
+import type { IStatCard } from "@/types/dashboard";
 
 export const MOCK_STATS: IStatCard[] = [
   {
@@ -33,57 +28,5 @@ export const MOCK_STATS: IStatCard[] = [
     change: "Subs this week vs last",
     trend: "up",
     icon: "TrendingUp",
-  },
-];
-
-export const MOCK_COACH_NOTE: IMockCoachNote = {
-  message:
-    "Your last video got 2x your average views! The high retention in the first 30 seconds suggests your new intro style is working perfectly. Keep experimenting with these high-energy hooks to maintain this momentum.",
-  type: "insight",
-  analyzedAt: "2 hours ago",
-};
-
-export const MOCK_MILESTONES: IMockMilestone[] = [
-  {
-    title: "Reach 500 Subscribers",
-    current: 487,
-    target: 500,
-    unit: "subscribers",
-    icon: "Users",
-  },
-  {
-    title: "Upload 50 Videos",
-    current: 38,
-    target: 50,
-    unit: "videos",
-    icon: "Video",
-  },
-  {
-    title: "Hit 25K Total Views",
-    current: 24300,
-    target: 25000,
-    unit: "views",
-    icon: "Eye",
-  },
-];
-
-export const MOCK_ACTION_ITEMS: IMockActionItem[] = [
-  {
-    id: "1",
-    text: "Try a shorter intro on your next video — your average view duration drops in the first 15 seconds",
-    priority: "high",
-    source: "Coach",
-  },
-  {
-    id: "2",
-    text: "Your thumbnails could use more contrast — test a bold text overlay on the next upload",
-    priority: "medium",
-    source: "Coach",
-  },
-  {
-    id: "3",
-    text: "You planned to post 3 times this week — you have 1 upload so far",
-    priority: "medium",
-    source: "Goal",
   },
 ];
